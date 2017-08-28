@@ -1,0 +1,8 @@
+<p-steps styleClass="steps-custom" [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false" (onclick)="changeBookingDetailsView($event)" ></p-steps>
+<br>
+<br>
+<div>
+  <app-booking *ngIf="activeIndex==0"></app-booking>
+  <app-container *ngIf="activeIndex==1"></app-container>
+  <app-charges *ngIf="activeIndex==2"></app-charges>
+</div>

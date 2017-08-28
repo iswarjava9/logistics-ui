@@ -1,0 +1,124 @@
+<div class="row">
+
+  <div class="ui-g-12 ui-md-6">
+    <div class="ui-g-4">Container Type:</div>
+    <div class="ui-g-8">
+      <p-autoComplete delay="500" minlength="3" [suggestions]="filteredContainerTypes"
+                      (completeMethod)="search($event, 'customer', 'forwarder')" field="type"
+                      [(ngModel)]="containerType"></p-autoComplete>
+
+      <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayContainerType($event)">
+      </button>
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-6">
+    <div class="ui-g-4">Commodity:</div>
+    <div class="ui-g-8">
+      <p-autoComplete delay="500" minlength="3" [suggestions]="filteredContainerTypes"
+                      (completeMethod)="search($event, 'customer', 'forwarder')" field="name"
+      ></p-autoComplete>
+
+      <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayContainerType($event)">
+      </button>
+    </div>
+  </div>
+
+</div>
+<div class="row">
+  <div class="ui-g-12 ui-md-6">
+    <div class="ui-g-4">Number Of Container</div>
+    <div class="ui-g-8">
+      <input pInputText type="number" [(ngModel)]="numberOfContainers"/>
+    </div>
+  </div>
+  <button type="button"  class="btn-primary" (click)="addContainers($event)">Add Containers</button>
+</div>
+<p-dataTable [(value)]="containers">
+  <p-column field="containerNo" header="Container Name"></p-column>
+  <p-column field="containerType.type" header="Container Type"></p-column>
+
+</p-dataTable>
+
+<!--<div class="ui-g">
+  <form [formGroup]="containerFormGroup">
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Container No</div>
+      <div class="ui-g-8">
+        <input pInputText type="text" formControlName="containerNo" id="containerNo"/>
+      </div>
+    </div>
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Container Type</div>
+      <div class="ui-g-8">
+        <p-autoComplete (ngModel)="containerType" [suggestions]="filteredContainerTypes"
+                        (completeMethod)="search($event, 'containerType')" field="name"
+                        (onSelect)="onContainerTypeSelection($event)" [formControlName]="'containerType'" ></p-autoComplete>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Seal-1</div>
+      <div class="ui-g-8">
+        <input pInputText type="text" formControlName="seal1" id="seal1"/>
+      </div>
+    </div>
+
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Seal-2</div>
+      <div class="ui-g-8">
+        <input pInputText type="text" formControlName="seal2" id="seal2"/>
+      </div>
+    </div>
+
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Seal-3</div>
+      <div class="ui-g-8">
+        <input pInputText type="text" formControlName="seal3" id="seal3"/>
+      </div>
+    </div>
+
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Tare (lbs)</div>
+      <div class="ui-g-8">
+        <input pInputText type="text" formControlName="tare_lbs" id="tare_lbs"/>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Tare (kgs)</div>
+      <div class="ui-g-8">
+        <input pInputText type="text" formControlName="tare_kgs" id="tare_kgs"/>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Gross (lbs)</div>
+      <div class="ui-g-8">
+        <input pInputText type="text" formControlName="gross_lbs" id="gross_lbs"/>
+      </div>
+    </div>
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Gross (kgs)</div>
+      <div class="ui-g-8">
+        <input pInputText type="text" formControlName="gross_kgs" id="gross_kgs"/>
+      </div>
+    </div>
+
+
+    <div class="ui-g-12 ui-md-6">
+      <div class="ui-g-4">Equipment</div>
+      <div class="ui-g-8">
+        <p-dropdown [options]="equipments" [(ngModel)]="equipment" formControlName="equipment" id="equipment" (onChange)="onSelectedItem($event)"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-g-10">
+      &lt;!&ndash;<button pButton label="Show" type="button" icon='fa-external-link' (click)="showDialog()"></button>&ndash;&gt;
+      <button pButton label="Save and Next" type="button" (click)="saveAndNext()" ></button>
+    </div>
+  </form>
+</div>-->

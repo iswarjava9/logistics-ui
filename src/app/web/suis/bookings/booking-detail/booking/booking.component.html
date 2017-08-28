@@ -1,0 +1,871 @@
+<div class="panel-default">
+  <div>
+    <p-growl [value]="msgsGrowl" life="3000"></p-growl>
+  </div>
+  <!--[(ngModel)]="bookingDetails.forwarderRefNo"
+  [(ngModel)]="bookingDetails.forwarder"-->
+  <form [formGroup]="bookingDetailFormGroup">
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Forwarder Reference</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" formControlName="forwarderRefNo" id="forwarderRefNo" readonly="true"/>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Booking Agent:</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCustomers"
+                            (completeMethod)="search($event, 'customer', 'forwarder')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'forwarder')" [formControlName]="'forwarder'" (onFocus)="onFocusLoad('customer')" ></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.forwarder,'forwarder', opCustomer , 'Forwarder')">
+            </button>
+          </div>
+        </div>
+      </div>
+    <!--[(ngModel)]="bookingDetails.bookingDate"-->
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Booking Date:</div>
+          <div class="ui-g-8">
+            <p-calendar showTime="showTime" [formControlName]="'bookingDate'" dateFormat="yy/mm/dd" [utc]="true" ></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Ammended Date:</div>
+          <div class="ui-g-8">
+            <p-calendar showTime="showTime" [formControlName]="'bookingDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
+          </div>
+        </div>
+      </div>
+
+    <!--[(ngModel)]="bookingDetails.shipper"-->
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Shipper</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCustomers"
+                            (completeMethod)="search($event, 'customer', 'shipper')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'shipper')" [formControlName]="'shipper'" (onFocus)="onFocusLoad('customer')"></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.shipper,'shipper', opCustomer , 'Shipper')">
+            </button>
+          </div>
+        </div>
+        <!--[(ngModel)]="bookingDetails.account"-->
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Bill To:</div>
+          <div class="ui-g-8">
+            <p-autoComplete class="ui-autocomplete.ui-inputtext" delay="500" minlength="3" [suggestions]="filteredCustomers"
+                            (completeMethod)="search($event, 'customer', 'account')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'account')" [formControlName]="'account'" (onFocus)="onFocusLoad('customer')"></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.account,'account', opCustomer , 'Account')">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Consignee</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCustomers"
+                            (completeMethod)="search($event, 'customer', 'consignee')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'consignee')" [formControlName]="'consignee'" (onFocus)="onFocusLoad('customer')" [(ngModel)]="bookingDetails.consignee"></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.consignee,'consignee', opCustomer , 'Consignee')">
+            </button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Delivery Agent:</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="300" minlength="3" [suggestions]="filteredCustomers"
+                            (completeMethod)="search($event, 'customer', 'foreignAgent')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'foreignAgent')" [formControlName]="'foreignAgent'" (onFocus)="onFocusLoad('customer')" [(ngModel)]="bookingDetails.foreignAgent"></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.foreignAgent,'foreignAgent', opCustomer , 'Foreign Agent')">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Notify 1:</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCustomers"
+                            (completeMethod)="search($event, 'customer', 'notify')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'notify')" [formControlName]="'notify'" (onFocus)="onFocusLoad('customer')" [(ngModel)]="bookingDetails.notify"></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.notify,'notify', opCustomer , 'Notify')">
+            </button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Notify 2:</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCustomers"
+                            (completeMethod)="search($event, 'customer', 'notify')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'notify')" [formControlName]="'notify'" (onFocus)="onFocusLoad('customer')" [(ngModel)]="bookingDetails.notify"></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.notify,'notify', opCustomer , 'Notify')">
+            </button>
+          </div>
+        </div>
+       </div>
+
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Carrier Booking No:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" formControlName="carrierBookingNo" id="carrierBookingNo" [(ngModel)]="bookingDetails.carrierBookingNo"/>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Service Type</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" formControlName="typeOfService" id="typeOfService" [(ngModel)]="bookingDetails.typeOfService"/>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Carrier Name:</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCustomers"
+                            (completeMethod)="search($event, 'customer', 'carrier')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'carrier')" [formControlName]="'carrier'" (onFocus)="onFocusLoad('customer')"  [(ngModel)]="bookingDetails.carrier"></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.carrier,'carrier', opCustomer , 'Carrier')">
+            </button>
+          </div>
+        </div>
+
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Freight Term</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" formControlName="freight" id="freight" [(ngModel)]="bookingDetails.freight"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4" >Place Of Receipt</div>
+          <div class="ui-g-8">
+            <p-autoComplete   delay="500" minlength="3" [suggestions]="filteredPlaces"
+                              (completeMethod)="search($event, 'place')" field="name"
+                              (onSelect)="onPlaceSelection($event, 'placeOfReceipt')" [formControlName]="'placeOfReceipt'" (onFocus)="onFocusLoad('place')" [(ngModel)]="bookingDetails.placeOfReceipt"
+            ></p-autoComplete>
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event,bookingDetails.placeOfReceipt,'placeOfReceipt', opPlaces , 'Place Of Receipt')">
+            </button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Port Of Loading</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [(ngModel)]="bookingDetails.portOfLoad" [suggestions]="filteredPlaces"
+                            (completeMethod)="search($event, 'place')" field="name"
+                            (onSelect)="onPlaceSelection($event, 'portOfLoad')" [formControlName]="'portOfLoad'" (onFocus)="onFocusLoad('place')"
+            >
+            </p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event,bookingDetails.portOfLoad,'portOfLoad',opPlaces,'Port Of Load')">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Port Of Discharge</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [suggestions]="filteredPlaces"
+                            (completeMethod)="search($event, 'place')" field="name"
+                            (onSelect)="onPlaceSelection($event, 'portOfDischarge')" [formControlName]="'portOfDischarge'" (onFocus)="onFocusLoad('place')" [(ngModel)]="bookingDetails.portOfDischarge"
+            ></p-autoComplete>
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event,bookingDetails.portOfDischarge,'portOfDischarge', opPlaces , 'Port Of Discharge')">
+            </button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Place of Delivery</div>
+          <div class="ui-g-8">
+            <p-autoComplete class="test" delay="500" minlength="3" [suggestions]="filteredPlaces"
+                            (completeMethod)="search($event, 'place')" field="name"
+                            (onSelect)="onPlaceSelection($event, 'placeOfDelivery')" [formControlName]="'placeOfDelivery'"  [(ngModel)]="bookingDetails.placeOfDelivery"
+            ></p-autoComplete>
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event,bookingDetails.placeOfDelivery,'placeOfDelivery', opPlaces , 'Place Of Delivery')">
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Vessel:</div>
+          <div class="ui-g-8">
+            <p-autoComplete delay="500" minlength="3" [suggestions]="filteredVessels"
+                            (completeMethod)="search($event, 'vessel')" field="name"
+                            (onSelect)="onVesselSelection($event, 'vessel')" [formControlName]="'vessel'" (onFocus)="onFocusLoad('vessel')" [(ngModel)]="bookingDetails.vessel"></p-autoComplete>
+
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayVessel($event,bookingDetails.vessel,'vessel', opVessel , 'Vessel')">
+            </button>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Voyage:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [formControlName]="'carrierVoyage'" id="carrierVoyage" [(ngModel)]="bookingDetails.carrierVoyage"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Docs Cutoff Date</div>
+          <div class="ui-g-8">
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'docsCutOffDateTime'" [utc]="true" [(ngModel)]="bookingDetails.docsCutOffDateTime"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Rail CutOff Date:</div>
+          <div class="ui-g-8">
+            <p-calendar [formControlName]="'rateCutOffDateTime'" showTime="showTime" dateFormat="yy/mm/dd" [utc]="true" [(ngModel)]="bookingDetails.rateCutOffDateTime"></p-calendar>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Port Cutoff Date:</div>
+          <div class="ui-g-8">
+            <p-calendar showTime="showTime" [formControlName]="'cutOffDate'" dateFormat="yy/mm/dd" [utc]="true" [(ngModel)]="bookingDetails.cutOffDate"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Cargo Moving Date</div>
+          <div class="ui-g-8">
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'cargoMovingDate'" [utc]="true" [(ngModel)]="bookingDetails.cargoMovingDate"></p-calendar>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">ETD:</div>
+          <div class="ui-g-8">
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'sailDate'" [utc]="true" [(ngModel)]="bookingDetails.sailDate"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">ETA:</div>
+          <div class="ui-g-8">
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'eta'" [utc]="true" [(ngModel)]="bookingDetails.eta"></p-calendar>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">ATA:</div>
+          <div class="ui-g-8">
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'delieveryEta'" [utc]="true" [(ngModel)]="bookingDetails.delieveryEta"></p-calendar>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">AES Auth No</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" formControlName="aesAuthNo" [(ngModel)]="bookingDetails.aesAuthNo" id="aesAuthNo"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Docs Received Date</div>
+            <div class="ui-g-8">
+              <p-calendar showTime="showTime" [formControlName]="'docsReceivedDate'" dateFormat="yy/mm/dd" [utc]="true" [(ngModel)]="bookingDetails.docsReceivedDate"></p-calendar>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Shipper Reference</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="bookingDetails.shipperRefNo" formControlName="shipperRefNo" id="shipperRefNo"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Empty Container Pickup</div>
+            <div class="ui-g-8">
+              <p-autoComplete delay="500" minlength="3" [suggestions]="filteredPlaces"
+                              (completeMethod)="search($event, 'place')" field="name"
+                              (onSelect)="onPlaceSelection($event, 'loadTerminal')" [formControlName]="'loadTerminal'" (onFocus)="onFocusLoad('place')" [(ngModel)]="bookingDetails.loadTerminal"
+              ></p-autoComplete>
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event,bookingDetails.loadTerminal,'loadTerminal', opPlaces , 'Empty Container Pickup')">
+              </button>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Ingate At Terminal</div>
+            <div class="ui-g-8">
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" delay="500" minlength="3" [suggestions]="filteredPlaces"
+                              (completeMethod)="search($event, 'place')" field="name"
+                              (onSelect)="onPlaceSelection($event, 'transhipmentPort')" [formControlName]="'transhipmentPort'" (onFocus)="onFocusLoad('place')" [(ngModel)]="bookingDetails.transhipmentPort"
+              ></p-autoComplete>
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, bookingDetails.transhipmentPort, 'transhipmentPort', opPlaces , 'Ingate At terminal')">
+              </button>
+            </div>
+          </div>
+          </div>
+    <!--[(ngModel)]="bookingDetails.bookingStatus"-->
+         <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Booking Status</div>
+            <div class="ui-g-8">
+              <p-dropdown [(options)]="statusList" formControlName="bookingStatus" ></p-dropdown>
+              <!-- <input pInputText type="text" formControlName="bookingStatus" id="bookingStatus"/>-->
+            </div>
+          </div>
+           <!--[(ngModel)]="bookingDetails.remarks"-->
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Remarks:</div>
+            <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="remarks"></textarea>
+          </div>
+        </div>
+          <div>
+            <label>Additional Details:</label>
+          <hr>
+        </div>
+
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Service Contract Id</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" formControlName="serviceContractId" id="serviceContractId" [(ngModel)]="bookingDetails.serviceContractId"/>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">NRA Number</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" formControlName="nraNumber" id="nraNumber" [(ngModel)]="bookingDetails.nraNumber"/>
+            </div>
+          </div>
+        </div>
+
+          <div class="row">
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Sales Representative</div>
+              <div class="ui-g-8">
+                <p-autoComplete delay="500" minlength="3" [suggestions]="filteredPersons"
+                                (completeMethod)="search($event, 'salesRepresentative')" field="name"
+                                (onSelect)="onPersonSelection($event, 'salesRepresentative')" [formControlName]="'salesRepresentative'" (onFocus)="onFocusLoad('person')" [(ngModel)]="bookingDetails.salesRepresentative"></p-autoComplete>
+                <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPerson($event,bookingDetails.salesRepresentative,'salesRepresentative', opPerson , 'Sales Representative')">
+                </button>
+              </div>
+            </div>
+
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Booking Person</div>
+              <div class="ui-g-8">
+                <p-autoComplete delay="500" minlength="3" [suggestions]="filteredPersons"
+                                (completeMethod)="search($event, 'person')" field="name"
+                                (onSelect)="onPersonSelection($event, 'bookingPerson')" [formControlName]="'bookingPerson'" (onFocus)="onFocusLoad('person')" [(ngModel)]="bookingDetails.bookingPerson"></p-autoComplete>
+
+                <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPerson($event,bookingDetails.bookingPerson,'bookingPerson', opPerson , 'Booking Person')">
+                </button>
+              </div>
+            </div>
+          </div>
+
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Controller</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" formControlName="controller" id="controller" [(ngModel)]="bookingDetails.controller"/>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Local SSLine Office</div>
+            <div class="ui-g-8">
+              <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCustomers"
+                              (completeMethod)="search($event, 'customer', 'localSSLineOffice')" field="name"
+                              (onSelect)="onCustomerSelection($event, 'localSSLineOffice')" [formControlName]="'localSSLineOffice'" (onFocus)="onFocusLoad('customer')" [(ngModel)]="bookingDetails.localSSLineOffice"></p-autoComplete>
+
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,bookingDetails.localSSLineOffice,'localSSLineOffice', opCustomer , 'Local SSLine Office')">
+              </button>
+            </div>
+           </div>
+         </div>
+
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Line Of Business</div>
+            <div class="ui-g-8">
+              <p-autoComplete delay="500" minlength="3" [suggestions]="filteredLOBs"
+                              (completeMethod)="search($event, 'lineOfBusiness')" field="name"
+                              (onSelect)="onLOBSelection($event, 'lineOfBusiness')" [formControlName]="'lineOfBusiness'" (onFocus)="onFocusLoad('lineOfBusiness')" [(ngModel)]="bookingDetails.lineOfBusiness"></p-autoComplete>
+
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayLineOfBusiness($event,bookingDetails.lineOfBusiness,'lineOfBusiness', opLOB , 'Line Of Business')">
+              </button>
+            </div>
+          </div>
+
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Division</div>
+            <div class="ui-g-8">
+              <p-autoComplete delay="500" minlength="3" [suggestions]="filteredDivisions"
+                              (completeMethod)="search($event, 'division')" field="name"
+                              (onSelect)="onDivisionSelection($event, 'division')" [formControlName]="'division'" (onFocus)="onFocusLoad('division')" [(ngModel)]="bookingDetails.division"></p-autoComplete>
+
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayDivision($event,bookingDetails.division,'division', opDivision , 'Division')">
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Movement Type</div>
+            <div class="ui-g-8">
+              <p-autoComplete delay="500" minlength="3" [suggestions]="filteredMoveTypes"
+                              (completeMethod)="search($event, 'typeOfMove')" field="name"
+                              (onSelect)="onMovementTypeSelection($event, 'typeOfMove')" [formControlName]="'typeOfMove'" (onFocus)="onFocusLoad('typeOfMove')" [(ngModel)]="bookingDetails.typeOfMove"></p-autoComplete>
+
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayMovementType($event,bookingDetails.typeOfMove,'typeOfMove', opMovementType, 'Movement Type')">
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+        <div class="row">
+        <div class="ui-g-10">
+          <!--<button pButton label="Show" type="button" icon='fa-external-link' (click)="showDialog()"></button>-->
+          <button pButton label="Save" type="submit" (click)="saveAndNext()" [(disabled)]="disableSave"></button>
+
+          <button pButton label="Exit" type="submit" (click)="exit()"></button>
+          <!--<button pButton label="Show" type="button" icon='fa-external-link' (click)="showDialog()"></button>-->
+
+        </div>
+        </div>
+      </form>
+    </div>
+
+    <p-overlayPanel #opPlaces [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
+      <div *ngIf="hoveredPlace == null ; then addBlock else showBlock"></div>
+
+        <ng-template #addBlock>
+          <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+          <div class="row">
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Name:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text"  [(ngModel)]="this.createdPlace.name" required="true"/>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Code</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [(ngModel)]="this.createdPlace.code"  required="true"/>
+
+              </div>
+            </div>
+          </div>
+
+         <!-- <div class="row"> not required
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Brokerage Rate:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [(ngModel)]="this.createdPlace.brokerageRate" />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">UnCode:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [(ngModel)]="this.createdPlace.unCode" />
+              </div>
+            </div>
+          </div>-->
+          <div class="row">
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Port State Code:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [(ngModel)]="this.createdPlace.portStateCode" />
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Country Code:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [(ngModel)]="this.createdPlace.countryCode" />
+              </div>
+            </div>
+          </div>
+          <div class="ui-g-10">
+            <button pButton label="Create" type="submit" (click)="createPlace($event)"></button>
+          </div>
+      </ng-template>
+
+        <ng-template #showBlock class="ui-fluid">
+          <div class="ui-panelmenu-header">{{this.hoveredLabel}}</div>
+          <div class="row">
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Name:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [ngModel]="hoveredPlace.name" readonly="true"/>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Code</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [ngModel]="hoveredPlace.code" readonly="true"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Brokerage Rate:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [ngModel]="hoveredPlace.brokerageRate" readonly="true"/>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">UnCode:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [ngModel]="hoveredPlace.unCode" readonly="true"/>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Port State Code:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [ngModel]="hoveredPlace.portStateCode" readonly="true"/>
+              </div>
+            </div>
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Country Code:</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" [ngModel]="hoveredPlace.countryCode" readonly="true" style="background-color: #d3d3d3"/>
+              </div>
+            </div>
+          </div>
+       </ng-template>
+    </p-overlayPanel>
+
+
+    <p-overlayPanel #opCustomer [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
+       <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Name:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text"  [(ngModel)]="this.createdCustomer.name" required="true" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">AMS2 Ops Controller:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="this.createdCustomer.ams2OpsController"  required="true" [readonly]="this.displayOnly"/>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Type:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="this.createdCustomer.type" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Contact Id:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="this.createdCustomer.contactId" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Industry Id:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="this.createdCustomer.industryId" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Street:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="this.createdCustomer.street" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">City:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="this.createdCustomer.city" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">State Code:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="this.createdCustomer.stateCode" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Country Code:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" [(ngModel)]="this.createdCustomer.countryCode" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Address:</div>
+            <div class="ui-g-16">
+              <input pInputTextarea type="text" [(ngModel)]="this.createdCustomer.address" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
+        </div>
+        <div class="ui-g-10">
+          <button pButton label="Create" type="submit" (click)="createCustomer($event)" [disabled]="this.displayOnly"></button>
+        </div>
+    </p-overlayPanel>
+
+    <p-overlayPanel #opLOB [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
+      <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Description:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text"  [(ngModel)]="this.createdBusinessLine.description" required="true" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Line Of Business:</div>
+          <div class="ui-g-8">
+            <input pInputText type="number" [(ngModel)]="this.createdBusinessLine.lineOfBusiness"  required="true" [readonly]="this.displayOnly"/>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Transport Mode:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdBusinessLine.transportMode" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Transport Type:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdBusinessLine.transportType" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-10">
+        <button pButton label="Create" type="submit" (click)="createLineOfBusiness($event)" [disabled]="this.displayOnly"></button>
+      </div>
+    </p-overlayPanel>
+
+
+    <p-overlayPanel #opMovementType [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
+
+      <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Description:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text"  [(ngModel)]="this.createdMovementType.description" required="true" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">EDI Code:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdMovementType.ediCode"  required="true" [readonly]="this.displayOnly"/>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Move Start:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdMovementType.movesStart" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Move End:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdMovementType.movesEnd" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Type Of Service:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdMovementType.typeOfService" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <!--<div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Street:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdCustomer.street" [readonly]="this.displayOnly"/>
+          </div>
+        </div>-->
+      </div>
+      <div class="ui-g-10">
+        <button pButton label="Create" type="submit" (click)="createMovementType($event)" [disabled]="this.displayOnly"></button>
+      </div>
+    </p-overlayPanel>
+
+    <p-overlayPanel #opDivision [showCloseIcon]="true" [dismissable]="false" appendTo="body" class="ui-panel">
+      <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+      <div class="row ui-fluid">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Name:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text"  [(ngModel)]="this.createdDivision.name" required="true" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Code:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdDivision.code"  required="true" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Branch Address:</div>
+          <div class="ui-g-16">
+            <input pInputTextarea type="text" [(ngModel)]="this.createdDivision.branchAddress" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+      </div>
+      <!--<div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Branch Address:</div>
+          <div class="ui-g-16">
+            <input pInputTextarea type="text" [(ngModel)]="this.createdDivision.branchAddress" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+      </div>
+    -->
+      <div class="ui-g-10">
+        <button pButton label="Create" type="submit" (click)="createCustomer($event)" [disabled]="this.displayOnly"></button>
+      </div>
+    </p-overlayPanel>
+
+    <p-overlayPanel #opVessel [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
+      <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Name:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text"  [(ngModel)]="this.createdVessel.name" required="true" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Vessel Number:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdVessel.vesselNo"  required="true" [readonly]="this.displayOnly"/>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Lloyds Code:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdVessel.lloydsCode" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Country Name:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdVessel.country.name" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Country Code:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdVessel.country.code" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-10">
+        <button pButton label="Create" type="submit" (click)="createVessel($event)" [disabled]="this.displayOnly"></button>
+      </div>
+    </p-overlayPanel>
+
+    <p-overlayPanel #opPerson [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
+      <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Name:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text"  [(ngModel)]="this.createdCustomer.name" required="true" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Phone:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdPerson.phone"  required="true" [readonly]="this.displayOnly"/>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Mobile:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdPerson.mobile" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Email:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdPerson.email" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Fax:</div>
+          <div class="ui-g-8">
+            <input pInputText type="text" [(ngModel)]="this.createdPerson.fax" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="ui-g-10">
+        <button pButton label="Create" type="submit" (click)="createPerson($event)" [disabled]="this.displayOnly"></button>
+      </div>
+    </p-overlayPanel>
+

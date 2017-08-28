@@ -1,0 +1,64 @@
+<!--
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a routerLink="/" class="navbar-brand">LI</a>
+    </div>
+
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="active"><a routerLink="/quote-list">Quotes</a></li>
+        <li routerLinkActive="active"><a routerLink="/booking-list">Booking</a></li>
+        <li routerLinkActive="inactive"><a routerLink="/quote-list">Reports</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" appDropdown>
+          <a style="cursor: pointer;" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a style="cursor: pointer;" (click)="onSaveData()">Save Data</a></li>
+            <li><a style="cursor: pointer;" (click)="onFetchData()">Fetch Data</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+-->
+
+<nav class="navbar navbar-default container-fluid">
+  <!--<div class="container-fluid">-->
+
+      <ul class="nav navbar-header">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Quote</a>
+          <ul>
+            <li><a href="#">Ocean Import</a></li>
+            <li routerLinkActive="active"><a routerLink="/quote-list">Ocean Export</a></li>
+            <li><a href="#">Air Import</a></li>
+            <li><a href="#">Air Export</a></li>
+          </ul>
+        </li>
+        <li><a>Booking</a>
+           <ul>
+                <li><a href="#">Ocean Import</a></li>
+                <li routerLinkActive="active"><a routerLink="/booking-list">Ocean Export</a></li>
+                <li><a href="#">Air Import</a></li>
+                <li><a href="#">Air Export</a></li>
+           </ul>
+
+        </li>
+
+        <li><a href="#">Reports</a>
+          <ul>
+            <li><a href="#">item</a></li>
+            <li><a href="#">item</a></li>
+            <li><a href="#">item</a></li>
+            <li><a href="#">item</a></li>
+          </ul>
+        </li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+
+<!--
+    </div>-->
+</nav>

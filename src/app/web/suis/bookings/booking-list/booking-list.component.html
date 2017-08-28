@@ -1,0 +1,53 @@
+<div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+  <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+  <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+  <div class="ui-helper-clearfix" style="width:100%">
+    <button type="button" pButton icon="fa-plus" style="float:right" (click)="createNewBooking()" label="Create New Booking">
+    </button>
+  </div>
+</div>
+<p-dataTable sortMode="multiple" [value]="bookings" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt
+             selectionMode="single" [(selection)]="selectedBooking" (onRowSelect)="handleBookingSelection($event)">
+  <p-header>List of Bookings</p-header>
+
+  <p-column field="carrierBookingNo" header="Carrier Booking#" [filter]="true" filterPlaceholder="Search"  [sortable]="true"></p-column>
+  <p-column field="nvoccBookingNo" header="Nvocc Booking#" [filter]="true" filterPlaceholder="Search"  [sortable]="true"></p-column>
+  <p-column field="bookingStatus" header="Booking Status" [filter]="true" filterMatchMode="equals">
+    <ng-template pTemplate="filter" let-col>
+      <p-dropdown [options]="statusList" [style]="{'width':'100%'}" (onChange)="dt.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-dropdown>
+    </ng-template>
+  </p-column>
+  <p-column field="shipperRefNo" header="Shipper Ref#" [filter]="true" filterPlaceholder="Search">
+  </p-column>
+  <p-column field="bookingDate" header="Booking Date" [filter]="true" filterPlaceholder="Search" [sortable]="true">
+  </p-column>
+</p-dataTable>
+
+
+<p-dialog header="Booking Details" [(visible)]="displayBookingDialog" [responsive]="true" showEffect="fade" [modal]="true">
+ <!-- <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="booking">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="vin">Vin</label></div>
+      <div class="ui-grid-col-8"><input pInputText id="vin" [(ngModel)]="car.vin" /></div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="year">Year</label></div>
+      <div class="ui-grid-col-8"><input pInputText id="year" [(ngModel)]="car.year" /></div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="brand">Brand</label></div>
+      <div class="ui-grid-col-8"><input pInputText id="brand" [(ngModel)]="car.brand" /></div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="color">Color</label></div>
+      <div class="ui-grid-col-8"><input pInputText id="color" [(ngModel)]="car.color" /></div>
+    </div>
+  </div>-->
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete Booking"></button>
+      <button type="button" pButton icon="fa-check" (click)="updateBooking()" label="Update Booking"></button>
+    </div>
+  </p-footer>
+</p-dialog>
+

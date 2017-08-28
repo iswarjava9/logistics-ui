@@ -1,0 +1,17 @@
+.ui-autocomplete-panel{
+border-radius: 3%;
+}
+
+.ui-inputtext {
+  background: #ffffff;
+  color: #222222;
+  transition: .2s;
+  border-color: black;
+}
+
+.ui-autocomplete.ui-inputtext {
+  background: #ffffff;
+  color: #222222;
+  transition: .2s;
+  border-color: black;
+}
