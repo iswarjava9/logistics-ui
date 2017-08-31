@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Http, Response, Headers} from '@angular/http';
+import {Http, Response, Headers, RequestOptions, ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Booking} from '../../../../models/booking.model';
 import {Customer} from '../../../../models/customer.model';
@@ -18,7 +18,7 @@ export class BookingService {
   constructor(private http: Http) {
     this.headers.append('Accept', 'application/json');
     this.headers.append('Content-Type', 'application/json');
-    this.headers.append('content-type', 'application/json');
+
   }
 
 
@@ -31,12 +31,12 @@ export class BookingService {
     return this.http.post('http://localhost:8080/logistics/booking', booking, this.headers );
   }
 
-  getPlaces() {
-    return this.http.get('http://localhost:8080/logistics/place/list', this.headers);
+  getPlaces(query: string) {
+    return this.http.get('http://localhost:8080/logistics/place/byname/'  + query, this.headers);
   }
 
-  getCustomers() {
-    return this.http.get('http://localhost:8080/logistics/customer/list', this.headers);
+  getCustomers(query: string) {
+    return this.http.get('http://localhost:8080/logistics/customer/byname/'  + query, this.headers);
   }
 
   getPersons() {
@@ -82,5 +82,16 @@ export class BookingService {
 
   saveVessel(vessel: Vessel): any {
     return this.http.post('http://localhost:8080/logistics/person', vessel, this.headers );
+  }
+  getPDF(id: number): any {
+      const headers = new Headers({
+          'Content-Type': 'application/json',
+          'Accept': 'application/pdf'
+      });
+      const options = new RequestOptions({ headers: headers });
+// Ensure you set the responseType to Blob.
+      options.responseType = ResponseContentType.Blob;
+
+      return this.http.get('http://localhost:8080/logistics/booking/download/' + id, options);
   }
 }

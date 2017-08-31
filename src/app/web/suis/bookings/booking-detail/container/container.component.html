@@ -33,6 +33,13 @@
   </div>
   <button type="button"  class="btn-primary" (click)="addContainers($event)">Add Containers</button>
 </div>
+
+
+  <div ngFor="const cotype of containerTypeMap">
+    <label>{{containerTypeMap.size}}</label>
+  </div>
+
+
 <p-dataTable [(value)]="containers">
   <p-column field="containerNo" header="Container Name"></p-column>
   <p-column field="containerType.type" header="Container Type"></p-column>

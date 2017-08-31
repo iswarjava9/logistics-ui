@@ -1,0 +1,10 @@
+`<div *ngIf="show">
+  <p-dialog [modal]="true" [visible]="true" [showHeader]="false" [closable]="false" [closeOnEscape]="false"
+            class=".ui-dialog .ui-dialog-content .ui-dialog-titlebar-close .ui-dialog-footer .ui-dialog-mask" [contentStyle]="{'overflow':'visible'}"
+            [width]="0" [height]="0" [minHeight]="0" [minWidth]="0">
+    <div class="fa center-block" >
+    <i class="fa fa-spinner fa-spin" [ngStyle]="{'font-size': size+'px'}"></i>
+    </div>
+  </p-dialog>
+
+</div>

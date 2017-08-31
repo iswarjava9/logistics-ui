@@ -18,6 +18,7 @@ import {DateHelper} from '../../util/dateHelper';
 })
 export class BookingListComponent implements OnInit {
 
+  disableScreen = false;
   bookings: BookingInfo[];
 
   selectedBooking: BookingInfo;
@@ -36,6 +37,7 @@ export class BookingListComponent implements OnInit {
   constructor(private router: Router, private bookingListSvc: BookingListService) {}
 
   ngOnInit() {
+      this.disableScreen = true;
     this.bookingListSvc.getBookingList().
     subscribe(
       (res: any) => {
@@ -43,6 +45,10 @@ export class BookingListComponent implements OnInit {
         DateHelper.convertDateStringsToDates(body);
         this.bookings = res.json();
         console.log(res.json());
+          this.disableScreen = false;
+        },
+        (error) => {
+            this.disableScreen = false;
         });
     /* this.bookings = this.bookingListSvc.getUpdatedList();*/
     this.statusList = [];

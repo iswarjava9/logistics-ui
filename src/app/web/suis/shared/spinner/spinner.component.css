@@ -1,0 +1,32 @@
+.ui-dialog .ui-dialog-titlebar-close {
+    float: right;
+    padding: .125em;
+    cursor: pointer;
+    border: 0px transparent;
+    background: transparent;
+}
+.ui-dialog-footer {
+    padding: 1em;
+    border-width: 0px 0 0 0;
+    text-align: right;
+}
+
+.ui-dialog-footer {
+    padding: 1em;
+    border-width: 0px 0 0 0;
+    text-align: right;
+}
+.ui-dialog-mask {
+    position: fixed;
+    width: 0%;
+    height: 0%;
+}
+.ui-dialog .ui-dialog-content {
+    position: relative;
+    border: 0;
+    padding: .5em .75em;
+    background: transparent;
+    overflow: auto;
+    zoom: 1;
+}
+

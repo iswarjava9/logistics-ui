@@ -17,6 +17,7 @@ import {OverlayPanelModule} from 'primeng/components/overlaypanel/overlaypanel';
 import {GrowlModule} from 'primeng/components/growl/growl';
 import {DialogModule} from 'primeng/components/dialog/dialog';
 import {InputTextareaModule} from 'primeng/components/inputtextarea/inputtextarea';
+import {BlockUIModule} from 'primeng/components/blockui/blockui';
 
 
 
@@ -37,6 +38,8 @@ import { BookingComponent } from './web/suis/bookings/booking-detail/booking/boo
 import { ContainerComponent } from './web/suis/bookings/booking-detail/container/container.component';
 import { ChargesComponent } from './web/suis/bookings/booking-detail/charges/charges.component';
 import {BookingService} from './web/suis/bookings/booking-detail/booking/service/booking.service';
+import {SpinnerComponent} from './web/suis/shared/spinner/spinner.component';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +51,8 @@ import {BookingService} from './web/suis/bookings/booking-detail/booking/service
     BookingDetailComponent,
     BookingComponent,
     ContainerComponent,
-    ChargesComponent
+    ChargesComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -71,6 +75,7 @@ import {BookingService} from './web/suis/bookings/booking-detail/booking/service
     ReactiveFormsModule,
     FormsModule,
     CalendarModule,
+    BlockUIModule
   ],
   providers: [BookingListService, BookingService ],
   bootstrap: [AppComponent]

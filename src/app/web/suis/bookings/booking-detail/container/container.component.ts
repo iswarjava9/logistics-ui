@@ -21,6 +21,8 @@ export class ContainerComponent implements OnInit {
   containerType: ContainerType;
   filteredContainerTypes: any[];
   allContainerTypes: any[];
+  containerTypeMap: Map<string, number> = new Map();
+
   numberOfContainers = 1;
 
   /*equipment: SelectItem;
@@ -114,11 +116,22 @@ export class ContainerComponent implements OnInit {
       console.log('Container added.. size = ' + this.containers.length);
 
     }
+    this.updateContainerTypeMap();
   }
-  displayContainerType(event: Event) {
-
+  updateContainerTypeMap() {
+      this.containerTypeMap.clear();
+      for (let i = 0; i < this.containers.length; i++) {
+          if (this.containerTypeMap.has(this.containers[i].containerType.type)) {
+              this.containerTypeMap.set(this.containers[i].containerType.type, 1);
+          }else {
+              this.containerTypeMap.set(this.containers[i].containerType.type,
+                  this.containerTypeMap.get((this.containers[i].containerType.type) + 1));
+          }
+      }
+      console.log(this.containerTypeMap.entries());
   }
 
+    displayContainerType(event: Event) {}
   displayCommodityType(event: Event) {
 
   }
