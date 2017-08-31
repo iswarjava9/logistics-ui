@@ -514,7 +514,8 @@ export class BookingComponent implements OnInit {
   }
 
 
-  displayPlace(event: Event, place: Place, placeId: string, overlaypanel: OverlayPanel, label: string) {
+  displayPlace(event: Event, placeId: string, overlaypanel: OverlayPanel, label: string) {
+    const place = this.bookingDetailFormGroup.get(placeId).value;
     this.hoveredLabel = label;
     this.hoveredPlaceId = placeId;
     this.hoveredPlaceId = placeId;
@@ -555,7 +556,7 @@ export class BookingComponent implements OnInit {
   }
 
   displayCustomer(event: Event, customerId: string, overlaypanel: OverlayPanel, label: string) {
-     const customer = this.bookingDetailFormGroup.get(customerId).value;
+    const customer = this.bookingDetailFormGroup.get(customerId).value;
     this.hoveredLabel = label;
     this.hoveredCustomerId = customerId;
     if (customer != null && customer.id != null) {
@@ -635,7 +636,8 @@ export class BookingComponent implements OnInit {
   }
 
 
-  displayDivision(event: Event, division: Division, divisionId: string, dialog: Dialog, label: string) {
+  displayDivision(event: Event, divisionId: string, dialog: Dialog, label: string) {
+      const division = this.bookingDetailFormGroup.get(divisionId).value;
     this.hoveredLabel = label;
     this.hoveredDivisionId = divisionId;
     if (division != null && division.id != null) {
@@ -671,13 +673,13 @@ export class BookingComponent implements OnInit {
     );
   }
 
-  displayMovementType(event: Event, movementType: MovementType, movementTypeId: string, dialog: Dialog, label: string) {
+  displayMovementType(event: Event, movementTypeId: string, dialog: Dialog, label: string) {
+    const movementType = this.bookingDetailFormGroup.get(movementTypeId).value;
     this.hoveredLabel = label;
     this.hoveredMovementTypeId = movementTypeId;
     if (movementType != null && movementType.id != null) {
       this.createdMovementType = movementType;
       this.displayOnly = true;
-
     } else {
       this.hoveredMovementType = null;
       this.displayOnly = false;
@@ -707,7 +709,8 @@ export class BookingComponent implements OnInit {
     );
   }
 
-  displayPerson(event: Event, person: Person, personId: string, overlaypanel: OverlayPanel, label: string) {
+  displayPerson(event: Event, personId: string, overlaypanel: OverlayPanel, label: string) {
+    const person = this.bookingDetailFormGroup.get(personId).value;
     this.hoveredLabel = label;
     this.hoveredPersonId = personId;
     if (person != null && person.id != null) {
@@ -744,7 +747,8 @@ export class BookingComponent implements OnInit {
   }
 
 
-  displayVessel(event: Event, vessel: Vessel, vesselId: string, dialog: Dialog, label: string) {
+  displayVessel(event: Event, vesselId: string, dialog: Dialog, label: string) {
+    const vessel = this.bookingDetailFormGroup.get(vesselId).value;
     this.hoveredLabel = label;
     this.hoveredVesselId = vesselId;
     if (vessel != null && vessel.id != null) {
