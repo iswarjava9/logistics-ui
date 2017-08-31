@@ -26,7 +26,7 @@
                 {{forwarder.address}}
               </ng-template>
             </p-autoComplete>
-              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'forwarder', opCustomer , 'Forwarder')">
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'forwarder', opCustomer , 'Booking Agent')">
               </button>
             </div>
         </div>
@@ -78,7 +78,7 @@
               </ng-template>
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'account', opCustomer , 'Account')" pTooltip="hello">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'account', opCustomer , 'Bill To')">
             </button>
           </div>
         </div>
@@ -113,7 +113,7 @@
               </ng-template>
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'foreignAgent', opCustomer , 'Foreign Agent')">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'foreignAgent', opCustomer , 'Delivery Agent')">
             </button>
           </div>
         </div>
@@ -132,7 +132,7 @@
               </ng-template>
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify', opCustomer , 'Notify')">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify', opCustomer , 'Notify 1')">
             </button>
           </div>
         </div>
@@ -149,7 +149,7 @@
               </ng-template>
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify', opCustomer , 'Notify')">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify', opCustomer , 'Notify 2')">
             </button>
           </div>
         </div>
@@ -227,7 +227,7 @@
               </ng-template>
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'portOfLoad',opPlaces,'Port Of Load')">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'portOfLoad',opPlaces,'Port Of Loading')">
             </button>
           </div>
         </div>
@@ -310,13 +310,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Port Cutoff Date:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" [formControlName]="'cutOffDate'" dateFormat="yy/mm/dd" [utc]="true" [(ngModel)]="bookingDetails.cutOffDate"></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'cutOffDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Cargo Moving Date</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'cargoMovingDate'" [utc]="true" [(ngModel)]="bookingDetails.cargoMovingDate"></p-calendar>
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'cargoMovingDate'" [utc]="true"></p-calendar>
           </div>
         </div>
       </div>
@@ -325,13 +325,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ETD:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'sailDate'" [utc]="true" [(ngModel)]="bookingDetails.sailDate"></p-calendar>
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'sailDate'" [utc]="true"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ETA:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'eta'" [utc]="true" [(ngModel)]="bookingDetails.eta"></p-calendar>
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'eta'" [utc]="true"></p-calendar>
           </div>
         </div>
       </div>
@@ -340,7 +340,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ATA:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'delieveryEta'" [utc]="true" [(ngModel)]="bookingDetails.delieveryEta"></p-calendar>
+            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'delieveryEta'" [utc]="true"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
@@ -355,7 +355,7 @@
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Docs Received Date</div>
             <div class="ui-g-8">
-              <p-calendar showTime="showTime" [formControlName]="'docsReceivedDate'" dateFormat="yy/mm/dd" [utc]="true" [(ngModel)]="bookingDetails.docsReceivedDate"></p-calendar>
+              <p-calendar showTime="showTime" [formControlName]="'docsReceivedDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
             </div>
           </div>
           <div class="ui-g-12 ui-md-6">
@@ -388,8 +388,12 @@
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
-                              (onSelect)="onPlaceSelection($event, 'transhipmentPort')" [formControlName]="'transhipmentPort'" (onFocus)="onFocusLoad('place')" [(ngModel)]="bookingDetails.transhipmentPort"
-              ></p-autoComplete>
+                              (onSelect)="onPlaceSelection($event, 'transhipmentPort')" [formControlName]="'transhipmentPort'" (onFocus)="onFocusLoad('place')">
+                <ng-template let-transhipmentPort pTemplate="item">
+                  <b>{{transhipmentPort.name}}</b><br>
+                  {{transhipmentPort.address}}
+                </ng-template>
+              </p-autoComplete>
               <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, bookingDetails.transhipmentPort, 'transhipmentPort', opPlaces , 'Ingate At terminal')">
               </button>
           </div>
@@ -556,8 +560,7 @@
       </form>
     </div>
 
-    <p-overlayPanel #opPlaces [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
-        <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+    <p-dialog #opPlaces appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false">
           <div class="row">
             <div class="ui-g-8 ui-md-6">
               <div class="ui-g-4">Name:</div>
@@ -596,12 +599,12 @@
 
           <div class="ui-g-10">
             <button pButton label="Create" type="submit" (click)="createPlace(opPlaces, $event)" [disabled]="this.displayOnly"></button>
+            <button pButton label="Cancel" type="submit" (click)="closeDialog(opPlaces, $event)"></button>
           </div>
-    </p-overlayPanel>
+    </p-dialog>
 
 
-    <p-overlayPanel #opCustomer [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
-       <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+    <p-dialog #opCustomer appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false">
         <div class="row">
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Name:</div>
@@ -687,9 +690,10 @@
       </div>
 
       <div class="ui-g-10">
-          <button pButton label="Create" type="submit" (click)="createCustomer($event)" [disabled]="this.displayOnly"></button>
+          <button pButton label="Create" type="submit" (click)="createCustomer(opCustomer, $event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Cancel" type="submit" (click)="closeDialog(opCustomer, $event)"></button>
         </div>
-    </p-overlayPanel>
+    </p-dialog>
 
 
 
@@ -726,7 +730,7 @@
         </div>
       </div>
       <div class="ui-g-10">
-        <button pButton label="Create" type="submit" (click)="createLineOfBusiness($event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Create" type="submit" (click)="createLineOfBusiness(opLOB, $event)" [disabled]="this.displayOnly"></button>
         <button pButton label="Cancel" type="submit" (click)="closeDialog(opLOB, $event)"></button>
       </div>
     </p-dialog>
@@ -777,7 +781,7 @@
         </div>-->
       </div>
       <div class="ui-g-10">
-        <button pButton label="Create" type="submit" (click)="createMovementType($event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Create" type="submit" (click)="createMovementType(opMovementType, $event)" [disabled]="this.displayOnly"></button>
         <button pButton label="Cancel" type="submit" (click)="closeDialog(opMovementType, $event)"></button>
       </div>
     </p-dialog>
@@ -806,7 +810,7 @@
       </div>
 
       <div class="ui-g-10">
-        <button pButton label="Create" type="submit" (click)="createCustomer($event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Create" type="submit" (click)="createCustomer(opDivision, $event)" [disabled]="this.displayOnly"></button>
         <button pButton label="Cancel" type="submit" (click)="closeDialog(opDivision, $event)"></button>
       </div>
     </p-dialog>
@@ -823,8 +827,6 @@
           <div class="ui-g-4">Vessel Number:</div>
           <div class="ui-g-8">
             <input pInputText type="text" [(ngModel)]="this.createdVessel.vesselNo"  required="true" [readonly]="this.displayOnly"/>
-            <button pButton label="Cancel" type="submit" (click)="closeDialog(opVessel, $event)"></button>
-
           </div>
         </div>
       </div>
@@ -852,12 +854,12 @@
         </div>
       </div>-->
       <div class="ui-g-10">
-        <button pButton label="Create" type="submit" (click)="createVessel($event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Create" type="submit" (click)="createVessel(opVessel, $event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Cancel" type="submit" (click)="closeDialog(opVessel, $event)"></button>
       </div>
     </p-dialog>
 
-    <p-overlayPanel #opPerson [showCloseIcon]="true" [dismissable]="false" appendTo="body" >
-      <div class="ui-messages-detail">{{this.hoveredLabel}}</div>
+    <p-dialog #opPerson appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false">
       <div class="row">
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Name:</div>
@@ -897,7 +899,8 @@
       </div>
 
       <div class="ui-g-10">
-        <button pButton label="Create" type="submit" (click)="createPerson($event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Create" type="submit" (click)="createPerson(opPerson, $event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Cancel" type="submit" (click)="closeDialog(opPerson, $event)"></button>
       </div>
-    </p-overlayPanel>
+    </p-dialog>
 
