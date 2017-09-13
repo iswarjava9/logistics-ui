@@ -209,6 +209,7 @@ export class BookingComponent implements OnInit {
     );
     this.bookingDetails = this.initializeBooking();
     if ( this.bookingId != null ) {
+      this.disableScreen = true;
       this.bookingDetailSvc.getBooking(this.bookingId).
       subscribe(
         (res: any) => {
@@ -219,6 +220,7 @@ export class BookingComponent implements OnInit {
 
           this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
           this.bookingDetailSvc.updateBooking(this.bookingDetails);
+          this.disableScreen = false;
         });
       }
 
@@ -300,10 +302,8 @@ export class BookingComponent implements OnInit {
     );
 //    this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
     this.statusList = [{label: 'Select Status', value: 'null'},
-      {label: 'Pending', value: 'PENDING'},
-      {label: 'Created', value: 'CREATED'},
-      {label: 'Hold', value: 'HOLD'},
-      { label: 'Approved', value: 'APPROVED'},
+      {label: 'Advanced', value: 'ADVANCED'},
+      {label: 'Confirmed', value: 'CONFIRMED'},
       {label: 'Cancelled', value: 'CANCELLED'}];
   
       this.serviceTypeList = [{label: 'Door to Door', value: 'Door to Door'}, 

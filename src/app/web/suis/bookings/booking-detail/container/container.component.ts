@@ -1,3 +1,4 @@
+import {DateHelper} from '../../../util/dateHelper';
 import { BookingService } from './../booking/service/booking.service';
 import { BookingDetailService } from './../service/booking-detail.service';
 import { Commodity } from './../../../models/commodity.model';
@@ -12,8 +13,9 @@ import {Booking} from '../../../models/booking.model';
 import {SelectItem} from 'primeng/components/common/selectitem';
 import {Container} from '../../../models/container.model';
 import {Dialog} from 'primeng/components/dialog/dialog';
+import { Message } from 'primeng/components/common/message';
 
-import {Event} from '@angular/router';
+import {Event, Router} from '@angular/router';
 
 @Component({
   selector: 'app-container',
@@ -34,12 +36,15 @@ export class ContainerComponent implements OnInit {
   allContainerTypes: any[];
   containerTypeMap: Map<string, number> = new Map();
 
+  disableScreen = false;
+  msgsGrowl: Message[] = [];
+
   numberOfContainers = 1;
   displayOnly = false;
 
   equipment: SelectItem;
   equipments: SelectItem[];
-  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService) { }
+  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router) { }
 
   ngOnInit() {
     this.containerFormGroup = new FormGroup(
@@ -244,4 +249,102 @@ createCommodity(dialog: Dialog){
           dialog.visible = false;}
     ); 
   }
+
+  print() {
+    this.msgsGrowl = [];
+    this.disableScreen = true;
+    this.bookingSvc.getPDF(this.bookingDetails.id).subscribe(
+        (response: any) => {
+            const fileBlob = response.blob();
+            const blob = new Blob([fileBlob], {
+                type: 'application/pdf' // must match the Accept type
+            });
+            const fileURL = URL.createObjectURL(blob);
+            window.open(fileURL);
+            this.disableScreen = false;
+        },
+        error => {console.log(error);
+            this.disableScreen = false;
+            this.msgsGrowl.push({severity: 'error', summary: 'PDF Generation ', detail: 'PDF generation failed.'});
+        },
+        success => {
+            console.log(success);
+            this.disableScreen = false;
+        }
+    );
+}
+
+cancelBooking(){
+  this.msgsGrowl = [];
+  this.disableScreen = true;
+  this.bookingDetails.bookingStatus = 'CANCELLED';
+  this.msgsGrowl.push(
+    {severity: 'info', summary: 'Cancel Booking', detail: 'Cancelling Booking...'});
+  
+    let jsonString = JSON.stringify(this.bookingDetails);
+    console.log('json String:' + jsonString);
+   jsonString = JSON.parse(jsonString);
+
+
+   DateHelper.removeTimeAndTimeZone(jsonString);
+    this.bookingSvc.modifyBooking(jsonString).subscribe(
+    (response: any) => {
+      const body = response.json();
+      DateHelper.convertDateStringsToDates(body);
+       this.bookingDetails = body;
+   
+      this.msgsGrowl.push(
+        {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'});
+      this.disableScreen = false;
+    },
+    error => {console.log(error);
+      this.disableScreen = false;
+      this.msgsGrowl.push({severity: 'error', summary: 'Cancellation failed', detail: 'Booking cancellation is failed'});
+      },
+    success => {
+      console.log(success);
+      this.disableScreen = false;
+
+    }
+  );
+}
+
+confirmBooking(){
+  this.msgsGrowl = [];
+  this.disableScreen = true;
+  this.bookingDetails.bookingStatus = 'CONFIRMED';
+  this.msgsGrowl.push(
+    {severity: 'info', summary: 'Confirm Booking', detail: 'Confirming Booking...'});
+  
+    let jsonString = JSON.stringify(this.bookingDetails);
+    console.log('json String:' + jsonString);
+   jsonString = JSON.parse(jsonString);
+
+
+   DateHelper.removeTimeAndTimeZone(jsonString);
+    this.bookingSvc.modifyBooking(jsonString).subscribe(
+    (response: any) => {
+      const body = response.json();
+      DateHelper.convertDateStringsToDates(body);
+       this.bookingDetails = body;
+   
+      this.msgsGrowl.push(
+        {severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
+      this.disableScreen = false;
+    },
+    error => {console.log(error);
+      this.disableScreen = false;
+      this.msgsGrowl.push({severity: 'error', summary: 'Confirmation failed', detail: 'Booking confirmation is failed'});
+      },
+    success => {
+      console.log(success);
+      this.disableScreen = false;
+
+    }
+  );
+}
+
+exit() {
+  this.router.navigate(['/booking-list']);
+}
 }

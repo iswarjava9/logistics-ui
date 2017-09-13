@@ -473,11 +473,8 @@
 
         <div class="row">
         <div class="ui-g-10">
-          <!--<button pButton label="Show" type="button" icon='fa-external-link' (click)="showDialog()"></button>-->
-          <button pButton label="Save And Next" type="submit" (click)="saveAndNext()" [disabled]="disableScreen">
-             </button>
-          <button pButton label="Save And Exit" type="submit" (click)="saveAndExit()"></button>
-          <button pButton label="Print" type="submit" (click)="print()" [disabled]="disableScreen"></button>
+          <button pButton label="Save And Next" type="submit" (click)="saveAndNext()" [disabled]="disableScreen"></button>
+          <button pButton label="Save And Exit" type="submit" (click)="saveAndExit()" [disabled]="disableScreen"></button>
           <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>
 
         </div>

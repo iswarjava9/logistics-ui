@@ -1,5 +1,8 @@
 <div class="row">
-   
+  <div>
+    <p-growl [value]="msgsGrowl" life="3000"></p-growl>
+  </div>
+  
   <div class="ui-g-12 ui-md-6">
     <div class="ui-g-4">Container Type:</div>
     <div class="ui-g-8">
@@ -48,7 +51,20 @@
   <p-column field="containerType.type" header="Container Type"></p-column>
 
 </p-dataTable>
+<br>
+<br>
+<div class="row">
+  <div class="ui-g-12">
+    
+    <button pButton label="Confirm Booking" type="submit" (click)="confirmBooking()" [disabled]="disableScreen"></button>
+    <button pButton label="Print" type="submit" (click)="print()" [disabled]="disableScreen"></button>
+    <button pButton label="Cancel Booking" type="submit" (click)="cancelBooking()"></button>
+    <button pButton label="Exit" type="submit" (click)="exit()"></button>
 
+    <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>
+
+  </div>
+  </div>
 <p-dialog #dialogContainer modal="true" appendTo="body" [closable]="false">
 
         <form [formGroup]="containerFormGroup">
