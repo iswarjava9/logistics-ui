@@ -47,6 +47,7 @@ export class BookingComponent implements OnInit {
    statusList: SelectItem[];
    serviceTypeList: SelectItem[];
    timezoneIdList: SelectItem[];
+   freightList: SelectItem[];
 
   fieldsSet: string[] = ['forwarderRefNo', 'shipperRefNo',
                   'aesAuthNo', 'bookingStatus', 'carrierBookingNo',
@@ -317,6 +318,7 @@ export class BookingComponent implements OnInit {
       this.createdCustomer.city.state.country.name = null;
        */
 
+       this.freightList = [{label: 'Prepaid', value: 'Prepaid'}, {label: 'Collect', value: 'Collect'}];
       this.initializeTimeZoneIds(); 
 
   }

@@ -18,7 +18,7 @@
           <div class="ui-g-4">Booking Agent:</div>
         <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'bookingAgent')" field="name"
+                            (completeMethod)="search($event, 'customer')" field="name"
                             (onSelect)="onCustomerSelection($event, 'bookingAgent')" [formControlName]="'bookingAgent'">
             </p-autoComplete>
               <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'bookingAgent', opCustomer , 'Booking Agent')">
@@ -51,7 +51,7 @@
           <div class="ui-g-4">Shipper</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'shipper')" field="name"
+                            (completeMethod)="search($event, 'customer')" field="name"
                             (onSelect)="onCustomerSelection($event, 'shipper')" [formControlName]="'shipper'">
             </p-autoComplete>
 
@@ -66,7 +66,7 @@
           <div class="ui-g-4">Bill To:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'billTo')" field="name"
+                            (completeMethod)="search($event, 'customer')" field="name"
                             (onSelect)="onCustomerSelection($event, 'billTo')" [formControlName]="'billTo'">
             </p-autoComplete>
 
@@ -81,7 +81,7 @@
           <div class="ui-g-4">Consignee</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'consignee')" field="name"
+                            (completeMethod)="search($event, 'customer')" field="name"
                             (onSelect)="onCustomerSelection($event, 'consignee')" [formControlName]="'consignee'">
  
             </p-autoComplete>
@@ -94,7 +94,7 @@
           <div class="ui-g-4">Delivery Agent:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'deliveryAgent')" field="name"
+                            (completeMethod)="search($event, 'customer')" field="name"
                             (onSelect)="onCustomerSelection($event, 'deliveryAgent')" [formControlName]="'deliveryAgent'">
 
             </p-autoComplete>
@@ -110,7 +110,7 @@
           <div class="ui-g-4">Notify 1:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'notify1')" field="name"
+                            (completeMethod)="search($event, 'customer')" field="name"
                             (onSelect)="onCustomerSelection($event, 'notify1')" [formControlName]="'notify1'">
             </p-autoComplete>
 
@@ -123,7 +123,7 @@
           <div class="ui-g-4">Notify 2:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'notify2')" field="name"
+                            (completeMethod)="search($event, 'customer')" field="name"
                             (onSelect)="onCustomerSelection($event, 'notify2')" [formControlName]="'notify2'">
             </p-autoComplete>
 
@@ -156,7 +156,7 @@
           <div class="ui-g-4">Carrier Name:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'carrier')" field="name"
+                            (completeMethod)="search($event, 'customer')" field="name"
                             (onSelect)="onCustomerSelection($event, 'carrier')" [formControlName]="'carrier'" >
             </p-autoComplete>
 
@@ -168,7 +168,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Freight Term</div>
           <div class="ui-g-8">
-            <input pInputText type="text" formControlName="freight" id="freight"/>
+            <p-dropdown [(options)]="freightList" formControlName="freight" id="freight"></p-dropdown>
           </div>
         </div>
       </div>
@@ -179,7 +179,7 @@
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
-                              (onSelect)="onPlaceSelection($event, 'placeOfReceipt')" [formControlName]="'placeOfReceipt'" (onClear)="clearPlace(this.bookingDetailFormGroup,'placeOfReceipt')">
+                              [formControlName]="'placeOfReceipt'" (onClear)="clearPlace(this.bookingDetailFormGroup,'placeOfReceipt')">
             </p-autoComplete>
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'placeOfReceipt', opPlaces , 'Place Of Receipt')">
             </button>
@@ -418,7 +418,7 @@
             <div class="ui-g-4">Local SSLine Office</div>
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                              (completeMethod)="search($event, 'customer', 'localSSLineOffice')" field="name"
+                              (completeMethod)="search($event, 'customer')" field="name"
                               (onSelect)="onCustomerSelection($event, 'localSSLineOffice')" [formControlName]="'localSSLineOffice'">
               </p-autoComplete>
 
@@ -513,7 +513,7 @@
               <div class="ui-g-4">City:</div>
               <div class="ui-g-8">
                   <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCities"
-                  (completeMethod)="search($event, 'city', 'city')" field="name"
+                  (completeMethod)="search($event, 'city')" field="name"
                   [formControlName]="'city'" [readonly]="this.displayOnly"
                   (onSelect)="onCitySelection(this.placeFormGroup)" >
                 </p-autoComplete>
@@ -576,7 +576,7 @@
           <div class="ui-g-4">City:</div>
           <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCities"
-              (completeMethod)="search($event, 'city', 'city')" field="name"
+              (completeMethod)="search($event, 'city')" field="name"
               [formControlName]="'city'" [readonly]="this.displayOnly"
               (onSelect)="onCitySelection(this.customerFormGroup)">
             </p-autoComplete>
