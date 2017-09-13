@@ -1,3 +1,4 @@
+import { Event } from '@angular/router';
 import { BookingDetailService } from './service/booking-detail.service';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
@@ -29,5 +30,10 @@ export class BookingDetailComponent implements OnInit {
 
   nextActiveIndex(){
     // this.activeIndex++;
+  }
+  onChange(step: number){
+    this.activeIndex = step;
+    console.log('OnChange...' + step);
+    // this.changeBookingDetailsView(step);
   }
 }

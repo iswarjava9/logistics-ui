@@ -4,7 +4,7 @@ import { HttpResponse } from '@angular/common/http';
 import { Headers, Response } from '@angular/http';
 import { City } from './../../../models/city.model';
 import { ForeignAgent } from './../../../models/foreignAgent.model';
-import {Component, Injectable, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, Injectable, Input, OnInit, Output, ViewEncapsulation, EventEmitter} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 import {Booking} from '../../../models/booking.model';
@@ -37,7 +37,7 @@ import {Dialog} from 'primeng/components/dialog/dialog';
 })
 export class BookingComponent implements OnInit {
 
-  @Output() stepIndex: number;
+  @Output() stepIndex: EventEmitter<number> = new EventEmitter<number>();;
 
   @Input() bookingId: number;
 
@@ -454,7 +454,7 @@ export class BookingComponent implements OnInit {
   saveAndNext() {
     this.populateBooking(this.bookingDetailFormGroup, this.bookingDetails);
     this.msgsGrowl = [];
-    this.msgsGrowl.push({severity: 'info', summary: 'Update', detail: 'Updating Booking..'});
+   
     this.disableScreen = true;
 
     let jsonString = JSON.stringify(this.bookingDetails);
@@ -464,30 +464,20 @@ export class BookingComponent implements OnInit {
 
     DateHelper.removeTimeAndTimeZone(jsonString);
 if(isNullOrUndefined(this.bookingDetails.id)){
+  this.msgsGrowl.push({severity: 'info', summary: 'Create', detail: 'Creating Booking..'});
     this.bookingDetailSvc.saveBooking(jsonString).subscribe(
       (response: any) => {
-        const generatedBookingId = response.headers.get('bookingid');
+        // const generatedBookingId = response.headers.get('bookingid');
         const body = response.json();
-      //  console.log('Retieving Json in Save before conversion stringified: ' + JSON.stringify(body));
+      
         DateHelper.convertDateStringsToDates(body);
-    //    console.log('Retieving Json in Save before conversion converted: ' + JSON.stringify(body));
+    
         this.bookingDetails = body;
 
          this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
-        /*this.bookingDetailSvc.getBooking(this.bookingDetails.id).
-        subscribe(
-          (res: any) => {
-            const body = res.json();
-            DateHelper.convertDateStringsToDates(body);
-            this.bookingDetails = body;
-
-            this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
-          });
-*/
-
-        console.log(response.headers.has('bookingId') + 'Booking is created with id:' + response.headers.get('bookingId'));
+                
         this.msgsGrowl.push(
-          {severity: 'info', summary: 'Booking saved', detail: 'Booking is saved with id:' + generatedBookingId});
+          {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'});
         this.disableScreen = false;
         this.bookingDetailSvc.activeIndex = 1;
       },
@@ -501,11 +491,39 @@ if(isNullOrUndefined(this.bookingDetails.id)){
 
       }
     );
-  }else{
-    this.disableScreen = false;
+  }else{ // Modify booking
+    this.msgsGrowl.push(
+      {severity: 'info', summary: 'Modify Booking', detail: 'Modifying Booking...'});
     
-    this.bookingDetailSvc.activeIndex = 1;
+      this.bookingDetailSvc.modifyBooking(jsonString).subscribe(
+      (response: any) => {
+        
+        const body = response.json();
+      
+        DateHelper.convertDateStringsToDates(body);
+   
+        this.bookingDetails = body;
+
+         this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
+           
+        this.msgsGrowl.push(
+          {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'});
+        this.disableScreen = false;
+        this.bookingDetailSvc.activeIndex = 1;
+      },
+      error => {console.log(error);
+        this.disableScreen = false;
+        this.msgsGrowl.push({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not modified'});
+        },
+      success => {
+        console.log(success);
+        this.disableScreen = false;
+
+      }
+    );
   }
+  this.stepIndex.emit(1);
+  // this.router.navigate(['/booking-detail']);
   }
 
   populateFormGroup(form: FormGroup, booking: Booking) {

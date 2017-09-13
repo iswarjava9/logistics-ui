@@ -2,7 +2,7 @@
 <br>
 <br>
 <div>
-  <app-booking *ngIf="activeIndex==0"></app-booking>
-  <app-container *ngIf="activeIndex==1"></app-container>
-  <app-charges *ngIf="activeIndex==2"></app-charges>
+  <app-booking *ngIf="activeIndex==0" (stepIndex)="onChange($event)"></app-booking>
+  <app-container *ngIf="activeIndex==1" (stepIndex)="onChange($event)"></app-container>
+  <app-charges *ngIf="activeIndex==2" (stepIndex)="onChange($event)"></app-charges>
 </div>

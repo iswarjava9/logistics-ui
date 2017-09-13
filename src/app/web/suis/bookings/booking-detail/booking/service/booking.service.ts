@@ -43,6 +43,10 @@ getBookingDetails(){
     return this.http.post(this.HOST + '/logistics/booking', booking, this.options );
   }
 
+  modifyBooking(booking): any {
+      return this.http.put(this.HOST + '/logistics/booking', booking, this.options );
+  }
+
   getPlaces(query: string) {
     return this.http.get(this.HOST + '/logistics/place/byname/'  + query, this.options);
   }
