@@ -2,8 +2,7 @@
   <div>
     <p-growl [value]="msgsGrowl" life="3000"></p-growl>
   </div>
-  <!--[(ngModel)]="bookingDetails.forwarderRefNo"
-  [(ngModel)]="bookingDetails.forwarder"-->
+  
   <br>
   <form [formGroup]="bookingDetailFormGroup" disabled="disableSave" >
 
@@ -19,66 +18,59 @@
           <div class="ui-g-4">Booking Agent:</div>
         <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'forwarder')" field="name"
-                            (onSelect)="onCustomerSelection($event, 'forwarder')" [formControlName]="'forwarder'" (onFocus)="onFocusLoad('customer', 'forwarder')" >
-              <ng-template let-forwarder pTemplate="item" >
-                <b>{{forwarder.name}}</b><br>
-                {{forwarder.address}}
-              </ng-template>
+                            (completeMethod)="search($event, 'customer', 'bookingAgent')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'bookingAgent')" [formControlName]="'bookingAgent'">
             </p-autoComplete>
-              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'forwarder', opCustomer , 'Booking Agent')">
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'bookingAgent', opCustomer , 'Booking Agent')">
               </button>
             </div>
+            <span class="help-block" *ngIf="!bookingDetailFormGroup.get('bookingAgent').valid 
+            && bookingDetailFormGroup.get('bookingAgent').touched">Please select a valid booking agent!</span>
         </div>
       </div>
-    <!--[(ngModel)]="bookingDetails.bookingDate"-->
+    
       <div class="row">
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Booking Date:</div>
           <div class="ui-g-8">
+
             <p-calendar showTime="showTime" [formControlName]="'bookingDate'" dateFormat="yy/mm/dd" [utc]="true" ></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Ammended Date:</div>
+          <div class="ui-g-4">Amendment Date:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" [formControlName]="'bookingDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'amendmentDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
           </div>
         </div>
       </div>
 
-    <!--[(ngModel)]="bookingDetails.shipper"-->
+    
       <div class="row">
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Shipper</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer', 'shipper')" field="name"
-                            (onSelect)="onCustomerSelection($event, 'shipper')" [formControlName]="'shipper'" (onFocus)="onFocusLoad('customer')">
-              <ng-template let-shipper pTemplate="item" >
-                <b>{{shipper.name}}</b><br>
-                {{shipper.address}}
-              </ng-template>
+                            (onSelect)="onCustomerSelection($event, 'shipper')" [formControlName]="'shipper'">
             </p-autoComplete>
 
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'shipper', opCustomer , 'Shipper')">
             </button>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('shipper').valid 
+          && bookingDetailFormGroup.get('shipper').touched">Please select a valid Shipper!</span>
         </div>
-        <!--[(ngModel)]="bookingDetails.account"-->
+        
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Bill To:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'account')" field="name"
-                            (onSelect)="onCustomerSelection($event, 'account')" [formControlName]="'account'" (onFocus)="onFocusLoad('customer')">
-              <ng-template let-account pTemplate="item" >
-                <b>{{account.name}}</b><br>
-                {{account.address}}
-              </ng-template>
+                            (completeMethod)="search($event, 'customer', 'billTo')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'billTo')" [formControlName]="'billTo'">
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'account', opCustomer , 'Bill To')">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'billTo', opCustomer , 'Bill To')">
             </button>
           </div>
         </div>
@@ -90,11 +82,8 @@
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer', 'consignee')" field="name"
-                            (onSelect)="onCustomerSelection($event, 'consignee')" [formControlName]="'consignee'" (onFocus)="onFocusLoad('customer')">
-              <ng-template let-consignee pTemplate="item" >
-                <b>{{consignee.name}}</b><br>
-                {{consignee.address}}
-              </ng-template>
+                            (onSelect)="onCustomerSelection($event, 'consignee')" [formControlName]="'consignee'">
+ 
             </p-autoComplete>
 
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'consignee', opCustomer , 'Consignee')">
@@ -105,15 +94,12 @@
           <div class="ui-g-4">Delivery Agent:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'foreignAgent')" field="name"
-                            (onSelect)="onCustomerSelection($event, 'foreignAgent')" [formControlName]="'foreignAgent'" (onFocus)="onFocusLoad('customer')">
-              <ng-template let-foreignAgent pTemplate="item" >
-                <b>{{foreignAgent.name}}</b><br>
-                {{foreignAgent.address}}
-              </ng-template>
+                            (completeMethod)="search($event, 'customer', 'deliveryAgent')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'deliveryAgent')" [formControlName]="'deliveryAgent'">
+
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'foreignAgent', opCustomer , 'Delivery Agent')">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'deliveryAgent', opCustomer , 'Delivery Agent')">
             </button>
           </div>
         </div>
@@ -124,15 +110,11 @@
           <div class="ui-g-4">Notify 1:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'notify')" field="name"
-                            (onSelect)="onCustomerSelection($event, 'notify')" [formControlName]="'notify'" (onFocus)="onFocusLoad('customer')">
-              <ng-template let-notify pTemplate="item" >
-                <b>{{notify.name}}</b><br>
-                {{notify.address}}
-              </ng-template>
+                            (completeMethod)="search($event, 'customer', 'notify1')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'notify1')" [formControlName]="'notify1'">
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify', opCustomer , 'Notify 1')">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify1', opCustomer , 'Notify 1')">
             </button>
           </div>
         </div>
@@ -141,15 +123,11 @@
           <div class="ui-g-4">Notify 2:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
-                            (completeMethod)="search($event, 'customer', 'notify')" field="name"
-                            (onSelect)="onCustomerSelection($event, 'notify')" [formControlName]="'notify'" (onFocus)="onFocusLoad('customer')">
-              <ng-template let-notify pTemplate="item" >
-                <b>{{notify.name}}</b><br>
-                {{notify.address}}
-              </ng-template>
+                            (completeMethod)="search($event, 'customer', 'notify2')" field="name"
+                            (onSelect)="onCustomerSelection($event, 'notify2')" [formControlName]="'notify2'">
             </p-autoComplete>
 
-            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify', opCustomer , 'Notify 2')">
+            <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify2', opCustomer , 'Notify 2')">
             </button>
           </div>
         </div>
@@ -163,13 +141,13 @@
             <input pInputText type="text" formControlName="carrierBookingNo" id="carrierBookingNo"/>
           </div>
         </div>
-
+        
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Service Type</div>
-          <div class="ui-g-8">
-            <input pInputText type="text" formControlName="typeOfService" id="typeOfService"/>
+            <div class="ui-g-4">Service Type:</div>
+            <div class="ui-g-8">
+              <p-dropdown [(options)]="serviceTypeList" formControlName="typeOfService" ></p-dropdown>
+            </div>
           </div>
-        </div>
       </div>
 
 
@@ -179,11 +157,7 @@
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer', 'carrier')" field="name"
-                            (onSelect)="onCustomerSelection($event, 'carrier')" [formControlName]="'carrier'" (onFocus)="onFocusLoad('customer')">
-              <ng-template let-carrier pTemplate="item" >
-                <b>{{carrier.name}}</b><br>
-                {{carrier.address}}
-              </ng-template>
+                            (onSelect)="onCustomerSelection($event, 'carrier')" [formControlName]="'carrier'" >
             </p-autoComplete>
 
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'carrier', opCustomer , 'Carrier')">
@@ -205,11 +179,7 @@
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
-                              (onSelect)="onPlaceSelection($event, 'placeOfReceipt')" [formControlName]="'placeOfReceipt'" (onFocus)="onFocusLoad('place')">
-              <ng-template let-placeOfReceipt pTemplate="item" >
-                <b>{{placeOfReceipt.name}}</b><br>
-                {{placeOfReceipt.address}}
-              </ng-template>
+                              (onSelect)="onPlaceSelection($event, 'placeOfReceipt')" [formControlName]="'placeOfReceipt'" (onClear)="clearPlace(this.bookingDetailFormGroup,'placeOfReceipt')">
             </p-autoComplete>
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'placeOfReceipt', opPlaces , 'Place Of Receipt')">
             </button>
@@ -218,13 +188,9 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Port Of Loading</div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [(ngModel)]="bookingDetails.portOfLoad" [suggestions]="filteredPlaces"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3"  [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
-                            (onSelect)="onPlaceSelection($event, 'portOfLoad')" [formControlName]="'portOfLoad'" (onFocus)="onFocusLoad('place')">
-              <ng-template let-portOfLoad pTemplate="item" >
-                <b>{{portOfLoad.name}}({{portOfLoad.unCode}})</b><br>
-                {{portOfLoad.address}}
-              </ng-template>
+                            (onSelect)="onPlaceSelection($event, 'portOfLoad')" [formControlName]="'portOfLoad'" (onClear)="clearPlace(this.bookingDetailFormGroup,'portOfLoad')">
             </p-autoComplete>
 
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'portOfLoad',opPlaces,'Port Of Loading')">
@@ -239,12 +205,8 @@
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
-                            (onSelect)="onPlaceSelection($event, 'portOfDischarge')" [formControlName]="'portOfDischarge'" (onFocus)="onFocusLoad('place')" [(ngModel)]="bookingDetails.portOfDischarge">
-              <ng-template let-portOfDischarge pTemplate="item" >
-                <b>{{portOfDischarge.name}}({{portOfDischarge.unCode}})</b><br>
-                {{portOfDischarge.address}}
-              </ng-template>
-            </p-autoComplete>
+                            (onSelect)="onPlaceSelection($event, 'portOfDischarge')" [formControlName]="'portOfDischarge'" (onClear)="clearPlace(this.bookingDetailFormGroup,'portOfDischarge')">
+              </p-autoComplete>
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event,'portOfDischarge', opPlaces , 'Port Of Discharge')">
             </button>
           </div>
@@ -255,10 +217,6 @@
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item"  forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
                             (onSelect)="onPlaceSelection($event, 'placeOfDelivery')" [formControlName]="'placeOfDelivery'">
-              <ng-template let-placeOfDelivery pTemplate="item" >
-                <b>{{placeOfDelivery.name}}({{placeOfDelivery.unCode}})</b><br>
-                {{placeOfDelivery.address}}
-              </ng-template>
             </p-autoComplete>
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'placeOfDelivery', opPlaces , 'Place Of Delivery')">
             </button>
@@ -272,11 +230,7 @@
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredVessels"
                             (completeMethod)="search($event, 'vessel')" field="name"
-                            (onSelect)="onVesselSelection($event, 'vessel')" [formControlName]="'vessel'" (onFocus)="onFocusLoad('vessel')">
-              <ng-template let-vessel pTemplate="item" >
-                <b>{{vessel.name}}</b><br>
-                {{vessel.vesselNo}}
-              </ng-template>
+                            (onSelect)="onVesselSelection($event, 'vessel')" [formControlName]="'vessel'">
             </p-autoComplete>
 
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayVessel($event,'vessel', opVessel , 'Vessel')">
@@ -295,13 +249,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Docs Cutoff Date</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'docsCutOffDateTime'" [utc]="true" [(ngModel)]="bookingDetails.docsCutOffDateTime"></p-calendar>
+             <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'docsCutOffDateTime'" [utc]="true" ></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Rail CutOff Date:</div>
           <div class="ui-g-8">
-            <p-calendar [formControlName]="'rateCutOffDateTime'" showTime="showTime" dateFormat="yy/mm/dd" [utc]="true" [(ngModel)]="bookingDetails.rateCutOffDateTime"></p-calendar>
+            <p-calendar [formControlName]="'railCutOffDateTime'" showTime="showTime" dateFormat="yy/mm/dd" [utc]="true" ></p-calendar>
           </div>
         </div>
       </div>
@@ -310,13 +264,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Port Cutoff Date:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" [formControlName]="'cutOffDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'portCutOffDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Cargo Moving Date</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'cargoMovingDate'" [utc]="true"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'cargoMovingDate'" [utc]="true"></p-calendar>
           </div>
         </div>
       </div>
@@ -325,13 +279,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ETD:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'sailDate'" [utc]="true"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'sailDate'" [utc]="true"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ETA:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'eta'" [utc]="true"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'eta'" [utc]="true"></p-calendar>
           </div>
         </div>
       </div>
@@ -340,7 +294,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ATA:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'delieveryEta'" [utc]="true"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'delieveryEta'" [utc]="true"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
@@ -372,13 +326,9 @@
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
-                              (onSelect)="onPlaceSelection($event, 'loadTerminal')" [formControlName]="'loadTerminal'" (onFocus)="onFocusLoad('place')">
-                <ng-template let-loadTerminal pTemplate="item">
-                  <b>{{loadTerminal.name}}</b><br>
-                  {{loadTerminal.address}}
-                </ng-template>
-              </p-autoComplete>
-              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'loadTerminal', opPlaces , 'Empty Container Pickup')">
+                              (onSelect)="onPlaceSelection($event, 'emptyContainerPickup')" [formControlName]="'emptyContainerPickup'">
+                </p-autoComplete>
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'emptyContainerPickup', opPlaces , 'Empty Container Pickup')">
               </button>
             </div>
           </div>
@@ -388,27 +338,22 @@
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
-                              (onSelect)="onPlaceSelection($event, 'transhipmentPort')" [formControlName]="'transhipmentPort'" (onFocus)="onFocusLoad('place')">
-                <ng-template let-transhipmentPort pTemplate="item">
-                  <b>{{transhipmentPort.name}}</b><br>
-                  {{transhipmentPort.address}}
-                </ng-template>
+                              (onSelect)="onPlaceSelection($event, 'ingateAtTerminal')" [formControlName]="'ingateAtTerminal'">
               </p-autoComplete>
-              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, bookingDetails.transhipmentPort, 'transhipmentPort', opPlaces , 'Ingate At terminal')">
+              <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'ingateAtTerminal', opPlaces , 'Ingate At terminal')">
               </button>
           </div>
           </div>
         </div>
-    <!--[(ngModel)]="bookingDetails.bookingStatus"-->
+    
          <div class="row">
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Booking Status</div>
             <div class="ui-g-8">
               <p-dropdown [(options)]="statusList" formControlName="bookingStatus" ></p-dropdown>
-              <!-- <input pInputText type="text" formControlName="bookingStatus" id="bookingStatus"/>-->
             </div>
           </div>
-           <!--[(ngModel)]="bookingDetails.remarks"-->
+          
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Remarks:</div>
             <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="remarks"></textarea>
@@ -441,11 +386,7 @@
               <div class="ui-g-8">
                 <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPersons"
                                 (completeMethod)="search($event, 'salesRepresentative')" field="name"
-                                (onSelect)="onPersonSelection($event, 'salesRepresentative')" [formControlName]="'salesRepresentative'" (onFocus)="onFocusLoad('person')">
-                  <ng-template let-salesRepresentative pTemplate="item" >
-                    <b>{{salesRepresentative.name}}</b><br>
-                    {{salesRepresentative.email}} | {{salesRepresentative.mobile}}
-                  </ng-template>
+                                [formControlName]="'salesRepresentative'">
                 </p-autoComplete>
                 <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPerson($event,'salesRepresentative', opPerson , 'Sales Representative')">
                 </button>
@@ -457,11 +398,7 @@
               <div class="ui-g-8">
                 <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPersons"
                                 (completeMethod)="search($event, 'person')" field="name"
-                                (onSelect)="onPersonSelection($event, 'bookingPerson')" [formControlName]="'bookingPerson'" (onFocus)="onFocusLoad('person')">
-                  <ng-template let-bookingPerson pTemplate="item" >
-                    <b>{{bookingPerson.name}}</b><br>
-                    {{bookingPerson.email}} | {{bookingPerson.mobile}}
-                  </ng-template>
+                                [formControlName]="'bookingPerson'">
                 </p-autoComplete>
 
                 <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPerson($event,'bookingPerson', opPerson , 'Booking Person')">
@@ -482,11 +419,7 @@
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                               (completeMethod)="search($event, 'customer', 'localSSLineOffice')" field="name"
-                              (onSelect)="onCustomerSelection($event, 'localSSLineOffice')" [formControlName]="'localSSLineOffice'" (onFocus)="onFocusLoad('customer')">
-                <ng-template let-localSSLineOffice pTemplate="item" >
-                  <b>{{localSSLineOffice.name}}</b><br>
-                  {{localSSLineOffice.address}} | {{localSSLineOffice.countryCode}}
-                </ng-template>
+                              (onSelect)="onCustomerSelection($event, 'localSSLineOffice')" [formControlName]="'localSSLineOffice'">
               </p-autoComplete>
 
               <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'localSSLineOffice', opCustomer , 'Local SSLine Office')">
@@ -501,7 +434,7 @@
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredLOBs"
                               (completeMethod)="search($event, 'lineOfBusiness')" field="name"
-                              (onSelect)="onLOBSelection($event, 'lineOfBusiness')" [formControlName]="'lineOfBusiness'" (onFocus)="onFocusLoad('lineOfBusiness')" [(ngModel)]="bookingDetails.lineOfBusiness"></p-autoComplete>
+                              [formControlName]="'lineOfBusiness'"></p-autoComplete>
 
               <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayLineOfBusiness($event, 'lineOfBusiness', opLOB , 'Line Of Business')">
               </button>
@@ -513,11 +446,7 @@
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredDivisions"
                               (completeMethod)="search($event, 'division')" field="name"
-                              (onSelect)="onDivisionSelection($event, 'division')" [formControlName]="'division'" (onFocus)="onFocusLoad('division')">
-                <ng-template let-division pTemplate="item" >
-                  <b>{{division.name}}</b> ({{division.code}})<br>
-                  {{division.branchAddress}}}
-                </ng-template>
+                              [formControlName]="'division'" >
               </p-autoComplete>
 
               <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayDivision($event, 'division', opDivision , 'Division')">
@@ -533,11 +462,7 @@
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredMoveTypes"
                               (completeMethod)="search($event, 'typeOfMove')" field="name"
-                              (onSelect)="onMovementTypeSelection($event, 'typeOfMove')" [formControlName]="'typeOfMove'" (onFocus)="onFocusLoad('typeOfMove')">
-                <ng-template let-typeOfMove pTemplate="item" >
-                  <b>{{typeOfMove.typeOfService}}</b><br>
-                  {{typeOfMove.description}}}
-                </ng-template>
+                              [formControlName]="'typeOfMove'">
               </p-autoComplete>
 
               <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayMovementType($event, 'typeOfMove', opMovementType, 'Movement Type')">
@@ -549,9 +474,9 @@
         <div class="row">
         <div class="ui-g-10">
           <!--<button pButton label="Show" type="button" icon='fa-external-link' (click)="showDialog()"></button>-->
-          <button pButton label="Save" type="submit" (click)="saveAndNext()" [disabled]="disableScreen">
+          <button pButton label="Save And Next" type="submit" (click)="saveAndNext()" [disabled]="disableScreen">
              </button>
-          <button pButton label="Exit" type="submit" (click)="exit()"></button>
+          <button pButton label="Save And Exit" type="submit" (click)="saveAndExit()"></button>
           <button pButton label="Print" type="submit" (click)="print()" [disabled]="disableScreen"></button>
           <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>
 
@@ -561,17 +486,18 @@
     </div>
 
     <p-dialog #opPlaces appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false">
-          <div class="row">
+    <form [formGroup]="placeFormGroup" >
+      <div class="row">
             <div class="ui-g-8 ui-md-6">
               <div class="ui-g-4">Name:</div>
               <div class="ui-g-6">
-                <input pInputText type="text"  [(ngModel)]="this.createdPlace.name" required="true"/>
+                <input pInputText type="text"  formControlName="name" [readonly]="this.displayOnly"/>
               </div>
             </div>
             <div class="ui-g-8 ui-md-6">
               <div class="ui-g-4">Code</div>
               <div class="ui-g-6">
-                <input pInputText type="text" [(ngModel)]="this.createdPlace.code"  required="true"/>
+                <input pInputText type="text" formControlName="code"  [readonly]="this.displayOnly"/>
               </div>
             </div>
           </div>
@@ -579,120 +505,128 @@
              <div class="ui-g-12 ui-md-6">
                 <div class="ui-g-4">Address:</div>
                 <div class="ui-g-8">
-                  <input pInputText type="text" [(ngModel)]="this.createdPlace.portStateCode" />
+                  <input pInputText type="text" formControlName="address" [readonly]="this.displayOnly"/>
                 </div>
               </div>
 
             <div class="ui-g-12 ui-md-6">
-              <div class="ui-g-4">State:</div>
+              <div class="ui-g-4">City:</div>
               <div class="ui-g-8">
-                <input pInputText type="text" [(ngModel)]="this.createdPlace.portStateCode" />
+                  <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCities"
+                  (completeMethod)="search($event, 'city', 'city')" field="name"
+                  [formControlName]="'city'" [readonly]="this.displayOnly"
+                  (onSelect)="onCitySelection(this.placeFormGroup)" >
+                </p-autoComplete>
               </div>
             </div>
-            <div class="ui-g-12 ui-md-6">
-              <div class="ui-g-4">Country:</div>
-              <div class="ui-g-8">
-                <input pInputText type="text" [(ngModel)]="this.createdPlace.countryCode" />
-              </div>
-            </div>
+            
           </div>
-
+          <div class="row">
+              <div class="ui-g-12 ui-md-6">
+                  <div class="ui-g-4">Country:</div>    
+                  <div class="ui-g-8">
+                    <input pInputText type="text" formControlName="country" [readonly]="true"/>
+                  </div>
+                </div>
+              <div class="ui-g-12 ui-md-6">
+                 <div class="ui-g-4">State:</div>
+                 <div class="ui-g-8">
+                   <input pInputText type="text" formControlName="state" [readonly]="true"/>
+                 </div>
+               </div>
+           </div>
+          <div class="row">
+              <div class="ui-g-12 ui-md-6">
+                  <div class="ui-g-4">TimeZone:</div>
+                  <div class="ui-g-8">
+                     <p-dropdown [(options)]="timezoneIdList" formControlName="timeZoneId" [readonly]="this.displayOnly"></p-dropdown>
+                  </div>
+                </div>
+                
+          </div>
           <div class="ui-g-10">
             <button pButton label="Create" type="submit" (click)="createPlace(opPlaces, $event)" [disabled]="this.displayOnly"></button>
-            <button pButton label="Cancel" type="submit" (click)="closeDialog(opPlaces, $event)"></button>
+            <button pButton label="Cancel" type="submit" (click)="closePlaceDialog(opPlaces, $event)"></button>
           </div>
+        </form>
     </p-dialog>
 
 
-    <p-dialog #opCustomer appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false">
-        <div class="row">
+    <p-dialog #opCustomer appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false" >
+      <form [formGroup]="customerFormGroup" >
+          
+      <div class="row">
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Name:</div>
             <div class="ui-g-8">
-              <input pInputText type="text"  [(ngModel)]="this.createdCustomer.name" required="true" [readonly]="this.displayOnly"/>
+              <input pInputText type="text"  [formControlName]="'name'" required="true" [readonly]="this.displayOnly"/>
             </div>
           </div>
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Address:</div>
             <div class="ui-g-16">
-              <input pInputTextarea type="text" [(ngModel)]="this.createdCustomer.address" [readonly]="this.displayOnly"/>
+              <input pInputTextarea type="text" [formControlName]="'address'" [readonly]="this.displayOnly"
+              autoResize="autoResize"/>
             </div>
           </div>
         </div>
       <div class="row">
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Street:</div>
-          <div class="ui-g-8">
-            <input pInputText type="text" [(ngModel)]="this.createdCustomer.street" [readonly]="this.displayOnly"/>
-          </div>
-        </div>
+          
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">City:</div>
           <div class="ui-g-8">
-            <input pInputText type="text" [(ngModel)]="this.createdCustomer.city" [readonly]="this.displayOnly"/>
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCities"
+              (completeMethod)="search($event, 'city', 'city')" field="name"
+              [formControlName]="'city'" [readonly]="this.displayOnly"
+              (onSelect)="onCitySelection(this.customerFormGroup)">
+            </p-autoComplete>
+            
           </div>
         </div>
-
+        <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Country:</div>
+            <div class="ui-g-8">
+                <input pInputText type="text" formControlName="country" [readonly]="true"/>
+            </div>
+          </div>
       </div>
 
       <div class="row">
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">State:</div>
-          <div class="ui-g-8">
-            <input pInputText type="text" [(ngModel)]="this.createdCustomer.stateCode" [readonly]="this.displayOnly"/>
+       <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">State:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" formControlName="state" [readonly]="true"/>
+            </div>
           </div>
-        </div>
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Country:</div>
-          <div class="ui-g-8">
-            <input pInputText type="text" [(ngModel)]="this.createdCustomer.countryCode" [readonly]="this.displayOnly"/>
+          <div class="ui-g-12 ui-md-6">
+             <div class="ui-g-4">Person In Charge:</div>
+             <div class="ui-g-8">
+               <input pInputText type="text" formControlName="personInCharge"  required="true" [readonly]="this.displayOnly"/>
+             </div>
           </div>
-        </div>
       </div>
-        <div class="row">
-          <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Person In Charge:</div>
-            <div class="ui-g-8">
-              <input pInputText type="text" [(ngModel)]="this.createdCustomer.ams2OpsController"  required="true" [readonly]="this.displayOnly"/>
-            </div>
-          </div>
-          <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Type:</div>
-            <div class="ui-g-8">
-              <input pInputText type="text" [(ngModel)]="this.createdCustomer.type" [readonly]="this.displayOnly"/>
-            </div>
-          </div>
-
-        </div>
+      
         <div class="row">
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Email:</div>
             <div class="ui-g-8">
-              <input pInputText type="text" [(ngModel)]="this.createdCustomer.contactId" [readonly]="this.displayOnly"/>
+              <input pInputText type="text" formControlName="email" [readonly]="this.displayOnly"/>
             </div>
           </div>
           <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Industry Id:</div>
+            <div class="ui-g-4">Phone:</div>
             <div class="ui-g-8">
-              <input pInputText type="text" [(ngModel)]="this.createdCustomer.industryId" [readonly]="this.displayOnly"/>
+              <input pInputText type="text" formControlName="phone" [readonly]="this.displayOnly"/>
             </div>
           </div>
         </div>
 
-      <div class="row">
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">ClientId:</div>
-          <div class="ui-g-8">
-            <input pInputText type="number" [(ngModel)]="this.createdCustomer.clientId" [readonly]="this.displayOnly"/>
-          </div>
-        </div>
-
-      </div>
 
       <div class="ui-g-10">
-          <button pButton label="Create" type="submit" (click)="createCustomer(opCustomer, $event)" [disabled]="this.displayOnly"></button>
-        <button pButton label="Cancel" type="submit" (click)="closeDialog(opCustomer, $event)"></button>
+        <button pButton label="Create" type="submit" (click)="createCustomer(opCustomer, $event)" [disabled]="this.displayOnly"></button>
+        <button pButton label="Close" type="submit" (click)="closeCustomerDialog(opCustomer, $event)"></button>
         </div>
+      </form>
     </p-dialog>
 
 
@@ -864,7 +798,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Name:</div>
           <div class="ui-g-8">
-            <input pInputText type="text"  [(ngModel)]="this.createdCustomer.name" required="true" [readonly]="this.displayOnly"/>
+            <input pInputText type="text"  [(ngModel)]="this.createdPerson.name" required="true" [readonly]="this.displayOnly"/>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">

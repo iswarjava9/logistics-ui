@@ -6,6 +6,7 @@ import {Headers, Http, RequestMethod, RequestOptions} from '@angular/http';
 export class BookingDetailService {
   headers: Headers;
   options: RequestOptions;
+  activeIndex = 0;
 
   constructor(private http: Http) {
 
@@ -13,6 +14,5 @@ export class BookingDetailService {
     this.headers = new Headers({'Content-Type': 'application/json; charset=UTF-8'});
     this.options = new RequestOptions({method: RequestMethod.Post, headers: this.headers});
   }
-
 
 }

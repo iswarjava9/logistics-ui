@@ -1,14 +1,14 @@
+import { City } from './city.model';
 import {PlaceBase} from './placeBase.model';
 
 export class Place extends PlaceBase {
-
-  public brokerageRate: number;
   public code: string;
-  public countryCode: string;
-  public portStateCode: string;
-  public typeId: number;
-  public unCode: string;
- constructor() {
+  public timeZoneId: string;
+  public country: string;
+  public state: string;
+  public city: City;
+  public address: string;
+  constructor() {
     super();
   }
 }

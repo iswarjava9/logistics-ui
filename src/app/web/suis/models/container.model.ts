@@ -1,3 +1,4 @@
+import { Commodity } from './commodity.model';
 import {Cargo} from './cargo.model';
 import {ContainerType} from './containerType.model';
 
@@ -29,6 +30,7 @@ public id: number;
   public bookingId: number;
   public containerType: ContainerType;
   public quotationId: number;
+  public commodity: Commodity;
 
   constructor() {}
 }

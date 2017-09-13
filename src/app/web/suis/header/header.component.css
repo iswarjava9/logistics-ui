@@ -100,3 +100,10 @@ nav ul {
   border-right-color: powderblue;
   right: 10px;
 }
+
+
+.nav ul >a:hover{
+  left: auto;
+  padding-top: 5px  ;
+  min-width: 100%;
+}

@@ -7,7 +7,7 @@
   </div>
 </div>
 <p-dataTable sortMode="multiple" [value]="bookings" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt
-             selectionMode="single" [(selection)]="selectedBooking" (onRowSelect)="handleBookingSelection($event)">
+ selectionMode="single" [(selection)]="selectedBooking" (onRowSelect)="handleBookingSelection($event)">
   <p-header>List of Bookings</p-header>
 
   <p-column field="carrierBookingNo" header="Carrier Booking#" [filter]="true" filterPlaceholder="Search"  [sortable]="true"></p-column>

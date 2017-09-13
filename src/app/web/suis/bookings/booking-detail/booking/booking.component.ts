@@ -1,3 +1,9 @@
+
+import { TimeZone } from './../../../models/timezone.model';
+import { HttpResponse } from '@angular/common/http';
+import { Headers, Response } from '@angular/http';
+import { City } from './../../../models/city.model';
+import { ForeignAgent } from './../../../models/foreignAgent.model';
 import {Component, Injectable, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 
@@ -10,6 +16,8 @@ import {Division} from '../../../models/division.model';
 import {MovementType} from '../../../models/movementType.model';
 import {Vessel} from '../../../models/vessel.model';
 import {Person} from '../../../models/person.model';
+import {State} from '../../../models/state.model';
+
 import {BookingService} from './service/booking.service';
 import {and, forEach} from '@angular/router/src/utils/collection';
 import {DateHelper} from '../../../util/dateHelper';
@@ -37,26 +45,31 @@ export class BookingComponent implements OnInit {
   disableScreen = false;
 
    statusList: SelectItem[];
+   serviceTypeList: SelectItem[];
+   timezoneIdList: SelectItem[];
 
   fieldsSet: string[] = ['forwarderRefNo', 'shipperRefNo',
                   'aesAuthNo', 'bookingStatus', 'carrierBookingNo',
                   'carrierContact', 'carrierVoyage', 'controller',
                   'freight', 'nraNumber', 'serviceContractId',
-                  'typeOfService', 'account', 'consignee',
-                  'foreignAgent', 'localSSLineOffice',
-                  'notify', 'shipper', 'carrier',
-                  'forwarder', 'lineOfBusiness', 'salesRepresentative',
+                  'typeOfService', 'billTo', 'consignee',
+                  'deliveryAgent', 'localSSLineOffice',
+                  'notify1', 'notify2', 'shipper', 'carrier',
+                  'bookingAgent', 'lineOfBusiness', 'salesRepresentative',
                   'typeOfMove', 'vessel', 'bookingPerson',
                   'division', 'docsCutOffDateTime',
                   'docsReceivedDate', 'eta',
-                  'bookingDate', 'cargoMovingDate',
-                  'cutOffDate', 'delieveryEta',
-                  'rateCutOffDateTime', 'sailDate',
-                  'loadTerminal', 'placeOfDelivery',
+                  'bookingDate', 'amendmentDate', 'cargoMovingDate',
+                  'portCutOffDate', 'delieveryEta',
+                  'railCutOffDateTime', 'sailDate',
+                  'emptyContainerPickup', 'ingateAtTerminal', 'placeOfDelivery',
                   'placeOfReceipt', 'portOfDischarge',
                   'portOfLoad', 'transhipmentPort', 'remarks'];
-  dateFieldsSet: string[] = ['docsCutOffDateTime', 'docsReceivedDate', 'eta', 'bookingDate', 'cargoMovingDate',
-                            'cutOffDate', 'delieveryEta', 'rateCutOffDateTime', 'sailDate'];
+  dateFieldsSet: string[] = ['docsCutOffDateTime', 'docsReceivedDate', 'eta', 'bookingDate', 'amendmentDate', 'cargoMovingDate',
+                            'portCutOffDate', 'delieveryEta', 'railCutOffDateTime', 'sailDate'];
+  //Cities
+  filteredCities: any[] = [];
+
   // client
   client: Client;
   filteredClients: any[] = [];
@@ -78,13 +91,15 @@ export class BookingComponent implements OnInit {
   filteredMoveTypes: MovementType[] = [];
   allMoveTypes: MovementType[] = [];
 
-  filteredVessels: Vessel[] = [];
-  allVessels: Vessel[] = [];
+  filteredVessels: any[] = [];
+  allVessels: any[] = [];
 
   filteredPersons: Person[] = [];
   allPersons: Person[] = [];
 
   bookingDetailFormGroup: FormGroup;
+  customerFormGroup: FormGroup;
+  placeFormGroup: FormGroup;
   bookingDetails: Booking;
   constructor(private bookingDetailSvc: BookingService, private route: ActivatedRoute, private router: Router) {
   }
@@ -112,12 +127,13 @@ export class BookingComponent implements OnInit {
   hoveredCustomer: Customer;
   hoveredCustomerId: string;
   createdCustomer: Customer = new Customer();
+  
 
   // For overlay panels - Line Of Business
   hoveredBusinessLine: BusinessLine;
   hoveredBusinessLineId: string;
   createdBusinessLine: BusinessLine = new BusinessLine();
-    showDialog = false;
+  //  showDialog = false;
 
   // For overlay panels - Division
   hoveredDivision: Division;
@@ -146,23 +162,25 @@ export class BookingComponent implements OnInit {
     booking.docsReceivedDate = null;
     booking.eta = null;
     booking.bookingDate = null;
+    booking.amendmentDate = null;
     booking.cargoMovingDate = null;
-    booking.cutOffDate = null;
+    booking.portCutOffDate = null;
     booking.delieveryEta = null;
-    booking.rateCutOffDateTime = null;
+    booking.railCutOffDateTime = null;
     booking.sailDate = null;
 
   // Parties
 
-  booking.foreignAgent = new Customer();
-  booking.account = new Customer();
+  booking.deliveryAgent = new Customer();
+  booking.billTo = new Customer();
   booking.consignee = new Customer();
   booking.localSSLineOffice = new Customer();
-  booking.notify = new Customer();
+  booking.notify1 = new Customer();
+  booking.notify2 = new Customer();
   booking.shipper = new Customer();
   booking.carrier = new Customer();
 
-  booking.forwarder = new Customer();
+  booking.bookingAgent = new Customer();
   booking.lineOfBusiness = new BusinessLine();
   booking.salesRepresentative = new Person();
   booking.typeOfMove =  new MovementType();
@@ -171,7 +189,8 @@ export class BookingComponent implements OnInit {
   booking.division = new Division();
 
   // Places
-  booking.loadTerminal = new Place();
+  booking.emptyContainerPickup = new Place();
+  booking.ingateAtTerminal = new Place();
   booking.placeOfDelivery = new Place();
   booking.placeOfReceipt = new Place();
   booking.portOfDischarge = new Place();
@@ -198,6 +217,7 @@ export class BookingComponent implements OnInit {
           this.bookingDetails = body;
 
           this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
+          this.bookingDetailSvc.updateBooking(this.bookingDetails);
         });
       }
 
@@ -219,14 +239,15 @@ export class BookingComponent implements OnInit {
         'serviceContractId': new FormControl(this.bookingDetails.serviceContractId),
         'typeOfService': new FormControl(this.bookingDetails.typeOfService),
 
-        'account': new FormControl(this.bookingDetails.account, Validators.required),
+        'billTo': new FormControl(this.bookingDetails.billTo, Validators.required),
         'consignee': new FormControl(this.bookingDetails.consignee, Validators.required),
-        'foreignAgent': new FormControl(this.bookingDetails.foreignAgent),
+        'deliveryAgent': new FormControl(this.bookingDetails.deliveryAgent),
         'localSSLineOffice': new FormControl(this.bookingDetails.localSSLineOffice),
-        'notify': new FormControl(this.bookingDetails.notify),
-        'shipper': new FormControl(this.bookingDetails.shipper),
+        'notify1': new FormControl(this.bookingDetails.notify1),
+        'notify2': new FormControl(this.bookingDetails.notify2),
+        'shipper': new FormControl(this.bookingDetails.shipper, Validators.required),
         'carrier': new FormControl(this.bookingDetails.carrier),
-        'forwarder': new FormControl(this.bookingDetails.forwarder),
+        'bookingAgent': new FormControl(this.bookingDetails.bookingAgent, Validators.required),
         'lineOfBusiness': new FormControl(this.bookingDetails.lineOfBusiness),
         'salesRepresentative': new FormControl(this.bookingDetails.salesRepresentative),
         'typeOfMove': new FormControl(this.bookingDetails.typeOfMove),
@@ -238,13 +259,15 @@ export class BookingComponent implements OnInit {
         'docsReceivedDate': new FormControl(this.bookingDetails.docsReceivedDate),
         'eta': new FormControl(this.bookingDetails.eta),
         'bookingDate': new FormControl({value: this.bookingDetails.bookingDate, disabled: true}),
+        'amendmentDate': new FormControl({value: this.bookingDetails.amendmentDate, disabled: true}),
         'cargoMovingDate': new FormControl(this.bookingDetails.cargoMovingDate),
-        'cutOffDate': new FormControl(this.bookingDetails.cutOffDate),
+        'portCutOffDate': new FormControl(this.bookingDetails.portCutOffDate),
         'delieveryEta': new FormControl(this.bookingDetails.delieveryEta),
-        'rateCutOffDateTime': new FormControl(this.bookingDetails.rateCutOffDateTime),
+        'railCutOffDateTime': new FormControl(this.bookingDetails.railCutOffDateTime),
         'sailDate': new FormControl(this.bookingDetails.sailDate),
 
-        'loadTerminal': new FormControl(this.bookingDetails.loadTerminal),
+        'emptyContainerPickup': new FormControl(this.bookingDetails.emptyContainerPickup),
+        'ingateAtTerminal': new FormControl(this.bookingDetails.ingateAtTerminal),
         'placeOfDelivery': new FormControl(this.bookingDetails.placeOfDelivery),
         'placeOfReceipt': new FormControl(this.bookingDetails.placeOfReceipt),
         'portOfDischarge': new FormControl(this.bookingDetails.portOfDischarge),
@@ -253,6 +276,27 @@ export class BookingComponent implements OnInit {
         'remarks': new FormControl(this.bookingDetails.remarks)
       }
     );
+    this.customerFormGroup = new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'address': new FormControl(null, Validators.required),
+      'city': new FormControl(null, Validators.required),
+      'state': new FormControl(null, Validators.required),
+      'country': new FormControl(null, Validators.required),
+      'personInCharge': new FormControl(null),
+      'email': new FormControl(null, [Validators.required, Validators.email]),
+      'phone': new FormControl(null, Validators.required)
+    }
+    );
+    this.placeFormGroup = new FormGroup({
+      'name': new FormControl(null, Validators.required),
+      'address': new FormControl(null, Validators.required),
+      'city': new FormControl(null, Validators.required),
+      'state': new FormControl(null, Validators.required),
+      'country': new FormControl(null, Validators.required),
+      'code': new FormControl(null),
+      'timeZoneId': new FormControl(null, [Validators.required, Validators.required])
+    }
+    );
 //    this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
     this.statusList = [{label: 'Select Status', value: 'null'},
       {label: 'Pending', value: 'PENDING'},
@@ -260,11 +304,36 @@ export class BookingComponent implements OnInit {
       {label: 'Hold', value: 'HOLD'},
       { label: 'Approved', value: 'APPROVED'},
       {label: 'Cancelled', value: 'CANCELLED'}];
-    this.createdVessel.country = new Country();
+  
+      this.serviceTypeList = [{label: 'Door to Door', value: 'Door to Door'}, 
+                              {label: 'Port to Port', value: 'Port to Port'},
+                              {label: 'Door to Port', value: 'Door to Port'},
+                              {label: 'Port to Door', value: 'Port to Door'}];
+      this.createdVessel.country = new Country();
+      /* this.createdCustomer.city = new City();
+      this.createdCustomer.city.state = new State();
+      this.createdCustomer.city.state.name = null;
+      this.createdCustomer.city.state.country = new Country();
+      this.createdCustomer.city.state.country.name = null;
+       */
+
+      this.initializeTimeZoneIds(); 
+
+  }
+
+  initializeTimeZoneIds() {
+    this.timezoneIdList = [];
+    this.bookingDetailSvc.getTimeZones().subscribe(
+      (response) => {
+       const timezones: TimeZone[] = response.json();
+       console.log(timezones.toString());
+       timezones.forEach(item => this.timezoneIdList.push({label: item.timeZoneId, value: item.timeZoneId}))
+       }
+    ); 
   }
 
   onAccountSelection(event: Customer) {
-    this.bookingDetails.account = event;
+    this.bookingDetails.billTo = event;
     console.log(event);
   }
 
@@ -273,7 +342,7 @@ export class BookingComponent implements OnInit {
     console.log(event);
   }
 
-  search(event, key, branchkey) {
+  search(event, key) {
     const query = event.query;
     if (key === 'place') {
        this.filterPlaces(query);
@@ -285,7 +354,11 @@ export class BookingComponent implements OnInit {
         this.filterDivisions(query);
     }else if (key === 'lineOfBusiness') {
         this.filterLOBs(query);
-    }
+    }else if (key === 'city') {
+      this.filterCities(query);
+  }else if(key === 'vessel'){
+    this.filterVessels(query);
+  }
 
   }
 
@@ -307,38 +380,29 @@ export class BookingComponent implements OnInit {
               this.filteredPlaces = res.json();
               console.log('got response from DB :' + res.json());
           });
-    // this.filteredPlaces = [];
-    // const filtered: any[] = [];
-    /*for (let i = 0; i < this.allPlaces.length; i++) {
-      const place = this.allPlaces[i];
-      if ( place.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        this.filteredPlaces.push(place);
-      }
-    }*/
+    
       return this.filteredPlaces;
-    /*return filtered;*/
+    
   }
 
   filterPersons(query) {
-    this.filteredPersons = [];
-    /*const filtered: any[] = [];*/
-    for (let i = 0; i < this.allPersons.length; i++) {
-      const person = this.allPersons[i];
-      if ( person.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        this.filteredPersons.push(person);
-      }
-    }
-    /*return filtered;*/
+    this.bookingDetailSvc.getPersons(query).
+    subscribe(
+        (res: any) => {
+            this.filteredPersons = res.json();
+            console.log('got response from DB :' + res.json());
+        });
+  
+    return this.filteredPersons;
+  
   }
   filterDivisions(query) {
-    this.filteredDivisions = [];
-    for (let i = 0; i < this.allDivisions.length; i++) {
-      const division = this.allDivisions[i];
-      if ( division.name.toLowerCase().indexOf(query.toLowerCase()) === 0) {
-        this.filteredDivisions.push(division);
-      }
-    }
-
+    this.bookingDetailSvc.getDivisions(query).
+    subscribe(
+        (res: any) => {
+            this.filteredDivisions = res.json();
+        });
+    return this.filteredDivisions;
   }
 
   filterLOBs(query) {
@@ -351,35 +415,40 @@ export class BookingComponent implements OnInit {
     }
   }
 
+  filterCities(query) {
+    this.bookingDetailSvc.getCities(query).
+    subscribe(
+        (res: any) => {
+            this.filteredCities = res.json();
+            console.log('got response from DB :' + res.json().toString());
+            const cities:City[] = res.json();
+            console.log(JSON.stringify(cities));
+            console.log('cities:'+ JSON.stringify(cities));
+        });
+  
+    return this.filteredCities;
+ }
+
+ filterVessels(query) {
+  this.bookingDetailSvc.getVessels(query).
+  subscribe(
+      (res: any) => {
+          this.filteredVessels = res.json();
+        });
+
+  return this.filteredCities;
+ 
+}
+
   onPlaceSelection(event: Place, place: string) {
+    this.bookingDetailFormGroup.get(place).setValue(event);
     console.log(event);
 
 }
-  onCustomerSelection(event: Customer, customer: string) {
-    console.log(event);
+
+  saveAndExit(){
+    this.router.navigate(['/booking-list']);
   }
-
-  onLOBSelection(event: BusinessLine, lob: string) {
-    console.log(event);
-  }
-
-  onDivisionSelection(event: Division, division: string) {
-    console.log(event);
-  }
-
-  onMovementTypeSelection(event: MovementType, movementType: string) {
-    console.log(event);
-  }
-
-  onVesselSelection(event: Vessel, vessel: string) {
-    console.log(event);
-  }
-
-
-  onPersonSelection(event: Person, person: string) {
-    console.log(event);
-  }
-
   saveAndNext() {
     this.populateBooking(this.bookingDetailFormGroup, this.bookingDetails);
     this.msgsGrowl = [];
@@ -387,15 +456,15 @@ export class BookingComponent implements OnInit {
     this.disableScreen = true;
 
     let jsonString = JSON.stringify(this.bookingDetails);
-//     console.log('json String:' + jsonString);
+     console.log('json String:' + jsonString);
     jsonString = JSON.parse(jsonString);
 
 
     DateHelper.removeTimeAndTimeZone(jsonString);
-
+if(isNullOrUndefined(this.bookingDetails.id)){
     this.bookingDetailSvc.saveBooking(jsonString).subscribe(
       (response: any) => {
-        const generatedBookingId = response.headers.get('bookingId');
+        const generatedBookingId = response.headers.get('bookingid');
         const body = response.json();
       //  console.log('Retieving Json in Save before conversion stringified: ' + JSON.stringify(body));
         DateHelper.convertDateStringsToDates(body);
@@ -418,6 +487,7 @@ export class BookingComponent implements OnInit {
         this.msgsGrowl.push(
           {severity: 'info', summary: 'Booking saved', detail: 'Booking is saved with id:' + generatedBookingId});
         this.disableScreen = false;
+        this.bookingDetailSvc.activeIndex = 1;
       },
       error => {console.log(error);
         this.disableScreen = false;
@@ -429,6 +499,11 @@ export class BookingComponent implements OnInit {
 
       }
     );
+  }else{
+    this.disableScreen = false;
+    
+    this.bookingDetailSvc.activeIndex = 1;
+  }
   }
 
   populateFormGroup(form: FormGroup, booking: Booking) {
@@ -445,7 +520,7 @@ export class BookingComponent implements OnInit {
 
   populateBooking(form: FormGroup, booking: Booking) {
     for ( const field of this.fieldsSet ) {
-        if (!isNullOrUndefined(form.get(field))) {
+      if (!isNullOrUndefined(form.get(field))) {
           booking[field] = form.get(field).value;
         } else {
           console.log('Field is undefined or null :' + field + ' : value: ' );
@@ -475,37 +550,37 @@ export class BookingComponent implements OnInit {
         (res: any) => {
           this.allClients = res.json();
         });
-    }else if (key === 'person') {
+    }/* else if (key === 'person') {
       this.bookingDetailSvc.getPersons().
       subscribe(
         (res: any) => {
           this.allPersons = res.json();
         });
-    } else if (key === 'lineOfBusiness') {
+    } */ else if (key === 'lineOfBusiness') {
       this.bookingDetailSvc.getBusinessLines().
       subscribe(
         (res: any) => {
           this.allLOBs = res.json();
         });
-    }else if (key === 'vessel') {
+    }/* else if (key === 'vessel') {
       this.bookingDetailSvc.getVessels().
       subscribe(
         (res: any) => {
           this.allVessels = res.json();
         });
-    } else if (key === 'typeOfMove') {
+    }  */else if (key === 'typeOfMove') {
       this.bookingDetailSvc.getMovementTypess().
       subscribe(
         (res: any) => {
           this.allMoveTypes = res.json();
         });
-    }else if (key === 'division') {
+    }/* else if (key === 'division') {
       this.bookingDetailSvc.getDivisions().
       subscribe(
         (res: any) => {
           this.allDivisions = res.json();
         });
-    }
+    } */
 
   }
 
@@ -514,76 +589,141 @@ export class BookingComponent implements OnInit {
   }
 
 
-  displayPlace(event: Event, placeId: string, overlaypanel: OverlayPanel, label: string) {
+  displayPlace(event: Event, placeId: string, dialog: Dialog, label: string) {
     const place = this.bookingDetailFormGroup.get(placeId).value;
     this.hoveredLabel = label;
     this.hoveredPlaceId = placeId;
     this.hoveredPlaceId = placeId;
     if (place != null && place.id != null) {
      this.createdPlace = place;
+     this.populatePlaceFormGroup(place);
      this.displayOnly = true;
     } else {
       this.hoveredPlace = null;
       this.displayOnly = false;
       this.createdPlace = new Place();
+      this.populatePlaceFormGroup(this.createdPlace);
     }
-    overlaypanel.toggle(event);
+      this.showDialog(dialog);
   }
 
-  createPlace(overlaypanel: OverlayPanel, event: Event) {
+  populatePlaceFormGroup(place: Place){
+    this.placeFormGroup.get('name').setValue(place.name);
+    this.placeFormGroup.get('code').setValue(place.code);
+    this.placeFormGroup.get('address').setValue(place.address);
+    
+    if(!isNullOrUndefined(place.city)){
+      this.placeFormGroup.get('city').setValue(place.city);
+      if(!isNullOrUndefined(place.city.state)){
+        this.placeFormGroup.get('state').setValue(place.city.state.name);
+        if(!isNullOrUndefined(place.city.state)){
+          this.placeFormGroup.get('country').setValue(place.city.state.country.name);
+        }
+      }
+    }else{
+      this.placeFormGroup.get('city').setValue(null);
+      this.placeFormGroup.get('state').setValue(null);
+      this.placeFormGroup.get('country').setValue(null);
+    }
+    
+    this.placeFormGroup.get('timeZoneId').setValue(place.timeZoneId);
+  }
+  populateCustomerFormGroup(customer: Customer){
+    this.customerFormGroup.get('name').setValue(customer.name);
+    this.customerFormGroup.get('address').setValue(customer.address);
+    this.customerFormGroup.get('city').setValue(customer.city);
+    this.customerFormGroup.get('email').setValue(customer.email);
+    this.customerFormGroup.get('phone').setValue(customer.phone);
+    this.customerFormGroup.get('personInCharge').setValue(customer.personInCharge);
 
-      console.log('place event : ' + event);
-      console.log('place panel : ' + overlaypanel);
+    if(!isNullOrUndefined(customer.city)){
+      this.customerFormGroup.get('city').setValue(customer.city);
+      if(!isNullOrUndefined(customer.city.state)){
+        this.customerFormGroup.get('state').setValue(customer.city.state.name);
+        if(!isNullOrUndefined(customer.city.state)){
+          this.customerFormGroup.get('country').setValue(customer.city.state.country.name);
+        }
+      }
+  }else{
+    this.customerFormGroup.get('city').setValue(null);
+    this.customerFormGroup.get('state').setValue(null);
+    this.customerFormGroup.get('country').setValue(null);
+  }
+  }
+
+  createPlace(dialog: Dialog, event: Event) {
+
+    this.displayOnly = true;
+    this.createdPlace.name = this.placeFormGroup.get('name').value;
+    this.createdPlace.code = this.placeFormGroup.get('code').value;
+    this.createdPlace.address = this.placeFormGroup.get('address').value;
+    this.createdPlace.city = this.placeFormGroup.get('city').value;
+    this.createdPlace.timeZoneId = this.placeFormGroup.get('timeZoneId').value;
+    
+
     this.bookingDetailSvc.savePlace(this.createdPlace).subscribe(
-      (response: any) => {
-          console.log('place json : ' + response.json());
-        const body = response.json();
-        console.log('place json : ' + body);
-
-        this.bookingDetails[this.hoveredPlaceId] = response.json();
-        this.bookingDetailFormGroup.get(this.hoveredPlaceId).setValue(body);
-        overlaypanel.toggle(event);
+      (response) => {
+        const headers = response.headers;
+        this.createdPlace.id = Number(headers.get('placeid'));
+        // this.bookingDetails[this.hoveredPlaceId] = response.json();
+        this.bookingDetailFormGroup.get(this.hoveredPlaceId).setValue(this.createdPlace);
+        this.closePlaceDialog(dialog, event);
+        
+        this.displayOnly = false;
       },
       error => {console.log(error);
-
+        this.displayOnly = false;
         this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
-      },
-      success => {
-        console.log(success);
-
       }
     );
   }
 
-  displayCustomer(event: Event, customerId: string, overlaypanel: OverlayPanel, label: string) {
+  displayCustomer(event: Event, customerId: string, dialog: Dialog, label: string) {
     const customer = this.bookingDetailFormGroup.get(customerId).value;
     this.hoveredLabel = label;
     this.hoveredCustomerId = customerId;
     if (customer != null && customer.id != null) {
       this.createdCustomer = customer;
+      this.populateCustomerFormGroup(customer);
       this.displayOnly = true;
 
     } else {
       this.hoveredCustomer = null;
       this.displayOnly = false;
       this.createdCustomer = new Customer();
+      this.createdCustomer.city = new City();
+      this.createdCustomer.city.state = new State();
+      this.createdCustomer.city.state.country = new Country();
+      this.populateCustomerFormGroup(this.createdCustomer);
+      
     }
-    overlaypanel.toggle(event);
+     this.showDialog(dialog);
   }
 
-  createCustomer(event: Event) {
-
+  createCustomer(dialog: Dialog, event: Event) {
+    this.displayOnly = true;
+    this.createdCustomer.name = this.customerFormGroup.get('name').value;
+    this.createdCustomer.address = this.customerFormGroup.get('address').value;
+    this.createdCustomer.city = this.customerFormGroup.get('city').value;
+    this.createdCustomer.email = this.customerFormGroup.get('email').value;
+    this.createdCustomer.phone = this.customerFormGroup.get('phone').value;
+    this.createdCustomer.personInCharge = this.customerFormGroup.get('personInCharge').value;
+    
     this.bookingDetailSvc.saveCustomer(this.createdCustomer).subscribe(
       (response: Response) => {
 
         const customerId = response.headers.get('customerId');
         console.log('customer id : ' + customerId);
         this.createdCustomer.id = Number(customerId);
-        this.bookingDetails[this.hoveredCustomerId] = this.createdCustomer;
+        // this.bookingDetails[this.hoveredCustomerId] = this.createdCustomer;
+        this.bookingDetailFormGroup.get(this.hoveredCustomerId).setValue(this.createdCustomer);
+       this.closeCustomerDialog(dialog, event);
+        this.displayOnly = false;
+        this.msgsGrowl.push({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Success'});
       },
-      error => {console.log(error);
-
+      error => {
         this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        this.displayOnly = true;
       },
       success => {
         console.log(success);
@@ -592,7 +732,7 @@ export class BookingComponent implements OnInit {
     );
   }
 
-  displayLineOfBusiness(event: Event, businessLineId: string, overlaypanel: Dialog, label: string) {
+  displayLineOfBusiness(event: Event, businessLineId: string, dialog: Dialog, label: string) {
       const businessLine = this.bookingDetailFormGroup.get(businessLineId).value;
     this.hoveredLabel = label;
     this.hoveredBusinessLineId = businessLineId;
@@ -606,15 +746,39 @@ export class BookingComponent implements OnInit {
       this.createdBusinessLine = new BusinessLine();
     }
 
-    overlaypanel.visible = true;
-    // this.showDialog = true;
+    this.showDialog(dialog);
   }
+    showDialog(dialog: Dialog) {
+        dialog.visible = true;
+    }
 
     closeDialog(dialog: Dialog, event: Event) {
+      
       dialog.visible = false;
-      dialog.close(event);
+     //  dialog.close(event);
     }
-  createLineOfBusiness(event: Event) {
+    closePlaceDialog(dialog: Dialog, event: Event) {
+      dialog.visible = false;
+    //  dialog.close(event);
+      this.placeFormGroup.get('name').setValue(null);
+      this.placeFormGroup.get('code').setValue(null);
+      this.placeFormGroup.get('address').setValue(null);
+      this.placeFormGroup.get('city').setValue(null);
+      this.placeFormGroup.get('state').setValue(null);
+      this.placeFormGroup.get('country').setValue(null);
+      this.placeFormGroup.get('timeZoneId').setValue(null);
+
+    }
+    closeCustomerDialog(dialog: Dialog, event: Event) {
+      dialog.visible = false;
+      //dialog.close(event);
+      this.customerFormGroup.get('name').setValue(null);
+      this.customerFormGroup.get('address').setValue(null);
+      this.customerFormGroup.get('city').setValue(null);
+      this.customerFormGroup.get('email').setValue(null);
+      this.customerFormGroup.get('phone').setValue(null);
+    }
+  createLineOfBusiness(dialog: Dialog, event: Event) {
 
     this.bookingDetailSvc.saveBusinessLine(this.createdBusinessLine).subscribe(
       (response: any) => {
@@ -652,7 +816,7 @@ export class BookingComponent implements OnInit {
     dialog.visible = true;
   }
 
-  createDivision(event: Event) {
+  createDivision(dialog: Dialog, event: Event) {
 
     this.bookingDetailSvc.saveDivision(this.createdDivision).subscribe(
       (response: any) => {
@@ -688,7 +852,7 @@ export class BookingComponent implements OnInit {
     dialog.visible = true;
   }
 
-  createMovementType(event: Event) {
+  createMovementType(dialog: Dialog, event: Event) {
 
     this.bookingDetailSvc.saveMovementType(this.createdMovementType).subscribe(
       (response: any) => {
@@ -709,7 +873,7 @@ export class BookingComponent implements OnInit {
     );
   }
 
-  displayPerson(event: Event, personId: string, overlaypanel: OverlayPanel, label: string) {
+  displayPerson(event: Event, personId: string, dialog: Dialog, label: string) {
     const person = this.bookingDetailFormGroup.get(personId).value;
     this.hoveredLabel = label;
     this.hoveredPersonId = personId;
@@ -721,23 +885,26 @@ export class BookingComponent implements OnInit {
       this.hoveredPerson = null;
       this.displayOnly = false;
       this.createdPerson = new Person();
+      
     }
-    overlaypanel.toggle(event);
+    dialog.visible = true;
   }
 
-  createPerson(event: Event) {
-
+  createPerson(dialog: Dialog, event: Event) {
+    this.displayOnly = true;
     this.bookingDetailSvc.savePerson(this.createdPerson).subscribe(
       (response: any) => {
 
-        const body = response.json();
-        console.log('Person json : ' + body);
-
-        this.bookingDetails[this.hoveredPersonId] = body;
+        const personid = Number(response.headers.get('personid'));
+        this.createdPerson.id = personid;
+        this.bookingDetailFormGroup.get(this.hoveredPersonId).setValue(this.createdPerson);
+        this.displayOnly = false;
+        dialog.visible = false;
       },
       error => {console.log(error);
 
         this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        this.displayOnly = true;
       },
       success => {
         console.log(success);
@@ -767,18 +934,21 @@ export class BookingComponent implements OnInit {
     dialog.visible = true;
   }
 
-  createVessel(event: Event) {
-
+  createVessel(dialog: Dialog, event: Event) {
+    this.displayOnly = true;
     this.bookingDetailSvc.saveVessel(this.createdVessel).subscribe(
       (response: any) => {
 
-        const body = response.json();
-        console.log('Vessel json : ' + body);
-
-        this.bookingDetails[this.hoveredVesselId] = body;
+        const vesselid = Number(response.headers.get('vesselid'));
+        this.createdVessel.id = vesselid;
+        this.bookingDetailFormGroup.get(this.hoveredVesselId).setValue(this.createdVessel);
+       // this.bookingDetails[this.hoveredVesselId] = this.createdVessel;
+        this.closeDialog(dialog, event);
+        this.displayOnly = false;
+        this.msgsGrowl.push({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Succeeded'});
       },
       error => {console.log(error);
-
+        this.displayOnly = false;
         this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
       },
       success => {
@@ -816,5 +986,16 @@ export class BookingComponent implements OnInit {
           }
       );
   }
+  onCitySelection(formGroup: FormGroup){
+    const city = formGroup.get('city').value;
+    formGroup.get('state').setValue(city.state.name);
+    formGroup.get('country').setValue(city.state.country.name);
+  }
+  
+  onCustomerSelection(event: Event, customer: string){}
 
+  clearPlace(formGroup: FormGroup, fieldControl: string){
+   formGroup.get(fieldControl).setValue(null);
+    this.createdPlace = null;
+  }
 }

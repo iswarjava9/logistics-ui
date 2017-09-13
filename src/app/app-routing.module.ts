@@ -6,13 +6,18 @@ import {BookingListComponent} from './web/suis/bookings/booking-list/booking-lis
 import {QuoteDetailComponent} from './web/suis/quotes/quote-detail/quote-detail.component';
 import {BookingDetailComponent} from './web/suis/bookings/booking-detail/booking-detail.component';
 
+import {HomeComponent} from './web/suis/shared/home/home.component';
+import {CallbackComponent} from './web/suis/shared/callback/callback.component';
+import {AuthgaurdService} from './web/suis/shared/auth/authgaurd.service';
+
 const logisoftAppRoutes: Routes = [
-  { path: '', redirectTo: '/quote-list', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
   { path: 'quote-list', component: QuoteListComponent },
-  { path: 'booking-list', component: BookingListComponent },
-  { path: 'quote-detail', component: QuoteDetailComponent },
-  { path: 'booking-detail', component: BookingDetailComponent },
-  { path: 'booking-detail/:id', component: BookingDetailComponent }
+  { path: 'booking-list', component: BookingListComponent},
+  { path: 'quote-detail', component: QuoteDetailComponent},
+  { path: 'booking-detail', component: BookingDetailComponent},
+  { path: 'booking-detail/:id', component: BookingDetailComponent}
 ];
 
 @NgModule({

@@ -1,7 +1,7 @@
+import { Booking } from './../../../../models/booking.model';
 import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions, ResponseContentType} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {Booking} from '../../../../models/booking.model';
 import {Customer} from '../../../../models/customer.model';
 import {Place} from '../../../../models/place.model';
 import {BusinessLine} from '../../../../models/businessLine.model';
@@ -13,85 +13,109 @@ import {Vessel} from '../../../../models/vessel.model';
 
 @Injectable()
 export class BookingService {
-  headers: Headers = new Headers();
+  public activeIndex = 0;
+  public bookingDetails: Booking;
 
+  headers: Headers = new Headers();
+  private options: RequestOptions ;
+  HOST = 'http://localhost:8080';
   constructor(private http: Http) {
     this.headers.append('Accept', 'application/json');
     this.headers.append('Content-Type', 'application/json');
+    this.options = new RequestOptions({headers: this.headers});
 
   }
-
-
+updateBooking(bookig: Booking){
+  this.bookingDetails = bookig;
+}
+getBookingId(){
+  return this.bookingDetails.id;
+}
+getBookingDetails(){
+  return this.bookingDetails;
+}
   getBooking(bookingId: number): any {
-    return this.http.get('http://localhost:8080/logistics/booking/' + bookingId, this.headers);
+    return this.http.get( this.HOST + '/logistics/booking/' + bookingId,this.options);
   }
 
   saveBooking(booking): any {
 
-    return this.http.post('http://localhost:8080/logistics/booking', booking, this.headers );
+    return this.http.post(this.HOST + '/logistics/booking', booking, this.options );
   }
 
   getPlaces(query: string) {
-    return this.http.get('http://localhost:8080/logistics/place/byname/'  + query, this.headers);
+    return this.http.get(this.HOST + '/logistics/place/byname/'  + query, this.options);
   }
 
   getCustomers(query: string) {
-    return this.http.get('http://localhost:8080/logistics/customer/byname/'  + query, this.headers);
+    return this.http.get(this.HOST + '/logistics/customer/byname/'  + query, this.options);
   }
 
-  getPersons() {
-    return this.http.get('http://localhost:8080/logistics/person/list', this.headers);
+  getPersons(query: string) {
+    return this.http.get(this.HOST + '/logistics/person/byname/' + query, this.options);
   }
 
   getClients() {
-    return this.http.get('http://localhost:8080/logistics/client/list', this.headers);
+    return this.http.get(this.HOST + '/logistics/client/list', this.options);
   }
 
   getBusinessLines() {
-    return this.http.get('http://localhost:8080/logistics/businessline/list', this.headers);
+    return this.http.get(this.HOST + '/logistics/businessline/list', this.options);
   }
 
-  getVessels() {
-    return this.http.get('http://localhost:8080/logistics/vessel/list', this.headers);
+  getVessels(query: string) {
+    return this.http.get(this.HOST + '/logistics/vessel/byname/' + query, this.options);
   }
   getMovementTypess() {
-    return this.http.get('http://localhost:8080/logistics/movementtype/list', this.headers);
+    return this.http.get(this.HOST + '/logistics/movementtype/list', this.options);
   }
-  getDivisions() {
-    return this.http.get('http://localhost:8080/logistics/division/list', this.headers);
+  getDivisions(query: string) {
+    return this.http.get(this.HOST + '/logistics/division/byName' + query, this.options);
   }
 
+
+  getCities(query: string) {
+    return this.http.get(this.HOST + '/logistics/region/city/byname/' + query, this.options);
+  }
   savePlace(place: Place): any {
-    return this.http.post('http://localhost:8080/logistics/place', place, this.headers );
+     this.headers.append('observe', 'response');
+      this.options = new RequestOptions({headers: this.headers});
+    return this.http.post(this.HOST + '/logistics/place', place, this.options  );
   }
   saveCustomer(customer: Customer): any {
-    return this.http.post('http://localhost:8080/logistics/customer', customer, this.headers );
+    return this.http.post(this.HOST + '/logistics/customer', customer, this.options );
   }
   saveBusinessLine(businessLine: BusinessLine): any {
-    return this.http.post('http://localhost:8080/logistics/businessline', businessLine, this.headers );
+    return this.http.post(this.HOST + '/logistics/businessline', businessLine, this.options );
   }
   saveDivision(division: Division): any {
-    return this.http.post('http://localhost:8080/logistics/division', division, this.headers );
+    return this.http.post(this.HOST + '/logistics/division', division, this.options );
   }
   saveMovementType(movementType: MovementType): any {
-    return this.http.post('http://localhost:8080/logistics/movementtype', movementType, this.headers );
+    return this.http.post(this.HOST + '/logistics/movementtype', movementType, this.options );
   }
   savePerson(person: Person): any {
-    return this.http.post('http://localhost:8080/logistics/person', person, this.headers );
+    return this.http.post(this.HOST + '/logistics/person', person, this.options );
   }
 
   saveVessel(vessel: Vessel): any {
-    return this.http.post('http://localhost:8080/logistics/person', vessel, this.headers );
+    return this.http.post(this.HOST + '/logistics/vessel', vessel, this.options );
   }
   getPDF(id: number): any {
       const headers = new Headers({
-          'Content-Type': 'application/json',
-          'Accept': 'application/pdf'
+          'Content-Type': 'application/pdf',
+          'Accept': 'application/pdf',
+          
       });
+      
       const options = new RequestOptions({ headers: headers });
 // Ensure you set the responseType to Blob.
       options.responseType = ResponseContentType.Blob;
 
-      return this.http.get('http://localhost:8080/logistics/booking/download/' + id, options);
+      return this.http.get(this.HOST + '/logistics/booking/download/' + id, options);
+  }
+
+  getTimeZones(){
+    return this.http.get(this.HOST + '/logistics/region/timezones' , this.options);
   }
 }

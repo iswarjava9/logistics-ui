@@ -1,3 +1,4 @@
+import { ContainerService } from './web/suis/bookings/booking-detail/container/service/container.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpModule} from '@angular/http';
@@ -18,7 +19,10 @@ import {GrowlModule} from 'primeng/components/growl/growl';
 import {DialogModule} from 'primeng/components/dialog/dialog';
 import {InputTextareaModule} from 'primeng/components/inputtextarea/inputtextarea';
 import {BlockUIModule} from 'primeng/components/blockui/blockui';
+import {InputMaskModule} from 'primeng/components/inputMask/inputMask';
 
+import {AuthService} from './web/suis/shared/auth/auth.service';
+import {AuthgaurdService} from './web/suis/shared/auth/authgaurd.service';
 
 
 /*import {SharedModule} from 'primeng/Shared';*/
@@ -39,12 +43,16 @@ import { ContainerComponent } from './web/suis/bookings/booking-detail/container
 import { ChargesComponent } from './web/suis/bookings/booking-detail/charges/charges.component';
 import {BookingService} from './web/suis/bookings/booking-detail/booking/service/booking.service';
 import {SpinnerComponent} from './web/suis/shared/spinner/spinner.component';
+import {HomeComponent} from './web/suis/shared/home/home.component';
+import {CallbackComponent} from './web/suis/shared/callback/callback.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    HomeComponent,
+    CallbackComponent,
     QuoteListComponent,
     QuoteDetailComponent,
     BookingListComponent,
@@ -75,9 +83,10 @@ import {SpinnerComponent} from './web/suis/shared/spinner/spinner.component';
     ReactiveFormsModule,
     FormsModule,
     CalendarModule,
-    BlockUIModule
+    BlockUIModule,
+    InputMaskModule
   ],
-  providers: [BookingListService, BookingService ],
+  providers: [AuthService, AuthgaurdService, BookingListService, BookingService, ContainerService, BookingDetailService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

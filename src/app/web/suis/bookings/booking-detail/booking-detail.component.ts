@@ -1,3 +1,4 @@
+import { BookingDetailService } from './service/booking-detail.service';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {MenuItem} from 'primeng/components/common/MenuItem';
@@ -12,6 +13,7 @@ export class BookingDetailComponent implements OnInit {
 
   stepItems: MenuItem[];
   activeIndex = 0;
+  constructor(private bookingSvc: BookingDetailService){}
   ngOnInit() {
     this.stepItems = [
       {label: 'Booking Details'},
@@ -23,5 +25,9 @@ export class BookingDetailComponent implements OnInit {
   changeBookingDetailsView(event: Event) {
 
     console.log(event);
+  }
+
+  nextActiveIndex(){
+    // this.activeIndex++;
   }
 }

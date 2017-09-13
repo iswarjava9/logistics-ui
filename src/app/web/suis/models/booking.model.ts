@@ -31,26 +31,26 @@
     public docsReceivedDate: Date;
     public eta: Date;
     public bookingDate: Date;
-    public ammendedDate: Date;
+    public amendmentDate: Date;
     public cargoMovingDate: Date;
-    public cutOffDate: Date;
+    public portCutOffDate: Date;
     public delieveryEta: Date;
-    public rateCutOffDateTime: Date;
+    public railCutOffDateTime: Date;
     public sailDate: Date;
 
     // Parties
     public client: Client;
     public user: User;
-    public foreignAgent: Customer;
-    public account: Customer;
+    public deliveryAgent: Customer;
+    public billTo: Customer;
     public consignee: Customer;
     public localSSLineOffice: Customer;
-    public notify: Customer;
+    public notify1: Customer;
     public notify2: Customer;
     public shipper: Customer;
     public carrier: Customer;
 
-    public forwarder: Customer;
+    public bookingAgent: Customer;
     public lineOfBusiness: BusinessLine;
     public salesRepresentative: Person;
     public typeOfMove: MovementType;
@@ -60,7 +60,8 @@
     /*public carrier: Place;*/
 
     // Places
-    public loadTerminal: Place;
+    public emptyContainerPickup: Place;
+    public ingateAtTerminal: Place;
     public placeOfDelivery: Place;
     public placeOfReceipt: Place;
     public portOfDischarge: Place;
