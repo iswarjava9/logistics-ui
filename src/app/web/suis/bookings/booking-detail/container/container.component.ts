@@ -317,28 +317,21 @@ cancelBooking(){
   this.msgsGrowl = [];
   this.disableScreen = true;
   this.bookingDetails.bookingStatus = 'CANCELLED';
-  this.msgsGrowl.push(
-    {severity: 'info', summary: 'Cancel Booking', detail: 'Cancelling Booking...'});
+  this.msgsGrowl.push({severity: 'info', summary: 'Cancel Booking', detail: 'Cancelling Booking...'});
   
     this.bookingSvc.modifyBooking(this.bookingSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
     (response: any) => {
       const body = response.json();
       DateHelper.convertDateStringsToDates(body);
        this.bookingDetails = body;
-   
-      this.msgsGrowl.push(
-        {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'});
-      this.disableScreen = false;
+       this.bookingSvc.updateBooking(this.bookingDetails);   
+       this.disableScreen = false;
+       this.msgsGrowl.push({severity: 'info', summary: 'Cancel Booking', detail: 'Booking is cancelled'});     
     },
     error => {console.log(error);
       this.disableScreen = false;
       this.msgsGrowl.push({severity: 'error', summary: 'Cancellation failed', detail: 'Booking cancellation is failed'});
-      },
-    success => {
-      console.log(success);
-      this.disableScreen = false;
-
-    }
+      }
   );
 }
 
@@ -368,12 +361,7 @@ confirmBooking(){
     error => {console.log(error);
       this.disableScreen = false;
       this.msgsGrowl.push({severity: 'error', summary: 'Confirmation failed', detail: 'Booking confirmation is failed'});
-      },
-    success => {
-      console.log(success);
-      this.disableScreen = false;
-
-    }
+      }
   );
 }
 
