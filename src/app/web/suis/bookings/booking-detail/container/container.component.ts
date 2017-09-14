@@ -357,12 +357,12 @@ confirmBooking(){
 
 
    DateHelper.removeTimeAndTimeZone(jsonString);
-    this.bookingSvc.modifyBooking(jsonString).subscribe(
+    this.bookingSvc.modifyBooking(this.bookingSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
     (response: any) => {
       const body = response.json();
       DateHelper.convertDateStringsToDates(body);
        this.bookingDetails = body;
-   
+      this.bookingSvc.updateBooking(this.bookingDetails);   
       this.msgsGrowl.push(
         {severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
       this.disableScreen = false;
