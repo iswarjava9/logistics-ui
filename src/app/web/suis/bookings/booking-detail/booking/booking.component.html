@@ -482,7 +482,7 @@
       </form>
     </div>
 
-    <p-dialog #opPlaces appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false">
+    <p-dialog #opPlaces appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false" width="650" [contentStyle]="{'overflow':'visible'}">
     <form [formGroup]="placeFormGroup" >
       <div class="row">
             <div class="ui-g-8 ui-md-6">
