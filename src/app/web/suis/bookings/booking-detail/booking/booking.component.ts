@@ -329,7 +329,7 @@ export class BookingComponent implements OnInit {
       (response) => {
        const timezones: TimeZone[] = response.json();
        console.log(timezones.toString());
-       timezones.forEach(item => this.timezoneIdList.push({label: item.timeZoneId, value: item.timeZoneId}))
+       timezones.forEach(item => this.timezoneIdList.push({label: item.timeZoneId + ' - ' + item.timeZoneShortName, value: item.timeZoneId}))
        }
     ); 
     this.bookingDetailSvc.updateBooking(this.bookingDetails);
@@ -501,7 +501,7 @@ export class BookingComponent implements OnInit {
         DateHelper.convertDateStringsToDates(body);
    
         this.bookingDetails = body;
-
+console.log('Updated booking:' + JSON.stringify(body));
          this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
            
         this.msgsGrowl.push(
