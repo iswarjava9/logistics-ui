@@ -2,40 +2,11 @@
   <div>
     <p-growl [value]="msgsGrowl" life="3000"></p-growl>
   </div>
-  
-  <div class="ui-g-12 ui-md-6">
-    <div class="ui-g-4">Container Type:</div>
-    <div class="ui-g-8">
-      <p-autoComplete delay="500" minlength="3" [suggestions]="filteredContainerTypes"
-                      (completeMethod)="search($event, 'containerType')" field="type"
-                      [(ngModel)]="containerType"></p-autoComplete>
-
-      <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayDialog($event, dialogContainerType)">
-      </button>
-    </div>
-  </div>
-  <div class="ui-g-12 ui-md-6">
-    <div class="ui-g-4">Commodity:</div>
-    <div class="ui-g-8">
-      <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCommodities"
-                      (completeMethod)="search($event, 'commodity')" field="name"
-                      [(ngModel)]="commodity"
-      ></p-autoComplete>
-
-      <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayDialog($event, dialogCommodity)">
-      </button>
-    </div>
-  </div>
-
 </div>
+  
 <div class="row">
-  <div class="ui-g-12 ui-md-6">
-    <div class="ui-g-4">Number Of Container</div>
-    <div class="ui-g-8">
-      <input pInputText type="number" [(ngModel)]="numberOfContainers"/>
-    </div>
-  </div>
-  <button type="button"  class="btn-primary" (click)="addContainers($event)">Add Containers</button>
+  
+  <button type="button"  class="btn-primary" (click)="addContainers($event, dialogAddContainers)">Add Containers</button>
   <button type="button" class="btn-primary" (click)="createContainer($event, dialogContainer)">New Container</button>
 </div>
 
@@ -47,8 +18,9 @@
 <div> </div>
 
 <p-dataTable [(value)]="this.bookingDetails.containerDetails">
-  <p-column field="containerNo" header="Container Name"></p-column>
+  <p-column field="containerNo" header="Container Number"></p-column>
   <p-column field="containerType.type" header="Container Type"></p-column>
+  <p-column field="commodity.name" header="Commodity"></p-column>
 
 </p-dataTable>
 <br>
@@ -57,8 +29,8 @@
   <div class="ui-g-12">
     
     <button pButton label="Confirm Booking" type="submit" (click)="confirmBooking()" [disabled]="disableScreen"></button>
-    <button pButton label="Print" type="submit" (click)="print()" [disabled]="disableScreen"></button>
     <button pButton label="Cancel Booking" type="submit" (click)="cancelBooking()"></button>
+    <button pButton label="Print" type="submit" (click)="print()" [disabled]="disableScreen"></button>
     <button pButton label="Exit" type="submit" (click)="exit()"></button>
 
     <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>
@@ -257,3 +229,45 @@
             </form>
     
     </p-dialog>
+
+
+    <p-dialog #dialogAddContainers modal="true" appendTo="body" [closable]="false">
+      <div class="row">
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-4">Container Type:</div>
+        <div class="ui-g-8">
+          <p-autoComplete delay="500" minlength="3" [suggestions]="filteredContainerTypes"
+                          (completeMethod)="search($event, 'containerType')" field="type"
+                          [(ngModel)]="containerType"></p-autoComplete>
+    
+          <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayDialog($event, dialogContainerType)">
+          </button>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-4">Commodity:</div>
+        <div class="ui-g-8">
+          <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCommodities"
+                          (completeMethod)="search($event, 'commodity')" field="name"
+                          [(ngModel)]="commodity"
+          ></p-autoComplete>
+    
+          <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayDialog($event, dialogCommodity)">
+          </button>
+        </div>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-4">Number Of Container</div>
+        <div class="ui-g-8">
+          <input pInputText type="number" [(ngModel)]="numberOfContainers"/>
+        </div>
+      </div>  
+    </div>
+    <div class="row">     
+    <div class="ui-g-10">
+      <button pButton label="Add Containers" type="button" (click)="addContainersToBooking($event, dialogAddContainers)"></button>
+      <button pButton label="Close" type="button" (click)="closeDialog(dialogAddContainers)"></button>
+    </div>
+    </div>
+  </p-dialog>
+    

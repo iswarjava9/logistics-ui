@@ -1,3 +1,4 @@
+
 import {DateHelper} from '../../../util/dateHelper';
 import { BookingService } from './../booking/service/booking.service';
 import { BookingDetailService } from './../service/booking-detail.service';
@@ -78,7 +79,10 @@ export class ContainerComponent implements OnInit {
       'secondaryQuantity': new FormControl(null),
     });
    
-    this.bookingDetails = this.bookingSvc.getBookingDetails();;
+    this.bookingDetails = this.bookingSvc.getBookingDetails();
+    if(isNullOrUndefined(this.bookingDetails)){
+      this.bookingDetails = new Booking();
+    }
     if(isNullOrUndefined(this.bookingDetails.containerDetails)){
       this.bookingDetails.containerDetails = [];
     }
@@ -144,8 +148,8 @@ export class ContainerComponent implements OnInit {
   onSelectedItem(event) {
     console.log(event);
   }
-  addContainers(event: Event) {
-    console.log('Add event: ' + this.numberOfContainers);
+  addContainers(event: Event, dialog: Dialog) {
+    /* console.log('Add event: ' + this.numberOfContainers);
     console.log('booking id:' + this.bookingSvc.getBookingId());
     for (let i = 0; i < this.numberOfContainers; i++) {
       const container = new Container();
@@ -169,8 +173,39 @@ export class ContainerComponent implements OnInit {
       console.log('booking id:' + this.bookingSvc.getBookingId());
 
     }
-    this.updateContainerTypeMap();
+    this.updateContainerTypeMap(); */
+    dialog.visible = true;
   }
+
+  addContainersToBooking(event: Event, dialog: Dialog){
+    
+     console.log('Add event: ' + this.numberOfContainers);
+      console.log('booking id:' + this.bookingSvc.getBookingId());
+      for (let i = 0; i < this.numberOfContainers; i++) {
+        const container = new Container();
+        container.bookingId = this.bookingSvc.getBookingId();
+        container.containerType = this.containerType;
+        container.commodity = this.commodity;
+        if(container.bookingId != null){
+            this.containerSvc.addContainer(container).subscribe(
+              (response) => {
+                const containerid = Number(response.headers.get('containerid'));
+                container.id = containerid;
+                console.log('Container created with id: ' + containerid);
+              }
+            );
+      }
+        if(isNullOrUndefined(this.bookingDetails.containerDetails)){
+          this.bookingDetails.containerDetails = [];
+        }
+        this.bookingDetails.containerDetails.push(container);
+        console.log('Container added.. size = ' + this.containers.length);
+        console.log('booking id:' + this.bookingSvc.getBookingId());
+  
+      }
+      this.updateContainerTypeMap(); 
+      dialog.visible = false;
+    }
   updateContainerTypeMap() {
       this.containerTypeMap.clear();
       for (let i = 0; i < this.containers.length; i++) {

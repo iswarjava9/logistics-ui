@@ -72,7 +72,7 @@
 
 
     // Container details
-    public containerDetails: Container[];
+    public containerDetails: Container[] ;
 
     constructor() {}
   }

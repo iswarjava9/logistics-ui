@@ -53,19 +53,11 @@ export class BookingListComponent implements OnInit {
     /* this.bookings = this.bookingListSvc.getUpdatedList();*/
     this.statusList = [];
     this.statusList.push({label: 'All Statuses', value: null});
-   /* this.statusList.push({label: 'Created', value: {id: 1, name: 'CREATED'}});
-    this.statusList.push({label: 'Pending', value: {id: 2, name: 'PENDING'}});
-    this.statusList.push({label: 'Approved', value: {id: 3, name: 'APPROVED'}});
-    this.statusList.push({label: 'Cancelled', value: {id: 4, name: 'CANCELLED'}});
-    this.statusList.push({label: 'Initiated', value: {id: 5, name: 'INITIATED'}});
-    this.statusList.push({label: 'Hold', value: {id: 6, name: 'HOLD'}});*/
-
-    this.statusList.push({label: 'Created', value: 'CREATED'});
-    this.statusList.push({label: 'Pending', value: 'PENDING'});
-    this.statusList.push({label: 'Approved', value: 'APPROVED'});
+       
+    this.statusList.push({label: 'Advanced', value: 'ADVANCED'});
     this.statusList.push({label: 'Cancelled', value: 'CANCELLED'});
-    this.statusList.push({label: 'Initiated', value: 'INITIATED'});
-    this.statusList.push({label: 'Hold', value: 'HOLD'});
+    this.statusList.push({label: 'Confirmed', value: 'CONFIRMED'});
+    
   }
   createNewBooking() {
     this.router.navigate(['/booking-detail']);
