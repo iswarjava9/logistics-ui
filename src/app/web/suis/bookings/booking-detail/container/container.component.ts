@@ -48,6 +48,8 @@ export class ContainerComponent implements OnInit {
   constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router) { }
 
   ngOnInit() {
+    this.bookingSvc.getMessages().forEach(message => this.msgsGrowl.push(message));
+    
     this.containerFormGroup = new FormGroup(
       {'containerNo': new FormControl(null),
       'containerType': new FormControl(null),
@@ -112,6 +114,8 @@ export class ContainerComponent implements OnInit {
         isoCode: 'iso code', size: '20-20', type: '20X20'},
       quotationId: 0}];
       */
+
+      // this.msgsGrowl = this.bookingSvc
   } 
 
   onContainerTypeSelection(event: ContainerType) {

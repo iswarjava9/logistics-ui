@@ -10,12 +10,14 @@ import {Division} from '../../../../models/division.model';
 import {MovementType} from '../../../../models/movementType.model';
 import {Person} from '../../../../models/person.model';
 import {Vessel} from '../../../../models/vessel.model';
+import { Message } from 'primeng/components/common/message';
 
 
 @Injectable()
 export class BookingService {
   public activeIndex = 0;
   public bookingDetails: Booking;
+  msgsGrowl: Message[] = [];
 
   headers: Headers = new Headers();
   private options: RequestOptions ;
@@ -28,6 +30,17 @@ export class BookingService {
   }
 updateBooking(bookig: Booking){
   this.bookingDetails = bookig;
+}
+updateMessages(message: Message){
+  this.msgsGrowl.push(message);
+}
+
+getMessages(){
+  return this.msgsGrowl;
+}
+
+clearMessages(){
+  return this.msgsGrowl = [];
 }
 getBookingId(){
   return this.bookingDetails.id;

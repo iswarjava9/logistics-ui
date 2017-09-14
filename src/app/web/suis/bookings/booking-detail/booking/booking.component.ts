@@ -311,14 +311,8 @@ export class BookingComponent implements OnInit {
                               {label: 'Door to Port', value: 'Door to Port'},
                               {label: 'Port to Door', value: 'Port to Door'}];
       this.createdVessel.country = new Country();
-      /* this.createdCustomer.city = new City();
-      this.createdCustomer.city.state = new State();
-      this.createdCustomer.city.state.name = null;
-      this.createdCustomer.city.state.country = new Country();
-      this.createdCustomer.city.state.country.name = null;
-       */
-
-       this.freightList = [{label: 'Prepaid', value: 'Prepaid'}, {label: 'Collect', value: 'Collect'}];
+      
+      this.freightList = [{label: 'Prepaid', value: 'Prepaid'}, {label: 'Collect', value: 'Collect'}];
       this.initializeTimeZoneIds(); 
 
   }
@@ -450,18 +444,18 @@ export class BookingComponent implements OnInit {
 }
 
   saveAndExit(){
-    this.saveBooking();
-    this.router.navigate(['/booking-list']);
+    this.saveBooking('/booking-list', -1);
+    // this.router.navigate(['/booking-list']);
   }
 
   saveAndNext() {
-    this.saveBooking();
+    this.saveBooking(null, 1);
     this.bookingDetailSvc.updateBooking(this.bookingDetails);   
-    this.stepIndex.emit(1);
+    // this.stepIndex.emit(1);
   }
 
 
-  saveBooking() {
+  saveBooking(route: string, step: number) {
     this.populateBooking(this.bookingDetailFormGroup, this.bookingDetails);
     this.msgsGrowl = [];
    
@@ -477,10 +471,17 @@ export class BookingComponent implements OnInit {
           const body = response.json();
           DateHelper.convertDateStringsToDates(body);
           this.bookingDetails = body;
-          this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
-                  
-          this.msgsGrowl.push(
-            {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'});
+          const createBookingMsg = {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'};
+          this.msgsGrowl.push(createBookingMsg);
+        this.bookingDetailSvc.updateMessages(createBookingMsg);
+          if(route != null){
+            this.router.navigate([route]);
+          }else if(step > -1 ){
+            this.stepIndex.emit(step);
+          }else{
+              this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
+          }
+          
           this.disableScreen = false;
       },
       error => {console.log(error);
@@ -495,17 +496,24 @@ export class BookingComponent implements OnInit {
     
       this.bookingDetailSvc.modifyBooking(this.bookingDetailSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
       (response: any) => {
-        
+        const modifyMsg = {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'};
+        this.msgsGrowl.push(modifyMsg);
+                
         const body = response.json();
       
         DateHelper.convertDateStringsToDates(body);
    
         this.bookingDetails = body;
-console.log('Updated booking:' + JSON.stringify(body));
-         this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
+        this.bookingDetailSvc.updateMessages(modifyMsg);
+        if(route != null){
+          this.router.navigate([route]);
+        }else if(step > -1 ){
+          this.stepIndex.emit(step);
+        }else{
+          this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
+        }
+         
            
-        this.msgsGrowl.push(
-          {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'});
         this.disableScreen = false;
         // this.bookingDetailSvc.activeIndex = 1;
       },
@@ -1004,7 +1012,7 @@ console.log('Updated booking:' + JSON.stringify(body));
     formGroup.get('country').setValue(city.state.country.name);
   }
   
-  onCustomerSelection(event: Event, customer: string){}
+  
 
   clearPlace(formGroup: FormGroup, fieldControl: string){
    formGroup.get(fieldControl).setValue(null);

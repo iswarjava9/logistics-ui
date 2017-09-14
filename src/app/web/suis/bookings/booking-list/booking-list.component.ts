@@ -1,9 +1,12 @@
+import { BookingService } from './../booking-detail/booking/service/booking.service';
+import { BookingDetailService } from './../booking-detail/service/booking-detail.service';
 import {Component, enableProdMode, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 
 import {SelectItem} from 'primeng/primeng';
+import { Message } from 'primeng/components/common/message';
 
 import {BookingInfo} from '../../models/bookinglist/bookingInfo.model';
 import {BookingListService} from './service/booking-list.service';
@@ -31,12 +34,14 @@ export class BookingListComponent implements OnInit {
   statusList: SelectItem[];
 
   colors: SelectItem[];
+  msgsGrowl: Message[] = [];
 
   dateFilter: number;
 
-  constructor(private router: Router, private bookingListSvc: BookingListService) {}
+  constructor(private router: Router, private bookingListSvc: BookingListService, private bookingSvc: BookingService) {}
 
   ngOnInit() {
+    this.bookingSvc.getMessages().forEach(message => this.msgsGrowl.push(message));
       this.disableScreen = true;
     this.bookingListSvc.getBookingList().
     subscribe(
