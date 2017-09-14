@@ -316,13 +316,7 @@ cancelBooking(){
   this.msgsGrowl.push(
     {severity: 'info', summary: 'Cancel Booking', detail: 'Cancelling Booking...'});
   
-    let jsonString = JSON.stringify(this.bookingDetails);
-    console.log('json String:' + jsonString);
-   jsonString = JSON.parse(jsonString);
-
-
-   DateHelper.removeTimeAndTimeZone(jsonString);
-    this.bookingSvc.modifyBooking(jsonString).subscribe(
+    this.bookingSvc.modifyBooking(this.bookingSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
     (response: any) => {
       const body = response.json();
       DateHelper.convertDateStringsToDates(body);
