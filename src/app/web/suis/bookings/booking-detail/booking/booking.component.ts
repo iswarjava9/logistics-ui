@@ -451,9 +451,15 @@ export class BookingComponent implements OnInit {
 }
 
   saveAndExit(){
+    this.saveBooking();
     this.router.navigate(['/booking-list']);
   }
+
   saveAndNext() {
+    this.saveBooking();
+    this.stepIndex.emit(1);
+  }
+  saveBooking() {
     this.populateBooking(this.bookingDetailFormGroup, this.bookingDetails);
     this.msgsGrowl = [];
    
@@ -511,7 +517,7 @@ if(isNullOrUndefined(this.bookingDetails.id)){
         this.msgsGrowl.push(
           {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'});
         this.disableScreen = false;
-        this.bookingDetailSvc.activeIndex = 1;
+        // this.bookingDetailSvc.activeIndex = 1;
       },
       error => {console.log(error);
         this.disableScreen = false;
@@ -524,9 +530,7 @@ if(isNullOrUndefined(this.bookingDetails.id)){
       }
     );
   }
-  this.stepIndex.emit(1);
-  // this.router.navigate(['/booking-detail']);
-  }
+ }
 
   populateFormGroup(form: FormGroup, booking: Booking) {
      for ( const field of this.fieldsSet ) {
