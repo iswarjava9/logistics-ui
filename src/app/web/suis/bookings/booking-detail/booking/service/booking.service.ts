@@ -1,3 +1,4 @@
+import { DateHelper } from './../../../../util/dateHelper';
 import { Booking } from './../../../../models/booking.model';
 import { Injectable } from '@angular/core';
 import {Http, Response, Headers, RequestOptions, ResponseContentType} from '@angular/http';
@@ -121,5 +122,13 @@ getBookingDetails(){
 
   getTimeZones(){
     return this.http.get(this.HOST + '/logistics/region/timezones' , this.options);
+  }
+
+  removeTimeZoneFromBooking(booking: Booking){ 
+    let jsonString = JSON.stringify(booking);
+    console.log('json String:' + jsonString);
+    jsonString = JSON.parse(jsonString);
+    DateHelper.removeTimeAndTimeZone(jsonString);
+    return jsonString;
   }
 }

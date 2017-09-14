@@ -1,4 +1,4 @@
-
+import { DateHelper } from './../../../util/dateHelper';
 import { TimeZone } from './../../../models/timezone.model';
 import { HttpResponse } from '@angular/common/http';
 import { Headers, Response } from '@angular/http';
@@ -20,7 +20,6 @@ import {State} from '../../../models/state.model';
 
 import {BookingService} from './service/booking.service';
 import {and, forEach} from '@angular/router/src/utils/collection';
-import {DateHelper} from '../../../util/dateHelper';
 import {Observable} from 'rxjs/Observable';
 import {Message} from 'primeng/components/common/message';
 import {SelectItem} from 'primeng/components/common/selectitem';
@@ -457,53 +456,44 @@ export class BookingComponent implements OnInit {
 
   saveAndNext() {
     this.saveBooking();
+    this.bookingDetailSvc.updateBooking(this.bookingDetails);   
     this.stepIndex.emit(1);
   }
+
+
   saveBooking() {
     this.populateBooking(this.bookingDetailFormGroup, this.bookingDetails);
     this.msgsGrowl = [];
    
     this.disableScreen = true;
 
-    let jsonString = JSON.stringify(this.bookingDetails);
-     console.log('json String:' + jsonString);
-    jsonString = JSON.parse(jsonString);
 
-
-    DateHelper.removeTimeAndTimeZone(jsonString);
-if(isNullOrUndefined(this.bookingDetails.id)){
-  this.msgsGrowl.push({severity: 'info', summary: 'Create', detail: 'Creating Booking..'});
-    this.bookingDetailSvc.saveBooking(jsonString).subscribe(
-      (response: any) => {
-        // const generatedBookingId = response.headers.get('bookingid');
-        const body = response.json();
-      
-        DateHelper.convertDateStringsToDates(body);
-    
-        this.bookingDetails = body;
-
-         this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
-                
-        this.msgsGrowl.push(
-          {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'});
-        this.disableScreen = false;
-        this.bookingDetailSvc.activeIndex = 1;
+    if(isNullOrUndefined(this.bookingDetails.id)){
+      this.bookingDetails.bookingStatus = 'ADVANCED';
+      this.msgsGrowl.push({severity: 'info', summary: 'Create', detail: 'Creating Booking..'});
+      this.bookingDetailSvc.saveBooking(this.bookingDetailSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
+        (response: any) => {
+         // const generatedBookingId = response.headers.get('bookingid');
+          const body = response.json();
+          DateHelper.convertDateStringsToDates(body);
+          this.bookingDetails = body;
+          this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
+                  
+          this.msgsGrowl.push(
+            {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'});
+          this.disableScreen = false;
       },
       error => {console.log(error);
         this.disableScreen = false;
         this.msgsGrowl.push({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not saved'});
         },
-      success => {
-        console.log(success);
-        this.disableScreen = false;
 
-      }
     );
   }else{ // Modify booking
     this.msgsGrowl.push(
       {severity: 'info', summary: 'Modify Booking', detail: 'Modifying Booking...'});
     
-      this.bookingDetailSvc.modifyBooking(jsonString).subscribe(
+      this.bookingDetailSvc.modifyBooking(this.bookingDetailSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
       (response: any) => {
         
         const body = response.json();
@@ -523,11 +513,6 @@ if(isNullOrUndefined(this.bookingDetails.id)){
         this.disableScreen = false;
         this.msgsGrowl.push({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not modified'});
         },
-      success => {
-        console.log(success);
-        this.disableScreen = false;
-
-      }
     );
   }
  }
