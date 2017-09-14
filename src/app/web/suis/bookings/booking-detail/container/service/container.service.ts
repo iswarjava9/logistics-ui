@@ -41,4 +41,9 @@ export class ContainerService {
     this.options = new RequestOptions({headers: this.headers});
     return this.http.post( this.hosturl + '/logistics/container/', container, this.options);
   }
+
+  removeContainer(id: number) {
+    this.options = new RequestOptions({headers: this.headers});
+    return this.http.delete( this.hosturl + '/logistics/container/' + id, this.options);
+  }
 }

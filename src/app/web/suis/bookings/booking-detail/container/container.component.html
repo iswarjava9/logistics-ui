@@ -17,8 +17,9 @@
   </div>
 <div> </div>
 
-<p-dataTable [(value)]="this.bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
-[sortableRowGroup]="false">
+<p-dataTable #dt [(value)]="this.bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
+[sortableRowGroup]="false" selectionMode="single" [(selection)]="selectedContainer" (onRowSelect)="onRowSelect($event)"
+>
   <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['containerType'].type}} X {{calculateGroupSize(rowData['containerType'].type)}}</ng-template>
   <p-column field="containerType.type" header="Container Type"></p-column>
   <p-column field="containerNo" header="Container Number"></p-column>
@@ -275,3 +276,29 @@
     </div>
   </p-dialog>
     
+  <p-dialog header="Container Details" [(visible)]="displayConatinerDialog" [responsive]="true" showEffect="fade" [modal]="true" [resizable]="true">
+      <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedContainer">
+          <div class="ui-grid-row">
+              <div class="ui-grid-col-4"><label for="type">Type</label></div>
+              <div class="ui-grid-col-8"><input pInputText id="type" [(ngModel)]="selectedContainer.containerType.type"/></div>
+          </div>
+          <!-- <div class="ui-grid-row">
+              <div class="ui-grid-col-4"><label for="year">Year</label></div>
+              <div class="ui-grid-col-8"><input pInputText id="year" [(ngModel)]="car.year" /></div>
+          </div>
+          <div class="ui-grid-row">
+              <div class="ui-grid-col-4"><label for="brand">Brand</label></div>
+              <div class="ui-grid-col-8"><input pInputText id="brand" [(ngModel)]="car.brand" /></div>
+          </div>
+          <div class="ui-grid-row">
+              <div class="ui-grid-col-4"><label for="color">Color</label></div>
+              <div class="ui-grid-col-8"><input pInputText id="color" [(ngModel)]="car.color" /></div>
+          </div> -->
+      </div>
+      <p-footer>
+          <div class="ui-dialog-buttonpane ui-helper-clearfix">
+              <button type="button" pButton icon="fa-close" (click)="deleteContainer($event)" label="Delete"></button>
+              <button type="button" pButton icon="fa-check" (click)="updateContainer($event)" label="Update"></button>
+          </div>
+      </p-footer>
+  </p-dialog>

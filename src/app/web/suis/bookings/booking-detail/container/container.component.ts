@@ -1,4 +1,5 @@
-
+import { forEach } from '@angular/router/src/utils/collection';
+import { DataTable } from 'primeng/components/DataTable/DataTable';
 import {DateHelper} from '../../../util/dateHelper';
 import { BookingService } from './../booking/service/booking.service';
 import { BookingDetailService } from './../service/booking-detail.service';
@@ -15,6 +16,7 @@ import {SelectItem} from 'primeng/components/common/selectitem';
 import {Container} from '../../../models/container.model';
 import {Dialog} from 'primeng/components/dialog/dialog';
 import { Message } from 'primeng/components/common/message';
+
 
 import {Event, Router} from '@angular/router';
 
@@ -45,6 +47,11 @@ export class ContainerComponent implements OnInit {
 
   equipment: SelectItem;
   equipments: SelectItem[];
+  
+  selectedContainer: Container = null;
+  displayConatinerDialog = false;
+  
+
   constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router) { }
 
   ngOnInit() {
@@ -370,17 +377,44 @@ exit() {
 }
 
 calculateGroupSize(type: string) {
-  console.log('Container type: ' + type);
-  let total = 0;
-  
-  if(this.bookingDetails.containerDetails) {
+    let total = 0;
+    if(this.bookingDetails.containerDetails) {
       for(let container of this.bookingDetails.containerDetails) {
           if(container.containerType.type === type) {
               total += 1;
           }
       }
   }
-
   return total;
 }
+onRowSelect(event: Event) {
+  this.selectedContainer = event['data'];
+  // this.car = this.cloneCar(event.data);
+  // this.displayDialog = true;
+  console.log('selectedContainer:' + JSON.stringify(this.selectedContainer));
+  // console.log('event:' + JSON.stringify(event['data']));
+  
+  this.displayConatinerDialog = true;
+}
+
+deleteContainer(event: Event){
+  this.containerSvc.removeContainer(this.selectedContainer.id).subscribe(
+    response => {
+      let containerList = [];
+      this.bookingDetails.containerDetails.forEach(
+        container => {if(container.id != this.selectedContainer.id){
+          containerList.push(container);
+        }
+      });
+      this.bookingDetails.containerDetails = containerList;
+      this.msgsGrowl.push({severity: 'success', summary: 'Container removed', detail: 'Container is removed.'});
+    }
+  );
+}
+
+
+updateContainer(event: Event){
+  console.log(event);
+}
+
 }
