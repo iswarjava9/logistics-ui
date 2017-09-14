@@ -549,7 +549,7 @@
     </p-dialog>
 
 
-    <p-dialog #opCustomer appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false" >
+    <p-dialog #opCustomer appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false"  [resizable]="true" width="640">
       <form [formGroup]="customerFormGroup" >
           
       <div class="row">
@@ -560,19 +560,24 @@
             </div>
           </div>
           <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Address:</div>
-            <div class="ui-g-16">
-              <input pInputTextarea type="text" [formControlName]="'address'" [readonly]="this.displayOnly"
-              autoResize="autoResize"/>
+            <div class="ui-g-4">Tax Id:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text"  formControlName="taxId" required="true" [readonly]="this.displayOnly"/>
             </div>
           </div>
         </div>
       <div class="row">
-          
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Address:</div>
+          <div class="ui-g-8">
+            <input pInputTextarea type="text" [formControlName]="'address'" [readonly]="this.displayOnly"
+            autoResize="autoResize"/>
+          </div>
+        </div> 
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">City:</div>
           <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCities"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" delay="1000" minlength="3" [suggestions]="filteredCities"
               (completeMethod)="search($event, 'city')" field="name"
               [formControlName]="'city'" [readonly]="this.displayOnly"
               (onSelect)="onCitySelection(this.customerFormGroup)">
@@ -580,44 +585,46 @@
             
           </div>
         </div>
-        <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Country:</div>
-            <div class="ui-g-8">
-                <input pInputText type="text" formControlName="country" [readonly]="true"/>
-            </div>
-          </div>
       </div>
 
       <div class="row">
-       <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Country:</div>
+          <div class="ui-g-8">
+              <input pInputText type="text" formControlName="country" [readonly]="this.displayOnly"/>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">State:</div>
             <div class="ui-g-8">
-              <input pInputText type="text" formControlName="state" [readonly]="true"/>
+              <input pInputText type="text" formControlName="state" [readonly]="this.displayOnly"/>
             </div>
           </div>
-          <div class="ui-g-12 ui-md-6">
-             <div class="ui-g-4">Person In Charge:</div>
-             <div class="ui-g-8">
-               <input pInputText type="text" formControlName="personInCharge"  required="true" [readonly]="this.displayOnly"/>
-             </div>
-          </div>
-      </div>
+        </div>
       
         <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Person In Charge:</div>
+            <div class="ui-g-8">
+              <input pInputText type="text" formControlName="personInCharge"  required="true" [readonly]="this.displayOnly"/>
+            </div>
+          </div>
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Email:</div>
             <div class="ui-g-8">
               <input pInputText type="text" formControlName="email" [readonly]="this.displayOnly"/>
             </div>
           </div>
-          <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Phone:</div>
-            <div class="ui-g-8">
-              <input pInputText type="text" formControlName="phone" [readonly]="this.displayOnly"/>
-            </div>
-          </div>
+          
         </div>
-
+        <div class="row">
+            <div class="ui-g-12 ui-md-6">
+                <div class="ui-g-4">Phone:</div>
+                <div class="ui-g-8">
+                  <input pInputText type="text" formControlName="phone" [readonly]="this.displayOnly"/>
+                </div>
+              </div>
+        </div>
 
       <div class="ui-g-10">
         <button pButton label="Create" type="submit" (click)="createCustomer(opCustomer, $event)" [disabled]="this.displayOnly"></button>

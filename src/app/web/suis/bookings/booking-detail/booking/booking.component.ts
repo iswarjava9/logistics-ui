@@ -281,6 +281,7 @@ export class BookingComponent implements OnInit {
     );
     this.customerFormGroup = new FormGroup({
       'name': new FormControl(null, Validators.required),
+      'taxId': new FormControl(null, Validators.required),
       'address': new FormControl(null, Validators.required),
       'city': new FormControl(null, Validators.required),
       'state': new FormControl(null, Validators.required),
@@ -650,6 +651,7 @@ if(isNullOrUndefined(this.bookingDetails.id)){
   }
   populateCustomerFormGroup(customer: Customer){
     this.customerFormGroup.get('name').setValue(customer.name);
+    this.customerFormGroup.get('taxId').setValue(customer.taxId);
     this.customerFormGroup.get('address').setValue(customer.address);
     this.customerFormGroup.get('city').setValue(customer.city);
     this.customerFormGroup.get('email').setValue(customer.email);
