@@ -28,9 +28,11 @@
 <div class="row">
   <div class="ui-g-12">
     
-    <button pButton label="Confirm Booking" type="submit" (click)="confirmBooking()" [disabled]="disableScreen"></button>
-    <button pButton label="Cancel Booking" type="submit" (click)="cancelBooking()"></button>
-    <button pButton label="Print" type="submit" (click)="print()" [disabled]="disableScreen"></button>
+    <button pButton label="Confirm Booking" type="submit" (click)="confirmBooking()" *ngIf="bookingDetails.id"></button>
+    
+    <button pButton label="Cancel Booking" type="submit" (click)="cancelBooking()" *ngIf="bookingDetails.id"></button>
+    
+    <button pButton label="Print" type="submit" (click)="print()" *ngIf="bookingDetails.id"></button>
     <button pButton label="Exit" type="submit" (click)="exit()"></button>
 
     <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>

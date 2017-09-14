@@ -333,6 +333,7 @@ export class BookingComponent implements OnInit {
        timezones.forEach(item => this.timezoneIdList.push({label: item.timeZoneId, value: item.timeZoneId}))
        }
     ); 
+    this.bookingDetailSvc.updateBooking(this.bookingDetails);
   }
 
   onAccountSelection(event: Customer) {
