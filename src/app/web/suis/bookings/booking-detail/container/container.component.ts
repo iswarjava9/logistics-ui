@@ -368,4 +368,19 @@ confirmBooking(){
 exit() {
   this.router.navigate(['/booking-list']);
 }
+
+calculateGroupSize(type: string) {
+  console.log('Container type: ' + type);
+  let total = 0;
+  
+  if(this.bookingDetails.containerDetails) {
+      for(let container of this.bookingDetails.containerDetails) {
+          if(container.containerType.type === type) {
+              total += 1;
+          }
+      }
+  }
+
+  return total;
+}
 }

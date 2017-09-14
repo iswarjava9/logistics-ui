@@ -17,9 +17,11 @@
   </div>
 <div> </div>
 
-<p-dataTable [(value)]="this.bookingDetails.containerDetails">
-  <p-column field="containerNo" header="Container Number"></p-column>
+<p-dataTable [(value)]="this.bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
+[sortableRowGroup]="false">
+  <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['containerType'].type}} X {{calculateGroupSize(rowData['containerType'].type)}}</ng-template>
   <p-column field="containerType.type" header="Container Type"></p-column>
+  <p-column field="containerNo" header="Container Number"></p-column>
   <p-column field="commodity.name" header="Commodity"></p-column>
 
 </p-dataTable>
