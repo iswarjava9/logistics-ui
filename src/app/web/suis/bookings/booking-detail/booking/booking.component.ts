@@ -445,7 +445,11 @@ export class BookingComponent implements OnInit {
     // this.router.navigate(['/booking-list']);
   }
 
+  next() {
+    this.stepIndex.emit(1);
+  }
   saveAndNext() {
+    
     this.saveBooking(null, 1);
     this.bookingDetailSvc.updateBooking(this.bookingDetails);   
     // this.stepIndex.emit(1);
@@ -469,6 +473,7 @@ export class BookingComponent implements OnInit {
           const body = response.json();
           DateHelper.convertDateStringsToDates(body);
           this.bookingDetails = body;
+          this.bookingDetailSvc.updateBooking(this.bookingDetails);
           const createBookingMsg = {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'};
           this.msgSvc.add(createBookingMsg);
           //this.msgsGrowl.push(createBookingMsg);
@@ -505,6 +510,7 @@ export class BookingComponent implements OnInit {
         DateHelper.convertDateStringsToDates(body);
    
         this.bookingDetails = body;
+        this.bookingDetailSvc.updateBooking(this.bookingDetails);
         this.bookingDetailSvc.updateMessages(modifyMsg);
         if(route != null){
           this.router.navigate([route]);
@@ -924,6 +930,7 @@ export class BookingComponent implements OnInit {
         const personid = Number(response.headers.get('personid'));
         this.createdPerson.id = personid;
         this.bookingDetailFormGroup.get(this.hoveredPersonId).setValue(this.createdPerson);
+        this.msgSvc.add({severity: 'success', summary: 'Creation succeeded ', detail: this.hoveredLabel + ' Created.'});
         this.displayOnly = false;
         dialog.visible = false;
       },

@@ -498,8 +498,9 @@
 
         <div class="row">
         <div class="ui-g-10">
-          <button pButton label="Save And Next" type="submit" (click)="saveAndNext()" [disabled]="disableScreen "></button>
-          <button pButton label="Save And Exit" type="submit" (click)="saveAndExit()" [disabled]="disableScreen"></button>
+          <button pButton label="Save And Next" type="submit" (click)="saveAndNext()" [disabled]="disableScreen" *ngIf="bookingDetailFormGroup.dirty && bookingDetailFormGroup.valid"></button>
+          <button pButton label="Save And Exit" type="submit" (click)="saveAndExit()" [disabled]="disableScreen" *ngIf="bookingDetailFormGroup.dirty && bookingDetailFormGroup.valid"></button>
+          <button pButton label="Next" type="submit" (click)="next()" [disabled]="disableScreen" *ngIf="!bookingDetailFormGroup.dirty"></button>
           <button pButton label="Exit" type="submit" (click)="exit()"></button>
           <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>
 

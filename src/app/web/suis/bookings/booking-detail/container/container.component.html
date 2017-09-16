@@ -6,15 +6,10 @@
   
 <div class="row">
   
-  <button type="button"  class="btn-primary" (click)="addContainers($event, dialogAddContainers)">Add Containers</button>
-  <button type="button" class="btn-primary" (click)="createContainer($event, dialogContainer)">New Container</button>
+  <button type="button"  class="btn-primary" (click)="addContainers($event, dialogAddContainers)"  *ngIf="bookingDetails.id">Add Containers</button>
+  <button type="button" class="btn-primary" (click)="createContainer($event, dialogContainer)"  *ngIf="bookingDetails.id">New Container</button>
 </div>
 
-
-  <div ngFor="const cotype of containerTypeMap">
-    <label>{{containerTypeMap.size}}</label>
-
-  </div>
 <div> </div>
 
 <p-dataTable #dt [(value)]="this.bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
@@ -129,7 +124,7 @@
 
 </p-dialog>
 
-<p-dialog #dialogContainerType modal="true" appendTo="body" [closable]="false">
+<p-dialog #dialogContainerType modal="true" appendTo="body" [closable]="false" header="Add Container Type">
   
           <form [formGroup]="containerTypeFormGroup">
             <div class="row">
@@ -186,7 +181,7 @@
   
   </p-dialog>
 
-  <p-dialog #dialogCommodity modal="true" appendTo="body" [closable]="false">
+  <p-dialog #dialogCommodity modal="true" appendTo="body" [closable]="false" header="Add Commodity">
     
             <form [formGroup]="commodityFormGroup">
               <div class="row">
@@ -236,7 +231,7 @@
     </p-dialog>
 
 
-    <p-dialog #dialogAddContainers modal="true" appendTo="body" [closable]="false">
+    <p-dialog #dialogAddContainers modal="true" appendTo="body" [closable]="false" header="Add Containers">
       <div class="row">
       <div class="ui-g-12 ui-md-6">
         <div class="ui-g-4">Container Type:</div>
@@ -276,12 +271,12 @@
     </div>
   </p-dialog>
     
-  <p-dialog header="Container Details" [(visible)]="displayConatinerDialog" [responsive]="true" showEffect="fade" [modal]="true" [resizable]="true">
+  <p-dialog header="Container Details" [(visible)]="displayConatinerDialog" [responsive]="true" [modal]="true">
       <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="selectedContainer">
-          <div class="ui-grid-row">
+          <!-- <div class="ui-grid-row">
               <div class="ui-grid-col-4"><label for="type">Type</label></div>
-              <div class="ui-grid-col-8"><input pInputText id="type" [(ngModel)]="selectedContainer.containerType.type"/></div>
-          </div>
+              <div class="ui-grid-col-8"><label for="containertype">{{selectedContainer.containerType.type}}</label></div>
+          </div> -->
           <!-- <div class="ui-grid-row">
               <div class="ui-grid-col-4"><label for="year">Year</label></div>
               <div class="ui-grid-col-8"><input pInputText id="year" [(ngModel)]="car.year" /></div>
@@ -295,10 +290,10 @@
               <div class="ui-grid-col-8"><input pInputText id="color" [(ngModel)]="car.color" /></div>
           </div> -->
       </div>
-      <p-footer>
+      <!-- <p-footer> -->
           <div class="ui-dialog-buttonpane ui-helper-clearfix">
               <button type="button" pButton icon="fa-close" (click)="deleteContainer($event)" label="Delete"></button>
               <button type="button" pButton icon="fa-check" (click)="updateContainer($event)" label="Update"></button>
           </div>
-      </p-footer>
+      <!-- </p-footer> -->
   </p-dialog>

@@ -38,10 +38,10 @@ export class ContainerComponent implements OnInit {
   filteredContainerTypes: any[];
   filteredCommodities: any[];
   allContainerTypes: any[];
-  containerTypeMap: Map<string, number> = new Map();
+  // containerTypeMap: Map<string, number> = new Map();
 
   disableScreen = false;
-  msgsGrowl: Message[] = [];
+  // msgsGrowl: Message[] = [];
 
   numberOfContainers = 1;
   displayOnly = false;
@@ -160,37 +160,21 @@ export class ContainerComponent implements OnInit {
   onSelectedItem(event) {
     console.log(event);
   }
-  addContainers(event: Event, dialog: Dialog) {
-    /* console.log('Add event: ' + this.numberOfContainers);
-    console.log('booking id:' + this.bookingSvc.getBookingId());
-    for (let i = 0; i < this.numberOfContainers; i++) {
-      const container = new Container();
-      container.bookingId = this.bookingSvc.getBookingId();
-      container.containerType = this.containerType;
-      container.commodity = this.commodity;
-      if(container.bookingId != null){
-          this.containerSvc.addContainer(container).subscribe(
-            (response) => {
-              const containerid = Number(response.headers.get('containerid'));
-              container.id = containerid;
-              console.log('Container created with id: ' + containerid);
-            }
-          );
-    }
-      if(isNullOrUndefined(this.bookingDetails.containerDetails)){
-        this.bookingDetails.containerDetails = [];
-      }
-      this.bookingDetails.containerDetails.push(container);
-      console.log('Container added.. size = ' + this.containers.length);
-      console.log('booking id:' + this.bookingSvc.getBookingId());
-
-    }
-    this.updateContainerTypeMap(); */
+   addContainers(event: Event, dialog: Dialog) {
+    
     dialog.visible = true;
-  }
+  } 
 
   addContainersToBooking(event: Event, dialog: Dialog){
        
+    if(isNullOrUndefined(this.containerType)){
+      this.msgSvc.add({severity: 'warn', summary: 'Container type is required field', detail: ''});
+      return;
+    }
+    if(isNullOrUndefined(this.commodity)){
+      this.msgSvc.add({severity: 'warn', summary: 'Commodity is required field.', detail: ''});
+      return;
+    }
       for (let i = 0; i < this.numberOfContainers; i++) {
         const container = new Container();
         container.bookingId = this.bookingSvc.getBookingId();
@@ -202,6 +186,9 @@ export class ContainerComponent implements OnInit {
                 const containerid = Number(response.headers.get('containerid'));
                 container.id = containerid;
                 console.log('Container created with id: ' + containerid);
+              },
+              (error) => {
+
               }
             );
       }
@@ -209,14 +196,14 @@ export class ContainerComponent implements OnInit {
           this.bookingDetails.containerDetails = [];
         }
         this.bookingDetails.containerDetails.push(container);
-        console.log('Container added.. size = ' + this.containers.length);
+        
         console.log('booking id:' + this.bookingSvc.getBookingId());
   
       }
-      this.updateContainerTypeMap(); 
+      // this.updateContainerTypeMap(); 
       dialog.visible = false;
     }
-  updateContainerTypeMap() {
+  /* updateContainerTypeMap() {
       this.containerTypeMap.clear();
       for (let i = 0; i < this.containers.length; i++) {
           if (this.containerTypeMap.has(this.containers[i].containerType.type)) {
@@ -227,7 +214,7 @@ export class ContainerComponent implements OnInit {
           }
       }
       console.log(this.containerTypeMap.entries());
-  }
+  } */
 
     displayDialog(event: Event, dialog: Dialog) {
       dialog.visible = true;
@@ -262,14 +249,23 @@ createContainerType(dialog: Dialog) {
   if(!isNullOrUndefined(this.containerTypeFormGroup.get('description'))){
     this.containerType.descirption = this.containerTypeFormGroup.get('description').value;
   }
+  this.disableScreen = true;
    this.containerSvc.addContainerType(this.containerType).subscribe(
       (response) => {
         this.containerType.id = Number(response.headers.get('containertypeid'));
-        dialog.visible = false;}
+        this.disableScreen = false;
+        dialog.visible = false;
+        this.msgSvc.add({severity: 'success', summary: 'Add Container Type', detail: 'Container Type is added.'});
+      },
+      (error) => {
+        this.msgSvc.add({severity: 'error', summary: 'Add Container Type ', detail: 'Container Type is not added.'});
+        this.disableScreen = false;
+      }
   
 ); 
 }
 createCommodity(dialog: Dialog){
+  this.disableScreen = true;
   this.displayOnly = true;
   this.commodity = new Commodity();
     if( !isNullOrUndefined(this.commodityFormGroup.get('name'))) {
@@ -291,12 +287,19 @@ createCommodity(dialog: Dialog){
     this.containerSvc.addCommodity(this.commodity).subscribe(
         (response) => {
           this.commodity.id = Number(response.headers.get('commodityid'));
-          dialog.visible = false;}
+          dialog.visible = false;
+          this.disableScreen = false;
+          this.msgSvc.add({severity: 'success', summary: 'Add Commodity', detail: 'Commodity is added.'});
+        },
+        (error) => {
+          this.disableScreen = false;
+          this.msgSvc.add({severity: 'error', summary: 'Add Commodity', detail: 'Commodity is not added.'});
+        }
     ); 
   }
 
   print() {
-    this.msgsGrowl = [];
+    // this.msgsGrowl = [];
     this.disableScreen = true;
     this.bookingSvc.getPDF(this.bookingDetails.id).subscribe(
         (response: any) => {
@@ -321,7 +324,7 @@ createCommodity(dialog: Dialog){
 }
 
 cancelBooking(){
-  this.msgsGrowl = [];
+ // this.msgsGrowl = [];
   this.disableScreen = true;
   this.bookingDetails.bookingStatus = 'CANCELLED';
   this.msgSvc.add({severity: 'info', summary: 'Cancel Booking', detail: 'Cancelling Booking...'});
@@ -346,7 +349,7 @@ cancelBooking(){
 }
 
 confirmBooking(){
-  this.msgsGrowl = [];
+  // this.msgsGrowl = [];
   this.disableScreen = true;
   this.bookingDetails.bookingStatus = 'CONFIRMED';
   this.msgSvc.add({severity: 'info', summary: 'Confirm Booking', detail: 'Confirming Booking...'});
@@ -403,8 +406,9 @@ onRowSelect(event: Event) {
 }
 
 deleteContainer(event: Event){
+  this.disableScreen = true;
   this.containerSvc.removeContainer(this.selectedContainer.id).subscribe(
-    response => {
+    (response) => {
       let containerList = [];
       this.bookingDetails.containerDetails.forEach(
         container => {if(container.id != this.selectedContainer.id){
@@ -412,8 +416,14 @@ deleteContainer(event: Event){
         }
       });
       this.bookingDetails.containerDetails = containerList;
+      this.disableScreen = false;
+      this.displayConatinerDialog = false;
       this.msgSvc.add({severity: 'success', summary: 'Container removed', detail: 'Container is removed.'});
       // this.msgsGrowl.push({severity: 'success', summary: 'Container removed', detail: 'Container is removed.'});
+    },
+    (error) => {
+      this.disableScreen = false;
+      this.msgSvc.add({severity: 'error', summary: 'Container removal failed', detail: 'Container removal failed .'});
     }
   );
 }
