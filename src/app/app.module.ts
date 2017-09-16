@@ -34,6 +34,7 @@ import { QuoteDetailComponent } from './web/suis/quotes/quote-detail/quote-detai
 import { BookingListComponent } from './web/suis/bookings/booking-list/booking-list.component';
 import { BookingDetailComponent } from './web/suis/bookings/booking-detail/booking-detail.component';
 import {LogisoftRoutingModule} from './app-routing.module';
+import {RootService} from './root.service';
 import {BookingListService} from './web/suis/bookings/booking-list/service/booking-list.service';
 import {BookingDetailService} from './web/suis/bookings/booking-detail/service/booking-detail.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -86,7 +87,7 @@ import {CallbackComponent} from './web/suis/shared/callback/callback.component';
     BlockUIModule,
     InputMaskModule
   ],
-  providers: [AuthService, AuthgaurdService, BookingListService, BookingService, ContainerService, BookingDetailService ],
+  providers: [RootService, AuthService, AuthgaurdService, BookingListService, BookingService, ContainerService, BookingDetailService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

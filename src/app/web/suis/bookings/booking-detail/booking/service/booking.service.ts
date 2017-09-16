@@ -133,10 +133,6 @@ getBookingDetails(){
       return this.http.get(this.HOST + '/logistics/booking/download/' + id, options);
   }
 
-  getTimeZones(){
-    return this.http.get(this.HOST + '/logistics/region/timezones' , this.options);
-  }
-
   removeTimeZoneFromBooking(booking: Booking){ 
     let jsonString = JSON.stringify(booking);
     console.log('json String:' + jsonString);

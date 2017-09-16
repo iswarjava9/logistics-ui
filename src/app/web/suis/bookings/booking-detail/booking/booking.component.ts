@@ -1,3 +1,4 @@
+import { RootService } from './../../../../../root.service';
 import { DateHelper } from './../../../util/dateHelper';
 import { TimeZone } from './../../../models/timezone.model';
 import { HttpResponse } from '@angular/common/http';
@@ -101,7 +102,7 @@ export class BookingComponent implements OnInit {
   customerFormGroup: FormGroup;
   placeFormGroup: FormGroup;
   bookingDetails: Booking;
-  constructor(private bookingDetailSvc: BookingService, private route: ActivatedRoute, private router: Router) {
+  constructor(private bookingDetailSvc: BookingService, private route: ActivatedRoute, private router: Router, private rootSvc: RootService) {
   }
   public shipperRefNo: string;
   public forwarderRefNo: string;
@@ -313,20 +314,9 @@ export class BookingComponent implements OnInit {
       this.createdVessel.country = new Country();
       
       this.freightList = [{label: 'Prepaid', value: 'Prepaid'}, {label: 'Collect', value: 'Collect'}];
-      this.initializeTimeZoneIds(); 
-
-  }
-
-  initializeTimeZoneIds() {
-    this.timezoneIdList = [];
-    this.bookingDetailSvc.getTimeZones().subscribe(
-      (response) => {
-       const timezones: TimeZone[] = response.json();
-       console.log(timezones.toString());
-       timezones.forEach(item => this.timezoneIdList.push({label: item.timeZoneId + ' - ' + item.timeZoneShortName, value: item.timeZoneId}))
-       }
-    ); 
-    this.bookingDetailSvc.updateBooking(this.bookingDetails);
+      this.timezoneIdList = this.rootSvc.getTimeZones();
+      // this.initializeTimeZoneIds(); 
+      this.bookingDetailSvc.updateBooking(this.bookingDetails);
   }
 
   onAccountSelection(event: Customer) {
