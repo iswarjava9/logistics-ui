@@ -21,8 +21,7 @@ export class RootService {
       (response) => {
        const timezones: TimeZone[] = response.json();
        timezones.forEach(item => this.timezoneIdList.push({label: item.timeZoneId + ' - ' + item.timeZoneShortName, value: item.timeZoneId}))
-       console.log('fetch timezones: ' + timezones);
-       }
+      }
     ); 
     
   }

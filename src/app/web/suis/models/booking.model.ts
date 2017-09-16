@@ -37,6 +37,8 @@
     public delieveryEta: Date;
     public railCutOffDateTime: Date;
     public sailDate: Date;
+    public emptyPickupDate: Date;
+    public earlyReceivingDate: Date;
 
     // Parties
     public client: Client;
@@ -47,6 +49,7 @@
     public localSSLineOffice: Customer;
     public notify1: Customer;
     public notify2: Customer;
+    public cargoSupplier: Customer;
     public shipper: Customer;
     public carrier: Customer;
 

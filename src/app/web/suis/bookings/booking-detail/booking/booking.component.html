@@ -1,7 +1,4 @@
 <div class="container-fluid fa-border" >
-  <div>
-    <p-growl [(value)]="msgsGrowl" life="3000"></p-growl>
-  </div>
   
   <br>
   <form [formGroup]="bookingDetailFormGroup" disabled="disableSave" >
@@ -118,13 +115,13 @@
             </button>
           </div>
         </div>
-        <!-- Todo use notify 2 instead of notify-->
+        
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Notify 2:</div>
+          <div class="ui-g-4">Cargo Supplier:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
-                            [formControlName]="'notify2'">
+                            [formControlName]="'cargoSupplier'">
             </p-autoComplete>
 
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify2', opCustomer , 'Notify 2')">
@@ -405,6 +402,34 @@
                 </button>
               </div>
             </div>
+          </div>
+          <div class="row">
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-g-4">Empty Pickup Date</div>
+                <div class="ui-g-8">
+                   <p-calendar dateFormat="yy/mm/dd" [formControlName]="'emptyPickupDate'" [utc]="true" ></p-calendar>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-g-4">Early Receiving Date:</div>
+                <div class="ui-g-8">
+                  <p-calendar [formControlName]="'earlyReceivingDate'"dateFormat="yy/mm/dd" [utc]="true" ></p-calendar>
+                </div>
+              </div>
+            </div>
+          <div class="row">
+              <div class="ui-g-12 ui-md-6">
+                  <div class="ui-g-4">Notify 2:</div>
+                  <div class="ui-g-8">
+                    <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+                                    (completeMethod)="search($event, 'customer')" field="name"
+                                    [formControlName]="'notify2'">
+                    </p-autoComplete>
+        
+                    <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'notify2', opCustomer , 'Notify 2')">
+                    </button>
+                  </div>
+                </div>
           </div>
 <!-- 
         <div class="row">

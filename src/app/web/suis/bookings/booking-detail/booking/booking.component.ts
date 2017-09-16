@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng/components/common/messageservice';
 import { RootService } from './../../../../../root.service';
 import { DateHelper } from './../../../util/dateHelper';
 import { TimeZone } from './../../../models/timezone.model';
@@ -55,19 +56,19 @@ export class BookingComponent implements OnInit {
                   'freight', 'nraNumber', 'serviceContractId',
                   'typeOfService', 'billTo', 'consignee',
                   'deliveryAgent', 'localSSLineOffice',
-                  'notify1', 'notify2', 'shipper', 'carrier',
+                  'notify1', 'notify2', 'cargoSupplier', 'shipper', 'carrier',
                   'bookingAgent', 'lineOfBusiness', 'salesRepresentative',
                   'typeOfMove', 'vessel', 'bookingPerson',
                   'division', 'docsCutOffDateTime',
                   'docsReceivedDate', 'eta',
                   'bookingDate', 'amendmentDate', 'cargoMovingDate',
                   'portCutOffDate', 'delieveryEta',
-                  'railCutOffDateTime', 'sailDate',
+                  'railCutOffDateTime', 'sailDate', 'emptyPickupDate', 'earlyReceivingDate',
                   'emptyContainerPickup', 'ingateAtTerminal', 'placeOfDelivery',
                   'placeOfReceipt', 'portOfDischarge',
                   'portOfLoad', 'transhipmentPort', 'remarks'];
   dateFieldsSet: string[] = ['docsCutOffDateTime', 'docsReceivedDate', 'eta', 'bookingDate', 'amendmentDate', 'cargoMovingDate',
-                            'portCutOffDate', 'delieveryEta', 'railCutOffDateTime', 'sailDate'];
+                            'portCutOffDate', 'delieveryEta', 'railCutOffDateTime', 'sailDate',  'emptyPickupDate', 'earlyReceivingDate'];
   //Cities
   filteredCities: any[] = [];
 
@@ -102,7 +103,7 @@ export class BookingComponent implements OnInit {
   customerFormGroup: FormGroup;
   placeFormGroup: FormGroup;
   bookingDetails: Booking;
-  constructor(private bookingDetailSvc: BookingService, private route: ActivatedRoute, private router: Router, private rootSvc: RootService) {
+  constructor(private bookingDetailSvc: BookingService, private route: ActivatedRoute, private router: Router, private rootSvc: RootService, private msgSvc: MessageService) {
   }
   public shipperRefNo: string;
   public forwarderRefNo: string;
@@ -169,6 +170,8 @@ export class BookingComponent implements OnInit {
     booking.delieveryEta = null;
     booking.railCutOffDateTime = null;
     booking.sailDate = null;
+    booking.emptyPickupDate = null;
+    booking.earlyReceivingDate = null;
 
   // Parties
 
@@ -178,6 +181,7 @@ export class BookingComponent implements OnInit {
   booking.localSSLineOffice = new Customer();
   booking.notify1 = new Customer();
   booking.notify2 = new Customer();
+  booking.cargoSupplier = new Customer();
   booking.shipper = new Customer();
   booking.carrier = new Customer();
 
@@ -248,6 +252,7 @@ export class BookingComponent implements OnInit {
         'localSSLineOffice': new FormControl(this.bookingDetails.localSSLineOffice),
         'notify1': new FormControl(this.bookingDetails.notify1),
         'notify2': new FormControl(this.bookingDetails.notify2),
+        'cargoSupplier': new FormControl(this.bookingDetails.cargoSupplier),
         'shipper': new FormControl(this.bookingDetails.shipper, Validators.required),
         'carrier': new FormControl(this.bookingDetails.carrier),
         'bookingAgent': new FormControl(this.bookingDetails.bookingAgent, Validators.required),
@@ -268,6 +273,8 @@ export class BookingComponent implements OnInit {
         'delieveryEta': new FormControl(this.bookingDetails.delieveryEta),
         'railCutOffDateTime': new FormControl(this.bookingDetails.railCutOffDateTime),
         'sailDate': new FormControl(this.bookingDetails.sailDate),
+        'emptyPickupDate': new FormControl(this.bookingDetails.emptyPickupDate),
+        'earlyReceivingDate': new FormControl(this.bookingDetails.earlyReceivingDate),
 
         'emptyContainerPickup': new FormControl(this.bookingDetails.emptyContainerPickup),
         'ingateAtTerminal': new FormControl(this.bookingDetails.ingateAtTerminal),
@@ -454,7 +461,8 @@ export class BookingComponent implements OnInit {
 
     if(isNullOrUndefined(this.bookingDetails.id)){
       this.bookingDetails.bookingStatus = 'ADVANCED';
-      this.msgsGrowl.push({severity: 'info', summary: 'Create', detail: 'Creating Booking..'});
+      this.msgSvc.add({severity: 'info', summary: 'Create', detail: 'Creating Booking..'});
+      // this.msgsGrowl.push({severity: 'info', summary: 'Create', detail: 'Creating Booking..'});
       this.bookingDetailSvc.saveBooking(this.bookingDetailSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
         (response: any) => {
          // const generatedBookingId = response.headers.get('bookingid');
@@ -462,7 +470,8 @@ export class BookingComponent implements OnInit {
           DateHelper.convertDateStringsToDates(body);
           this.bookingDetails = body;
           const createBookingMsg = {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'};
-          this.msgsGrowl.push(createBookingMsg);
+          this.msgSvc.add(createBookingMsg);
+          //this.msgsGrowl.push(createBookingMsg);
         this.bookingDetailSvc.updateMessages(createBookingMsg);
           if(route != null){
             this.router.navigate([route]);
@@ -476,20 +485,22 @@ export class BookingComponent implements OnInit {
       },
       error => {console.log(error);
         this.disableScreen = false;
-        this.msgsGrowl.push({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not saved'});
+        this.msgSvc.add({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not saved'});
+        // this.msgsGrowl.push({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not saved'});
         },
 
     );
   }else{ // Modify booking
-    this.msgsGrowl.push(
-      {severity: 'info', summary: 'Modify Booking', detail: 'Modifying Booking...'});
-    
+    /* this.msgsGrowl.push(
+      {severity: 'info', summary: 'Modify Booking', detail: 'Modifying Booking...'}); */
+      this.msgSvc.add({severity: 'info', summary: 'Modify Booking', detail: 'Modifying Booking...'})
       this.bookingDetailSvc.modifyBooking(this.bookingDetailSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
       (response: any) => {
         const modifyMsg = {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'};
-        this.msgsGrowl.push(modifyMsg);
-                
-        const body = response.json();
+        // this.msgsGrowl.push(modifyMsg);
+           this.msgSvc.add(modifyMsg);
+           
+           const body = response.json();
       
         DateHelper.convertDateStringsToDates(body);
    
@@ -509,7 +520,8 @@ export class BookingComponent implements OnInit {
       },
       error => {console.log(error);
         this.disableScreen = false;
-        this.msgsGrowl.push({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not modified'});
+        this.msgSvc.add({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not modified'});
+        // this.msgsGrowl.push({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not modified'});
         },
     );
   }
@@ -594,6 +606,7 @@ export class BookingComponent implements OnInit {
   }
 
   exit() {
+    this.msgSvc.clear();
     this.router.navigate(['/booking-list']);
   }
 
@@ -683,7 +696,8 @@ export class BookingComponent implements OnInit {
       },
       error => {console.log(error);
         this.displayOnly = false;
-        this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
       }
     );
   }
@@ -729,10 +743,12 @@ export class BookingComponent implements OnInit {
         this.bookingDetailFormGroup.get(this.hoveredCustomerId).setValue(this.createdCustomer);
        this.closeCustomerDialog(dialog, event);
         this.displayOnly = false;
-        this.msgsGrowl.push({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Success'});
+        this.msgSvc.add({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Success'});
+        // this.msgsGrowl.push({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Success'});
       },
       error => {
-        this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
         this.displayOnly = true;
       },
       success => {
@@ -799,8 +815,8 @@ export class BookingComponent implements OnInit {
         this.bookingDetails[this.hoveredBusinessLineId] = body;
       },
       error => {console.log(error);
-
-        this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
       },
       success => {
         console.log(success);
@@ -837,8 +853,8 @@ export class BookingComponent implements OnInit {
         this.bookingDetails[this.hoveredDivisionId] = body;
       },
       error => {console.log(error);
-
-        this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+          this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+      //  this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
       },
       success => {
         console.log(success);
@@ -873,8 +889,8 @@ export class BookingComponent implements OnInit {
         this.bookingDetails[this.hoveredMovementTypeId] = body;
       },
       error => {console.log(error);
-
-        this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
       },
       success => {
         console.log(success);
@@ -912,8 +928,8 @@ export class BookingComponent implements OnInit {
         dialog.visible = false;
       },
       error => {console.log(error);
-
-        this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
         this.displayOnly = true;
       },
       success => {
@@ -955,11 +971,13 @@ export class BookingComponent implements OnInit {
        // this.bookingDetails[this.hoveredVesselId] = this.createdVessel;
         this.closeDialog(dialog, event);
         this.displayOnly = false;
-        this.msgsGrowl.push({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Succeeded'});
+        this.msgSvc.add({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Succeeded'});
+        // this.msgsGrowl.push({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Succeeded'});
       },
       error => {console.log(error);
         this.displayOnly = false;
-        this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
       },
       success => {
         console.log(success);
@@ -988,7 +1006,8 @@ export class BookingComponent implements OnInit {
           },
           error => {console.log(error);
               this.disableScreen = false;
-              this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+              this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+              // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
           },
           success => {
               console.log(success);

@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng/components/common/messageservice';
 import { forEach } from '@angular/router/src/utils/collection';
 import { DataTable } from 'primeng/components/DataTable/DataTable';
 import {DateHelper} from '../../../util/dateHelper';
@@ -52,10 +53,10 @@ export class ContainerComponent implements OnInit {
   displayConatinerDialog = false;
   
 
-  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router) { }
+  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router, private msgSvc: MessageService) { }
 
   ngOnInit() {
-    this.bookingSvc.getMessages().forEach(message => this.msgsGrowl.push(message));
+  //  this.bookingSvc.getMessages().forEach(message => this.msgsGrowl.push(message));
     
     this.containerFormGroup = new FormGroup(
       {'containerNo': new FormControl(null),
@@ -189,9 +190,7 @@ export class ContainerComponent implements OnInit {
   }
 
   addContainersToBooking(event: Event, dialog: Dialog){
-    
-     console.log('Add event: ' + this.numberOfContainers);
-      console.log('booking id:' + this.bookingSvc.getBookingId());
+       
       for (let i = 0; i < this.numberOfContainers; i++) {
         const container = new Container();
         container.bookingId = this.bookingSvc.getBookingId();
@@ -311,7 +310,8 @@ createCommodity(dialog: Dialog){
         },
         error => {console.log(error);
             this.disableScreen = false;
-            this.msgsGrowl.push({severity: 'error', summary: 'PDF Generation ', detail: 'PDF generation failed.'});
+            this.msgSvc.add({severity: 'error', summary: 'PDF Generation ', detail: 'PDF generation failed.'});
+            // this.msgsGrowl.push({severity: 'error', summary: 'PDF Generation ', detail: 'PDF generation failed.'});
         },
         success => {
             console.log(success);
@@ -324,7 +324,8 @@ cancelBooking(){
   this.msgsGrowl = [];
   this.disableScreen = true;
   this.bookingDetails.bookingStatus = 'CANCELLED';
-  this.msgsGrowl.push({severity: 'info', summary: 'Cancel Booking', detail: 'Cancelling Booking...'});
+  this.msgSvc.add({severity: 'info', summary: 'Cancel Booking', detail: 'Cancelling Booking...'});
+  // this.msgsGrowl.push({severity: 'info', summary: 'Cancel Booking', detail: 'Cancelling Booking...'});
   
     this.bookingSvc.modifyBooking(this.bookingSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
     (response: any) => {
@@ -333,11 +334,13 @@ cancelBooking(){
        this.bookingDetails = body;
        this.bookingSvc.updateBooking(this.bookingDetails);   
        this.disableScreen = false;
-       this.msgsGrowl.push({severity: 'info', summary: 'Cancel Booking', detail: 'Booking is cancelled'});     
+       this.msgSvc.add({severity: 'info', summary: 'Cancel Booking', detail: 'Booking is cancelled'});
+       // this.msgsGrowl.push({severity: 'info', summary: 'Cancel Booking', detail: 'Booking is cancelled'});     
     },
     error => {console.log(error);
       this.disableScreen = false;
-      this.msgsGrowl.push({severity: 'error', summary: 'Cancellation failed', detail: 'Booking cancellation is failed'});
+      this.msgSvc.add({severity: 'error', summary: 'Cancellation failed', detail: 'Booking cancellation is failed'});
+      // this.msgsGrowl.push({severity: 'error', summary: 'Cancellation failed', detail: 'Booking cancellation is failed'});
       }
   );
 }
@@ -346,8 +349,8 @@ confirmBooking(){
   this.msgsGrowl = [];
   this.disableScreen = true;
   this.bookingDetails.bookingStatus = 'CONFIRMED';
-  this.msgsGrowl.push(
-    {severity: 'info', summary: 'Confirm Booking', detail: 'Confirming Booking...'});
+  this.msgSvc.add({severity: 'info', summary: 'Confirm Booking', detail: 'Confirming Booking...'});
+  // this.msgsGrowl.push({severity: 'info', summary: 'Confirm Booking', detail: 'Confirming Booking...'});
   
     let jsonString = JSON.stringify(this.bookingDetails);
     console.log('json String:' + jsonString);
@@ -361,18 +364,20 @@ confirmBooking(){
       DateHelper.convertDateStringsToDates(body);
        this.bookingDetails = body;
       this.bookingSvc.updateBooking(this.bookingDetails);   
-      this.msgsGrowl.push(
-        {severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
+      this.msgSvc.add({severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
+      // this.msgsGrowl.push({severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
       this.disableScreen = false;
     },
     error => {console.log(error);
       this.disableScreen = false;
-      this.msgsGrowl.push({severity: 'error', summary: 'Confirmation failed', detail: 'Booking confirmation is failed'});
+      this.msgSvc.add({severity: 'error', summary: 'Confirmation failed', detail: 'Booking confirmation is failed'});
+      // this.msgsGrowl.push({severity: 'error', summary: 'Confirmation failed', detail: 'Booking confirmation is failed'});
       }
   );
 }
 
 exit() {
+  this.msgSvc.clear();
   this.router.navigate(['/booking-list']);
 }
 
@@ -407,7 +412,8 @@ deleteContainer(event: Event){
         }
       });
       this.bookingDetails.containerDetails = containerList;
-      this.msgsGrowl.push({severity: 'success', summary: 'Container removed', detail: 'Container is removed.'});
+      this.msgSvc.add({severity: 'success', summary: 'Container removed', detail: 'Container is removed.'});
+      // this.msgsGrowl.push({severity: 'success', summary: 'Container removed', detail: 'Container is removed.'});
     }
   );
 }
