@@ -227,7 +227,7 @@
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredVessels"
                             (completeMethod)="search($event, 'vessel')" field="name"
-                            (onSelect)="onVesselSelection($event, 'vessel')" [formControlName]="'vessel'">
+                            [formControlName]="'vessel'">
             </p-autoComplete>
 
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayVessel($event,'vessel', opVessel , 'Vessel')">

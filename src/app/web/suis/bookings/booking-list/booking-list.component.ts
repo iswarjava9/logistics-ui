@@ -48,8 +48,9 @@ export class BookingListComponent implements OnInit {
       (res: any) => {
         const body = res.json();
         DateHelper.convertDateStringsToDates(body);
-        this.bookings = res.json();
-        console.log(res.json());
+        
+        this.bookings = body;
+        console.log(body);
           this.disableScreen = false;
         },
         (error) => {
@@ -79,7 +80,7 @@ export class BookingListComponent implements OnInit {
   delete() {
 
   }
-  updateBooking(event) {
+  updateBooking() {
     this.router.navigate(['/booking-detail', this.selectedID]);
 
   }
