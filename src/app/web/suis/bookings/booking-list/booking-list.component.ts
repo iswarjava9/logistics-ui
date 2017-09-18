@@ -4,6 +4,7 @@ import {Component, enableProdMode, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
+import { DatePipe } from '@angular/common';
 
 import {SelectItem} from 'primeng/primeng';
 import { Message } from 'primeng/components/common/message';
@@ -46,10 +47,13 @@ export class BookingListComponent implements OnInit {
     this.bookingListSvc.getBookingList().
     subscribe(
       (res: any) => {
-        const body = res.json();
+        let body = res.json();
         DateHelper.convertDateStringsToDates(body);
-        
+        // DateHelper.removeTimeAndTimeZone(body);        
         this.bookings = body;
+        
+        
+       // this.bookings.forEach(item => item.bookingDate = item.bookingDate | date: 'dd/MM/yyyy');
         console.log(body);
           this.disableScreen = false;
         },
