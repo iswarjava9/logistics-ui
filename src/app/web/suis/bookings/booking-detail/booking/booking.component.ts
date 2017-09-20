@@ -451,7 +451,7 @@ export class BookingComponent implements OnInit {
   saveAndNext() {
     
     this.saveBooking(null, 1);
-    this.bookingDetailSvc.updateBooking(this.bookingDetails);   
+    // this.bookingDetailSvc.updateBooking(this.bookingDetails);   
     // this.stepIndex.emit(1);
   }
 

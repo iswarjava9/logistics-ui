@@ -31,13 +31,13 @@
           <div class="ui-g-4">Booking Date:</div>
           <div class="ui-g-8">
 
-            <p-calendar showTime="showTime" [formControlName]="'bookingDate'" dateFormat="yy/mm/dd" [utc]="true" ></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'bookingDate'" dateFormat="M/dd/yy" [utc]="true" ></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Amendment Date:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" [formControlName]="'amendmentDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'amendmentDate'" dateFormat="M/dd/yy" [utc]="true"></p-calendar>
           </div>
         </div>
       </div>
@@ -246,13 +246,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Docs Cutoff Date</div>
           <div class="ui-g-8">
-             <p-calendar showTime="showTime" hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'docsCutOffDateTime'" [utc]="true" ></p-calendar>
+             <p-calendar showTime="showTime" hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'docsCutOffDateTime'" [utc]="true" ></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Rail CutOff Date:</div>
           <div class="ui-g-8">
-            <p-calendar [formControlName]="'railCutOffDateTime'" showTime="showTime" dateFormat="yy/mm/dd" [utc]="true" ></p-calendar>
+            <p-calendar [formControlName]="'railCutOffDateTime'" showTime="showTime" dateFormat="M/dd/yy" [utc]="true" ></p-calendar>
           </div>
         </div>
       </div>
@@ -261,13 +261,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Port Cutoff Date:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" [formControlName]="'portCutOffDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'portCutOffDate'" dateFormat="M/dd/yy" [utc]="true"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Cargo Moving Date</div>
           <div class="ui-g-8">
-            <p-calendar hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'cargoMovingDate'" [utc]="true"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'cargoMovingDate'" [utc]="true"></p-calendar>
           </div>
         </div>
       </div>
@@ -276,50 +276,19 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ETD:</div>
           <div class="ui-g-8">
-            <p-calendar hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'sailDate'" [utc]="true"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'sailDate'" [utc]="true"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ETA:</div>
           <div class="ui-g-8">
-            <p-calendar hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'eta'" [utc]="true"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'eta'" [utc]="true"></p-calendar>
           </div>
         </div>
       </div>
-
-      <div class="row">
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">ATA:</div>
-          <div class="ui-g-8">
-            <p-calendar hourFormat="24" dateFormat="yy/mm/dd" [formControlName]="'delieveryEta'" [utc]="true"></p-calendar>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">AES Auth No</div>
-          <div class="ui-g-8">
-            <input pInputText type="text" formControlName="aesAuthNo" id="aesAuthNo"/>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
+       <div class="row">
           <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Docs Received Date</div>
-            <div class="ui-g-8">
-              <p-calendar showTime="showTime" [formControlName]="'docsReceivedDate'" dateFormat="yy/mm/dd" [utc]="true"></p-calendar>
-            </div>
-          </div>
-          <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Shipper Reference</div>
-            <div class="ui-g-8">
-              <input pInputText type="text" formControlName="shipperRefNo" id="shipperRefNo"/>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Empty Container Pickup</div>
+            <div class="ui-g-4">Empty Container Pickup Depot:</div>
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
@@ -350,7 +319,14 @@
               <p-dropdown [(options)]="statusList" formControlName="bookingStatus"  readonly="true"></p-dropdown>
             </div>
           </div>
-          
+          <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Shipper Reference</div>
+              <div class="ui-g-8">
+                <input pInputText type="text" formControlName="shipperRefNo" id="shipperRefNo"/>
+              </div>
+            </div>
+          </div>
+          <div class="row">
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Remarks:</div>
             <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="remarks"></textarea>
@@ -405,15 +381,30 @@
           </div>
           <div class="row">
               <div class="ui-g-12 ui-md-6">
+                <div class="ui-g-4">ATA:</div>
+                <div class="ui-g-8">
+                  <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'delieveryEta'" [utc]="true" [readonlyInput]="false"></p-calendar>
+                </div>
+              </div>
+              <div class="ui-g-12 ui-md-6">
+                <div class="ui-g-4">AES Auth No</div>
+                <div class="ui-g-8">
+                  <input pInputText type="text" formControlName="aesAuthNo" id="aesAuthNo"/>
+                </div>
+              </div>
+            </div>
+      
+          <div class="row">
+              <div class="ui-g-12 ui-md-6">
                 <div class="ui-g-4">Empty Pickup Date</div>
                 <div class="ui-g-8">
-                   <p-calendar dateFormat="yy/mm/dd" [formControlName]="'emptyPickupDate'" [utc]="true" ></p-calendar>
+                   <p-calendar dateFormat="M/dd/yy" [formControlName]="'emptyPickupDate'" [utc]="true" [readonlyInput]="false"></p-calendar>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-6">
                 <div class="ui-g-4">Early Receiving Date:</div>
                 <div class="ui-g-8">
-                  <p-calendar [formControlName]="'earlyReceivingDate'"dateFormat="yy/mm/dd" [utc]="true" ></p-calendar>
+                  <p-calendar [formControlName]="'earlyReceivingDate'"dateFormat="M/dd/yy" [utc]="true" [readonlyInput]="false"></p-calendar>
                 </div>
               </div>
             </div>
@@ -430,6 +421,12 @@
                     </button>
                   </div>
                 </div>
+                <div class="ui-g-12 ui-md-6">
+                    <div class="ui-g-4">Docs Received Date</div>
+                    <div class="ui-g-8">
+                      <p-calendar showTime="showTime" [formControlName]="'docsReceivedDate'" dateFormat="M/dd/yy" [utc]="true"></p-calendar>
+                    </div>
+                  </div>
           </div>
 <!-- 
         <div class="row">

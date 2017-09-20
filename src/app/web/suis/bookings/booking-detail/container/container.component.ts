@@ -92,8 +92,8 @@ export class ContainerComponent implements OnInit {
     this.bookingDetails = this.bookingSvc.getBookingDetails();
     if(isNullOrUndefined(this.bookingDetails)){
       this.bookingDetails = new Booking();
-    }
-    if(isNullOrUndefined(this.bookingDetails.containerDetails)){
+      this.bookingDetails.containerDetails = [];
+    }else if(isNullOrUndefined(this.bookingDetails.containerDetails)){
       this.bookingDetails.containerDetails = [];
     }
      
@@ -196,10 +196,15 @@ export class ContainerComponent implements OnInit {
               }
             );
       }
-        
+      
         console.log('booking id:' + this.bookingSvc.getBookingId());
   
       }
+
+      // reset 
+      this.containerType = new ContainerType();
+      this.commodity = new Commodity();
+      this.numberOfContainers = 1;
       // this.updateContainerTypeMap(); 
       dialog.visible = false;
     }
