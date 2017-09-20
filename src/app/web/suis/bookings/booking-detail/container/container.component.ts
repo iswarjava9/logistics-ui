@@ -133,9 +133,9 @@ export class ContainerComponent implements OnInit {
   search(event, key) {
     const query = event.query;
     if (key === 'containerType') {
-      this.filteredContainerTypes = this.filterContainerTypes(query);
+      this.filterContainerTypes(query);
     }else if (key === 'commodity') {
-      this.filteredCommodities = this.filterCommodities(query);
+      this.filterCommodities(query);
     }
   }
 
@@ -175,6 +175,9 @@ export class ContainerComponent implements OnInit {
       this.msgSvc.add({severity: 'warn', summary: 'Commodity is required field.', detail: ''});
       return;
     }
+    if(isNullOrUndefined(this.bookingDetails.containerDetails)){
+      this.bookingDetails.containerDetails = [];
+    }
       for (let i = 0; i < this.numberOfContainers; i++) {
         const container = new Container();
         container.bookingId = this.bookingSvc.getBookingId();
@@ -186,16 +189,13 @@ export class ContainerComponent implements OnInit {
                 const containerid = Number(response.headers.get('containerid'));
                 container.id = containerid;
                 console.log('Container created with id: ' + containerid);
+                this.bookingDetails.containerDetails.push(container);
               },
               (error) => {
 
               }
             );
       }
-        if(isNullOrUndefined(this.bookingDetails.containerDetails)){
-          this.bookingDetails.containerDetails = [];
-        }
-        this.bookingDetails.containerDetails.push(container);
         
         console.log('booking id:' + this.bookingSvc.getBookingId());
   

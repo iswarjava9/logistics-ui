@@ -1,3 +1,4 @@
+import { BookingService } from './booking/service/booking.service';
 import { Event } from '@angular/router';
 import { BookingDetailService } from './service/booking-detail.service';
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
@@ -14,7 +15,7 @@ export class BookingDetailComponent implements OnInit {
 
   stepItems: MenuItem[];
   activeIndex = 0;
-  constructor(private bookingSvc: BookingDetailService){}
+  constructor(private bookingDetailSvc: BookingDetailService, private bookingSvc: BookingService){}
   ngOnInit() {
     this.stepItems = [
       {label: 'Booking Details'},
@@ -35,5 +36,9 @@ export class BookingDetailComponent implements OnInit {
     this.activeIndex = step;
     console.log('OnChange...' + step);
     // this.changeBookingDetailsView(step);
+  }
+
+  getBookingDetails(){
+    return this.bookingSvc.bookingDetails;
   }
 }

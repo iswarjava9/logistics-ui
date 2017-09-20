@@ -1,6 +1,13 @@
-<p-steps styleClass="steps-custom" [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false" (onclick)="changeBookingDetailsView($event)" ></p-steps>
+<div>
+  <div class="pull-right">
+     <span style="font-weight:bold; font-size:12pt">Forwarder Ref#: {{getBookingDetails().forwarderRefNo}}</span>
+  </div>
+  <div class="center">
+     <p-steps styleClass="steps-custom" [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false" (onclick)="changeBookingDetailsView($event)" ></p-steps>
+  </div>
+</div>
 <br>
-<br>
+
 <div>
   <app-booking *ngIf="activeIndex==0" (stepIndex)="onChange($event)"></app-booking>
   <app-container *ngIf="activeIndex==1" (stepIndex)="onChange($event)"></app-container>

@@ -7,7 +7,7 @@
 <div class="row">
   
   <button type="button"  class="btn-primary" (click)="addContainers($event, dialogAddContainers)"  *ngIf="bookingDetails.id">Add Containers</button>
-  <button type="button" class="btn-primary" (click)="createContainer($event, dialogContainer)"  *ngIf="bookingDetails.id">New Container</button>
+  <!-- <button type="button" class="btn-primary" (click)="createContainer($event, dialogContainer)"  *ngIf="bookingDetails.id">New Container</button> -->
 </div>
 
 <div> </div>
@@ -236,7 +236,7 @@
       <div class="ui-g-12 ui-md-6">
         <div class="ui-g-4">Container Type:</div>
         <div class="ui-g-8">
-          <p-autoComplete delay="500" minlength="3" [suggestions]="filteredContainerTypes"
+          <p-autoComplete delay="500" minlength="1" [suggestions]="filteredContainerTypes"
                           (completeMethod)="search($event, 'containerType')" field="type"
                           [(ngModel)]="containerType"></p-autoComplete>
     
@@ -247,7 +247,7 @@
       <div class="ui-g-12 ui-md-6">
         <div class="ui-g-4">Commodity:</div>
         <div class="ui-g-8">
-          <p-autoComplete delay="500" minlength="3" [suggestions]="filteredCommodities"
+          <p-autoComplete delay="500" minlength="1" [suggestions]="filteredCommodities"
                           (completeMethod)="search($event, 'commodity')" field="name"
                           [(ngModel)]="commodity"
           ></p-autoComplete>
