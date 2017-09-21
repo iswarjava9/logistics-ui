@@ -1,3 +1,4 @@
+import { ConfigService } from './../../../../services/config.service';
 import { DateHelper } from './../../../../util/dateHelper';
 import { Booking } from './../../../../models/booking.model';
 import { Injectable } from '@angular/core';
@@ -21,12 +22,12 @@ export class BookingService {
 
   headers: Headers = new Headers();
   private options: RequestOptions ;
-  HOST = 'http://localhost:8080';
-  constructor(private http: Http) {
+  HOST = '';
+  constructor(private http: Http, private configSvc: ConfigService) {
     this.headers.append('Accept', 'application/json');
     this.headers.append('Content-Type', 'application/json');
     this.options = new RequestOptions({headers: this.headers});
-
+    this.HOST = configSvc.getConfiguration().baseUrl;
   }
 updateBooking(bookig: Booking){
   this.bookingDetails = bookig;

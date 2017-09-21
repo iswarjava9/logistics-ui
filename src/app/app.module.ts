@@ -2,6 +2,7 @@ import { ContainerService } from './web/suis/bookings/booking-detail/container/s
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {HttpModule} from '@angular/http';
+import { APP_INITIALIZER } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
@@ -23,6 +24,7 @@ import {InputMaskModule} from 'primeng/components/inputMask/inputMask';
 
 import {AuthService} from './web/suis/shared/auth/auth.service';
 import {AuthgaurdService} from './web/suis/shared/auth/authgaurd.service';
+import {ConfigLoader} from './ConfigLoader';
 
 
 /*import {SharedModule} from 'primeng/Shared';*/
@@ -35,6 +37,7 @@ import { BookingListComponent } from './web/suis/bookings/booking-list/booking-l
 import { BookingDetailComponent } from './web/suis/bookings/booking-detail/booking-detail.component';
 import {LogisoftRoutingModule} from './app-routing.module';
 import {RootService} from './root.service';
+import { ConfigService } from './web/suis/services/config.service';
 import {BookingListService} from './web/suis/bookings/booking-list/service/booking-list.service';
 import {BookingDetailService} from './web/suis/bookings/booking-detail/service/booking-detail.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -46,6 +49,7 @@ import {BookingService} from './web/suis/bookings/booking-detail/booking/service
 import {SpinnerComponent} from './web/suis/shared/spinner/spinner.component';
 import {HomeComponent} from './web/suis/shared/home/home.component';
 import {CallbackComponent} from './web/suis/shared/callback/callback.component';
+// import { LoginComponent } from './web/suis/shared/login/login.component';
 
 
 @NgModule({
@@ -61,7 +65,8 @@ import {CallbackComponent} from './web/suis/shared/callback/callback.component';
     BookingComponent,
     ContainerComponent,
     ChargesComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    // LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +92,12 @@ import {CallbackComponent} from './web/suis/shared/callback/callback.component';
     BlockUIModule,
     InputMaskModule
   ],
-  providers: [RootService, AuthService, AuthgaurdService, BookingListService, BookingService, ContainerService, BookingDetailService ],
+  providers: [RootService, ConfigService,{
+    provide: APP_INITIALIZER,
+    useFactory: ConfigLoader,
+    deps: [ConfigService],
+    multi:true
+},/*  AuthService, AuthgaurdService,  */BookingListService, BookingService, ContainerService, BookingDetailService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

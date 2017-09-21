@@ -1,3 +1,4 @@
+import { ConfigService } from './../../../../services/config.service';
 import { Container } from './../../../../models/container.model';
 import { Commodity } from './../../../../models/commodity.model';
 import { ContainerType } from './../../../../models/containerType.model';
@@ -11,12 +12,12 @@ export class ContainerService {
   headers: Headers = new Headers();
   private options: RequestOptions ;
   
-  hosturl = 'http://localhost:8080';
+  hosturl = '';
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private configSvc: ConfigService) {
     this.headers.append('Accept', 'application/json');
     this.headers.append('Content-Type', 'application/json');
-
+    this.hosturl = configSvc.getConfiguration().baseUrl;
   }
 
 

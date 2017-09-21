@@ -9,8 +9,6 @@ export class BookingDetailService {
   activeIndex = 0;
 
   constructor(private http: Http) {
-
-
     this.headers = new Headers({'Content-Type': 'application/json; charset=UTF-8'});
     this.options = new RequestOptions({method: RequestMethod.Post, headers: this.headers});
   }
