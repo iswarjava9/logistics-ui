@@ -48,7 +48,7 @@ import { ChargesComponent } from './web/suis/bookings/booking-detail/charges/cha
 import {BookingService} from './web/suis/bookings/booking-detail/booking/service/booking.service';
 import {SpinnerComponent} from './web/suis/shared/spinner/spinner.component';
 import {HomeComponent} from './web/suis/shared/home/home.component';
-import {CallbackComponent} from './web/suis/shared/callback/callback.component';
+// import {CallbackComponent} from './web/suis/shared/callback/callback.component';
 // import { LoginComponent } from './web/suis/shared/login/login.component';
 
 
@@ -57,7 +57,7 @@ import {CallbackComponent} from './web/suis/shared/callback/callback.component';
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    CallbackComponent,
+    // CallbackComponent,
     QuoteListComponent,
     QuoteDetailComponent,
     BookingListComponent,
@@ -78,7 +78,7 @@ import {CallbackComponent} from './web/suis/shared/callback/callback.component';
     GrowlModule,
     DialogModule,
     InputTextareaModule,
-  /*  SharedModule,*/
+  /*  SharedModule, AuthService, AuthgaurdService,*/
     DropdownModule,
     SliderModule,
     MultiSelectModule,
@@ -97,7 +97,7 @@ import {CallbackComponent} from './web/suis/shared/callback/callback.component';
     useFactory: ConfigLoader,
     deps: [ConfigService],
     multi:true
-},/*  AuthService, AuthgaurdService,  */BookingListService, BookingService, ContainerService, BookingDetailService ],
+}, BookingListService, BookingService, ContainerService, BookingDetailService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
