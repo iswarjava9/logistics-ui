@@ -23,7 +23,7 @@ import {BlockUIModule} from 'primeng/components/blockui/blockui';
 import {InputMaskModule} from 'primeng/components/inputMask/inputMask';
 
 import {AuthService} from './web/suis/shared/auth/auth.service';
-import {AuthgaurdService} from './web/suis/shared/auth/authgaurd.service';
+// import {AuthgaurdService} from './web/suis/shared/auth/authgaurd.service';
 import {ConfigLoader} from './ConfigLoader';
 
 
@@ -97,7 +97,7 @@ import {HomeComponent} from './web/suis/shared/home/home.component';
     useFactory: ConfigLoader,
     deps: [ConfigService],
     multi:true
-}, BookingListService, BookingService, ContainerService, BookingDetailService ],
+}, BookingListService, BookingService, ContainerService, BookingDetailService, AuthService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
