@@ -1,3 +1,4 @@
+import { LoginComponent } from './web/suis/shared/login/login.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -7,17 +8,17 @@ import {QuoteDetailComponent} from './web/suis/quotes/quote-detail/quote-detail.
 import {BookingDetailComponent} from './web/suis/bookings/booking-detail/booking-detail.component';
 
 import {HomeComponent} from './web/suis/shared/home/home.component';
-import {CallbackComponent} from './web/suis/shared/callback/callback.component';
 import {AuthgaurdService} from './web/suis/shared/auth/authgaurd.service';
 
 const logisoftAppRoutes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'quote-list', component: QuoteListComponent },
-  { path: 'booking-list', component: BookingListComponent},
-  { path: 'quote-detail', component: QuoteDetailComponent},
-  { path: 'booking-detail', component: BookingDetailComponent},
-  { path: 'booking-detail/:id', component: BookingDetailComponent}
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'home', component: HomeComponent , canActivate: [AuthgaurdService]},
+  { path: 'quote-list', component: QuoteListComponent, pathMatch: 'full', canActivate: [AuthgaurdService] },
+  { path: 'booking-list', component: BookingListComponent, pathMatch: 'full', canActivate: [AuthgaurdService]},
+  { path: 'quote-detail', component: QuoteDetailComponent, pathMatch: 'full', canActivate: [AuthgaurdService] },
+  { path: 'booking-detail', component: BookingDetailComponent, pathMatch: 'full',  canActivate: [AuthgaurdService] },
+  { path: 'booking-detail/:id', component: BookingDetailComponent,  canActivate: [AuthgaurdService] }
 ];
 
 @NgModule({

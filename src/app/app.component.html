@@ -1,4 +1,4 @@
-<app-header (featureSelected)="onNavigate($event)"></app-header>
+<app-header (featureSelected)="onNavigate($event)" *ngIf="auth.isAuthenticated()"></app-header>
 <p-growl [(value)]="msgs" life="3000"></p-growl>
 <div class="container">
   <div class="row">

@@ -1,3 +1,4 @@
+
 import { ContainerService } from './web/suis/bookings/booking-detail/container/service/container.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -21,9 +22,11 @@ import {DialogModule} from 'primeng/components/dialog/dialog';
 import {InputTextareaModule} from 'primeng/components/inputtextarea/inputtextarea';
 import {BlockUIModule} from 'primeng/components/blockui/blockui';
 import {InputMaskModule} from 'primeng/components/inputMask/inputMask';
+import {PasswordModule} from 'primeng/components/password/password';
+
 
 import {AuthService} from './web/suis/shared/auth/auth.service';
-// import {AuthgaurdService} from './web/suis/shared/auth/authgaurd.service';
+import {AuthgaurdService} from './web/suis/shared/auth/authgaurd.service';
 import {ConfigLoader} from './ConfigLoader';
 
 
@@ -48,8 +51,7 @@ import { ChargesComponent } from './web/suis/bookings/booking-detail/charges/cha
 import {BookingService} from './web/suis/bookings/booking-detail/booking/service/booking.service';
 import {SpinnerComponent} from './web/suis/shared/spinner/spinner.component';
 import {HomeComponent} from './web/suis/shared/home/home.component';
-// import {CallbackComponent} from './web/suis/shared/callback/callback.component';
-// import { LoginComponent } from './web/suis/shared/login/login.component';
+import { LoginComponent } from './web/suis/shared/login/login.component';
 
 
 @NgModule({
@@ -57,7 +59,6 @@ import {HomeComponent} from './web/suis/shared/home/home.component';
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    // CallbackComponent,
     QuoteListComponent,
     QuoteDetailComponent,
     BookingListComponent,
@@ -66,7 +67,7 @@ import {HomeComponent} from './web/suis/shared/home/home.component';
     ContainerComponent,
     ChargesComponent,
     SpinnerComponent,
-    // LoginComponent
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +79,7 @@ import {HomeComponent} from './web/suis/shared/home/home.component';
     GrowlModule,
     DialogModule,
     InputTextareaModule,
-  /*  SharedModule, AuthService, AuthgaurdService,*/
+  /*  SharedModule, */
     DropdownModule,
     SliderModule,
     MultiSelectModule,
@@ -90,14 +91,15 @@ import {HomeComponent} from './web/suis/shared/home/home.component';
     FormsModule,
     CalendarModule,
     BlockUIModule,
-    InputMaskModule
+    InputMaskModule,
+    PasswordModule
   ],
   providers: [RootService, ConfigService,{
     provide: APP_INITIALIZER,
     useFactory: ConfigLoader,
     deps: [ConfigService],
     multi:true
-}, BookingListService, BookingService, ContainerService, BookingDetailService, AuthService ],
+}, BookingListService, BookingService, ContainerService, BookingDetailService, AuthService, AuthgaurdService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

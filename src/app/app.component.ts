@@ -1,3 +1,4 @@
+import { AuthService } from './web/suis/shared/auth/auth.service';
 import { RootService } from './root.service';
 import { Component, OnInit } from '@angular/core';
 import {MessageService} from 'primeng/components/common/messageservice';
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit{
   loadedFeature = 'quote-list';
   msgs: Message[] = [];
 
-  constructor(private rootSvc: RootService){}
+  constructor(private rootSvc: RootService, private auth: AuthService){}
 
   ngOnInit(){
     this.rootSvc.getTimeZones();
