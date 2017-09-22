@@ -3,9 +3,7 @@ import { User } from './../../models/user.model';
 import {Http, Response, Headers, RequestOptions} from '@angular/http';
 import { ConfigService } from './../../services/config.service';
 import { Injectable } from '@angular/core';
-import { AUTH_CONFIG } from './auth0-variables';
 import { Router } from '@angular/router';
-import * as auth0 from 'auth0-js';
 
 @Injectable()
 export class AuthService {
