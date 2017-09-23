@@ -20,7 +20,7 @@ export class AppComponent implements OnInit{
   constructor(private rootSvc: RootService, private auth: AuthService){}
 
   ngOnInit(){
-    this.rootSvc.getTimeZones();
+   // this.rootSvc.getTimeZones();
   }
   onNavigate(feature: string) {
     this.loadedFeature = feature;

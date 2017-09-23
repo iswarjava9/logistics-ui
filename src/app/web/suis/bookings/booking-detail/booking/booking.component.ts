@@ -325,8 +325,8 @@ export class BookingComponent implements OnInit {
       this.createdVessel.country = new Country();
       
       this.freightList = [{label: 'Prepaid', value: 'Prepaid'}, {label: 'Collect', value: 'Collect'}];
-      this.timezoneIdList = this.rootSvc.getTimeZones();
-      // this.initializeTimeZoneIds(); 
+      //  this.timezoneIdList = this.rootSvc.getTimeZones();
+      
       this.bookingDetailSvc.updateBooking(this.bookingDetails);
   }
 
