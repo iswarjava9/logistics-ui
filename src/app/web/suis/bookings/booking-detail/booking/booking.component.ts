@@ -25,7 +25,7 @@ import {and, forEach} from '@angular/router/src/utils/collection';
 import {Observable} from 'rxjs/Observable';
 import {Message} from 'primeng/components/common/message';
 import {SelectItem} from 'primeng/components/common/selectitem';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import { ActivatedRoute, Params, Router, ActivatedRouteSnapshot } from '@angular/router';
 import {OverlayPanel} from 'primeng/components/overlaypanel/overlaypanel';
 import {Country} from '../../../models/country.model';
 import {isNullOrUndefined} from 'util';
@@ -41,6 +41,7 @@ export class BookingComponent implements OnInit {
   @Output() stepIndex: EventEmitter<number> = new EventEmitter<number>();;
 
   @Input() bookingId: number;
+  update = false;
 
   msgsGrowl: Message[] = [];
   disableScreen = false;
@@ -208,7 +209,10 @@ export class BookingComponent implements OnInit {
 
     this.route.params.subscribe(
       (params: Params) => {
+        if(params['id']){
         this.bookingId = params['id'];
+        }
+        this.update = params['editable'];
       }
     );
     this.bookingDetails = this.initializeBooking();
@@ -247,13 +251,13 @@ export class BookingComponent implements OnInit {
         'typeOfService': new FormControl(this.bookingDetails.typeOfService),
 
         'billTo': new FormControl(this.bookingDetails.billTo, Validators.required),
-        'consignee': new FormControl(this.bookingDetails.consignee, Validators.required),
+        'consignee': new FormControl(this.bookingDetails.consignee),
         'deliveryAgent': new FormControl(this.bookingDetails.deliveryAgent),
         'localSSLineOffice': new FormControl(this.bookingDetails.localSSLineOffice),
         'notify1': new FormControl(this.bookingDetails.notify1),
         'notify2': new FormControl(this.bookingDetails.notify2),
         'cargoSupplier': new FormControl(this.bookingDetails.cargoSupplier),
-        'shipper': new FormControl(this.bookingDetails.shipper, Validators.required),
+        'shipper': new FormControl(this.bookingDetails.shipper),
         'carrier': new FormControl(this.bookingDetails.carrier),
         'bookingAgent': new FormControl(this.bookingDetails.bookingAgent, Validators.required),
         'lineOfBusiness': new FormControl(this.bookingDetails.lineOfBusiness),
@@ -456,7 +460,7 @@ export class BookingComponent implements OnInit {
   }
 
 
-  saveBooking(route: string, step: number) {
+  saveBooking(routing: string, step: number) {
     this.populateBooking(this.bookingDetailFormGroup, this.bookingDetails);
     this.msgsGrowl = [];
    
@@ -474,14 +478,23 @@ export class BookingComponent implements OnInit {
           DateHelper.convertDateStringsToDates(body);
           this.bookingDetails = body;
           this.bookingDetailSvc.updateBooking(this.bookingDetails);
+          this.bookingId = this.bookingDetails.id;
+          
           const createBookingMsg = {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'};
           this.msgSvc.add(createBookingMsg);
-          //this.msgsGrowl.push(createBookingMsg);
-        this.bookingDetailSvc.updateMessages(createBookingMsg);
-          if(route != null){
-            this.router.navigate([route]);
-          }else if(step > -1 ){
-            this.stepIndex.emit(step);
+          // this.msgsGrowl.push(createBookingMsg);
+          // this.bookingDetailSvc.updateMessages(createBookingMsg);
+          let params: Params = {};
+          if(routing == null) {
+            params = Object.assign({}, this.route.snapshot.params);
+            params['id'] = this.bookingId;
+            routing = '/booking-detail';
+           }
+          if(routing != null){
+            this.router.navigate([routing, params]);
+            if(step > -1 ){
+              this.stepIndex.emit(step);
+            }
           }else{
               this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
           }
@@ -512,8 +525,9 @@ export class BookingComponent implements OnInit {
         this.bookingDetails = body;
         this.bookingDetailSvc.updateBooking(this.bookingDetails);
         this.bookingDetailSvc.updateMessages(modifyMsg);
-        if(route != null){
-          this.router.navigate([route]);
+        if(routing != null){
+          
+          this.router.navigate([routing]);
         }else if(step > -1 ){
           this.stepIndex.emit(step);
         }else{
@@ -1033,5 +1047,20 @@ export class BookingComponent implements OnInit {
   clearPlace(formGroup: FormGroup, fieldControl: string){
    formGroup.get(fieldControl).setValue(null);
     this.createdPlace = null;
+  }
+
+  showButton(condition1: boolean, condition2: boolean, logOperator: string): boolean{
+    /* console.log('condition1: ' + condition1);
+    console.log('condition2: ' + condition2);
+    console.log('condition1 or 2: ' + condition1||condition2); */
+  
+    if(logOperator == 'OROperator'){
+      return (condition1 || condition2);
+    }else if(logOperator === 'AND') {
+      return condition1 && condition2;
+    }else{
+      return true;
+    }
+    
   }
 }

@@ -7,7 +7,7 @@
   </div>
 </div>
 <p-dataTable sortMode="multiple" [value]="bookings" [rows]="10" [paginator]="true" [globalFilter]="gb" #dt
- selectionMode="single" [(selection)]="selectedBooking" (onRowSelect)="handleBookingSelection($event)">
+ [(selection)]="selectedBooking" (onRowSelect)="handleBookingSelection($event)">
   <p-header>List of Bookings</p-header>
 
   <p-column field="carrierBookingNo" header="Carrier Booking#" [filter]="true" filterPlaceholder="Search"  [sortable]="true"></p-column>
@@ -25,6 +25,18 @@
           <span >{{bookingDate[col.field] | date:fullDate}}</span>
       </ng-template>
   </p-column>
+
+  <p-column styleClass="col-button" header="Action">
+     <ng-template let-booking="rowData" pTemplate="body">
+          <button type="button" class="ui-button-secondary" pButton  icon="fa-file-pdf-o" (click)="print(booking.id)"></button>
+          <button type="button" pButton class="ui-button-warning" icon="fa-check" iconPos="right" (click)="updateBooking(booking.id)"></button>
+          <button type="button" pButton class="ui-button-danger" icon="fa-close" (click)="cancelBooking()"></button>
+          <button type="button" pButton class="ui-button-info" icon="fa-eye" (click)="viewBooking(booking.id)">
+            
+          </button>
+          
+      </ng-template>
+  </p-column>
 </p-dataTable>
 
 
@@ -33,7 +45,7 @@
   <p-footer>
     <div class="ui-dialog-buttonpane ui-helper-clearfix">
       <button type="button" pButton icon="fa-close" (click)="delete()" label="Delete Booking"></button>
-      <button type="button" pButton icon="fa-check" (click)="updateBooking()" label="Update Booking"></button>
+      <button type="button" pButton icon="fa-check" (click)="updateBooking(selectedBooking.id)" label="Update Booking"></button>
     </div>
   </p-footer>
 </p-dialog>

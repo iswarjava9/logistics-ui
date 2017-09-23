@@ -1,3 +1,4 @@
+import {Event,ActivatedRoute, Params, Router} from '@angular/router';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { forEach } from '@angular/router/src/utils/collection';
 import { DataTable } from 'primeng/components/DataTable/DataTable';
@@ -19,8 +20,6 @@ import {Dialog} from 'primeng/components/dialog/dialog';
 import { Message } from 'primeng/components/common/message';
 
 
-import {Event, Router} from '@angular/router';
-
 @Component({
   selector: 'app-container',
   templateUrl: './container.component.html',
@@ -38,6 +37,7 @@ export class ContainerComponent implements OnInit {
   filteredContainerTypes: any[];
   filteredCommodities: any[];
   allContainerTypes: any[];
+  update: boolean;
   // containerTypeMap: Map<string, number> = new Map();
 
   disableScreen = false;
@@ -53,9 +53,15 @@ export class ContainerComponent implements OnInit {
   displayConatinerDialog = false;
   
 
-  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router, private msgSvc: MessageService) { }
+  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router, private msgSvc: MessageService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    this.route.params.subscribe(
+      (params: Params) => {
+        this.update = params['editable'];
+     }
+    );
   //  this.bookingSvc.getMessages().forEach(message => this.msgsGrowl.push(message));
     
     this.containerFormGroup = new FormGroup(

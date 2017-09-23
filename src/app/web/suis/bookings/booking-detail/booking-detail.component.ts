@@ -34,8 +34,7 @@ export class BookingDetailComponent implements OnInit {
   }
   onChange(step: number){
     this.activeIndex = step;
-    console.log('OnChange...' + step);
-    // this.changeBookingDetailsView(step);
+ 
   }
 
   getBookingDetails(){

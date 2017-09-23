@@ -6,7 +6,7 @@
   
 <div class="row">
   
-  <button type="button"  class="btn-primary" (click)="addContainers($event, dialogAddContainers)"  *ngIf="bookingDetails.id">Add Containers</button>
+  <button type="button"  class="btn-primary" (click)="addContainers($event, dialogAddContainers)"  *ngIf="bookingDetails.id && update">Add Containers</button>
   <!-- <button type="button" class="btn-primary" (click)="createContainer($event, dialogContainer)"  *ngIf="bookingDetails.id">New Container</button> -->
 </div>
 

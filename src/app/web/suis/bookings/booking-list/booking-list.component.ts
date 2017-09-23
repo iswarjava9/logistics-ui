@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng/components/common/messageservice';
 import { BookingService } from './../booking-detail/booking/service/booking.service';
 import { BookingDetailService } from './../booking-detail/service/booking-detail.service';
 import {Component, enableProdMode, OnInit} from '@angular/core';
@@ -39,7 +40,7 @@ export class BookingListComponent implements OnInit {
 
   dateFilter: number;
 
-  constructor(private router: Router, private bookingListSvc: BookingListService, private bookingSvc: BookingService) {}
+  constructor(private router: Router, private bookingListSvc: BookingListService, private bookingSvc: BookingService, private msgSvc: MessageService) {}
 
   ngOnInit() {
     this.bookingSvc.getMessages().forEach(message => this.msgsGrowl.push(message));
@@ -51,7 +52,7 @@ export class BookingListComponent implements OnInit {
         DateHelper.convertDateStringsToDates(body);
         // DateHelper.removeTimeAndTimeZone(body);        
         this.bookings = body;
-        
+          
         
        // this.bookings.forEach(item => item.bookingDate = item.bookingDate | date: 'dd/MM/yyyy');
         console.log(body);
@@ -70,7 +71,7 @@ export class BookingListComponent implements OnInit {
     
   }
   createNewBooking() {
-    this.router.navigate(['/booking-detail']);
+    this.router.navigate(['/booking-detail', {editable: true}]);
   }
 
   handleBookingSelection(event) {
@@ -81,11 +82,42 @@ export class BookingListComponent implements OnInit {
     this.displayBookingDialog = true;
   }
 
+  cancelBooking(){
+
+  }
   delete() {
 
   }
-  updateBooking() {
-    this.router.navigate(['/booking-detail', this.selectedID]);
+  updateBooking(bookingId: number) {
+    this.router.navigate(['/booking-detail', {id: bookingId, editable: true}]);
 
   }
+
+  viewBooking(bookingId: number) {
+    this.router.navigate(['/booking-detail', {id: bookingId, editable: false}]);
+  }
+  
+  print(id: number) {
+    this.disableScreen = true;
+    this.bookingSvc.getPDF(id).subscribe(
+        (response: any) => {
+            const fileBlob = response.blob();
+            const blob = new Blob([fileBlob], {
+                type: 'application/pdf' // must match the Accept type
+            });
+            const fileURL = URL.createObjectURL(blob);
+            window.open(fileURL);
+            this.disableScreen = false;
+        },
+        error => {console.log(error);
+            this.disableScreen = false;
+            this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: ' Booking Confirmation pdf Creation Failed'});
+            // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
+        },
+        success => {
+            console.log(success);
+            this.disableScreen = false;
+        }
+    );
+}
  }
