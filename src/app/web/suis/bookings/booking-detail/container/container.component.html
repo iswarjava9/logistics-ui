@@ -1,16 +1,12 @@
+<div class="container-fluid">
+
 <div class="row">
-  <!-- <div>
-    <p-growl [(value)]="msgsGrowl" life="3000"></p-growl>
+  <div class="ui-g-12">
+    <button type="button"  class="btn-primary" (click)="addContainers($event, dialogAddContainers)"  *ngIf="bookingDetails.id && update">Add Containers</button>
   </div>
-</div> -->
-  
-<div class="row">
-  
-  <button type="button"  class="btn-primary" (click)="addContainers($event, dialogAddContainers)"  *ngIf="bookingDetails.id && update">Add Containers</button>
-  <!-- <button type="button" class="btn-primary" (click)="createContainer($event, dialogContainer)"  *ngIf="bookingDetails.id">New Container</button> -->
 </div>
 
-<div> </div>
+<br>
 
 <p-dataTable #dt [(value)]="this.bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
 [sortableRowGroup]="false" selectionMode="single" [(selection)]="selectedContainer" (onRowSelect)="onRowSelect($event)"
@@ -37,6 +33,7 @@
 
   </div>
   </div>
+
 <p-dialog #dialogContainer modal="true" appendTo="body" [closable]="false">
 
         <form [formGroup]="containerFormGroup">
