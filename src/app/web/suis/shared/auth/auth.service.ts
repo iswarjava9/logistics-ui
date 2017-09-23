@@ -43,8 +43,6 @@ export class AuthService {
       (error) => {
         this.isLoginInProcess = false;
         this.loginMessage = 'User name or password is not valid!';
-        console.log(error);
-        console.log('NOT Authenticated..');
         this.router.navigate(['/login'])
       }
     );
@@ -73,10 +71,7 @@ export class AuthService {
     // localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
     this.user = authResult.user;
-    console.log('authResult.accessToken:' + authResult.accessToken);
-  //  console.log('authResult.idToken:' + authResult.idToken);
-    console.log('authResult.expiresAt:' + expiresAt);
-  }
+   }
 
   public logout(): void {
     // Remove tokens and expiry time from localStorage
