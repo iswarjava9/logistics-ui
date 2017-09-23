@@ -358,7 +358,7 @@
               <div class="ui-g-4">Sales Representative</div>
               <div class="ui-g-8">
                 <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPersons"
-                                (completeMethod)="search($event, 'salesRepresentative')" field="name"
+                                (completeMethod)="search($event, 'person')" field="name"
                                 [formControlName]="'salesRepresentative'">
                 </p-autoComplete>
                 <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPerson($event,'salesRepresentative', opPerson , 'Sales Representative')">
