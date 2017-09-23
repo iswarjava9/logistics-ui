@@ -23,9 +23,8 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.auth.setLoginInProgress(true);
+    this.auth.clearLoginMessage();
     this.auth.login(this.loginFormGroup.get('email').value, this.loginFormGroup.get('password').value);
-    console.log('Form group:' + this.loginFormGroup);
-    console.log('email:' + this.loginFormGroup.get('email').value);
-    console.log('password:' +  this.loginFormGroup.get('password').value);
   }
 }

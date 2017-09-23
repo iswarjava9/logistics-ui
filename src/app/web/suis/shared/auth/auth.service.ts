@@ -11,6 +11,8 @@ export class AuthService {
   headers: Headers = new Headers();
   options: RequestOptions;
   user = User;
+  loginMessage: string;
+  isLoginInProcess = false;
 /* 
   auth0 = new auth0.WebAuth({
     clientID: AUTH_CONFIG.clientID,
@@ -26,6 +28,7 @@ export class AuthService {
   }
 
   public login(username: string, password: string): void {
+    this.isLoginInProcess = true;
     //this.auth0.authorize();
     this.headers = new Headers();
     this.headers.append('username', username);
@@ -33,11 +36,13 @@ export class AuthService {
     this.options = new RequestOptions({headers: this.headers});
     this.http.get(this.HOST + '/logistics/authentication/login', this.options).subscribe(
       (response) =>{
-        // auth = response.json();
+        this.isLoginInProcess = false;
         this.setSession(response.json());
         this.router.navigate(['/home']);
       },
       (error) => {
+        this.isLoginInProcess = false;
+        this.loginMessage = 'User name or password is not valid!';
         console.log(error);
         console.log('NOT Authenticated..');
         this.router.navigate(['/login'])
@@ -93,4 +98,16 @@ export class AuthService {
     }
   }
 
+  getLoginMessage() {
+    return this.loginMessage;
+  }
+  clearLoginMessage() {
+    this.loginMessage = null;
+  }
+  isLoginInProgress(){
+    return this.isLoginInProcess;
+  }
+  setLoginInProgress(isInProcess: boolean){
+    this.isLoginInProcess = isInProcess;
+  }
 }

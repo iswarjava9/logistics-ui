@@ -16,13 +16,16 @@
     <form [formGroup]="loginFormGroup">
       <div class="form-group">
         <!-- <label for="email">User Name:</label> -->
-        <input type="email" id="email" formControlName="email" placeholder="UserName" size="50" >
+        <input type="email" id="email" formControlName="email" placeholder="User Name" size="50" >
       </div>
       <div class="form-group">
        <!--  <label for="password">  Password:   </label> -->
         <input type="password" formControlName="password" id="password" placeholder="Password" size="50"/>
       </div>
-      <button class="btn btn-primary" type="submit" [disabled]="!loginFormGroup.valid" (click)="login()">Sign In</button>
+      <div>
+        <span *ngIf="auth.getLoginMessage()" style="color: red">{{auth.getLoginMessage()}}</span>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!loginFormGroup.valid||auth.isLoginInProgress()" (click)="login()">Sign In</button>
     </form>
   </div>
 </div>
