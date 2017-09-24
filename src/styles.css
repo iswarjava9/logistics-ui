@@ -4,3 +4,20 @@
     padding-right: 15px;
   width:100%;
 }
+.ui-tooltip {
+  background-color: transparent;
+  background: transparent;
+  flex-wrap: nowrap;
+  }
+.ui-tooltip-text.ui-shadow.ui-corner-all {
+  color: black;
+  text-shadow: transparent;
+  background-color: rgba(219, 235, 3, 0.82);
+  white-space: nowrap;
+  
+}	
+.ui-tooltip-arrow	{
+  background-color: transparent;
+  flex-wrap: nowrap;
+  background: transparent;
+}

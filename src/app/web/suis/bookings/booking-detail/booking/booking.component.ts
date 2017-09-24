@@ -568,63 +568,7 @@ export class BookingComponent implements OnInit {
         }
     }
   }
-  onFocusLoad(key: string, selection: string) {
-    if (key === 'place') {
-      /*this.bookingDetailSvc.getPlaces().
-      subscribe(
-        (res: any) => {
-          this.allPlaces = res.json();
-          console.log(res.json());
-        });*/
-    } else if (key === 'customer') {
-        /*this.bookingDetails[selection].show*/
-      // console.log('Focused...');
-      /*this.bookingDetailSvc.getCustomers().
-      subscribe(
-        (res: any) => {
-          this.allCustomers = res.json();
-          console.log(res.json());
-        });*/
-    } else if (key === 'client') {
-      this.bookingDetailSvc.getClients().
-      subscribe(
-        (res: any) => {
-          this.allClients = res.json();
-        });
-    }/* else if (key === 'person') {
-      this.bookingDetailSvc.getPersons().
-      subscribe(
-        (res: any) => {
-          this.allPersons = res.json();
-        });
-    } */ else if (key === 'lineOfBusiness') {
-      this.bookingDetailSvc.getBusinessLines().
-      subscribe(
-        (res: any) => {
-          this.allLOBs = res.json();
-        });
-    }/* else if (key === 'vessel') {
-      this.bookingDetailSvc.getVessels().
-      subscribe(
-        (res: any) => {
-          this.allVessels = res.json();
-        });
-    }  */else if (key === 'typeOfMove') {
-      this.bookingDetailSvc.getMovementTypess().
-      subscribe(
-        (res: any) => {
-          this.allMoveTypes = res.json();
-        });
-    }/* else if (key === 'division') {
-      this.bookingDetailSvc.getDivisions().
-      subscribe(
-        (res: any) => {
-          this.allDivisions = res.json();
-        });
-    } */
-
-  }
-
+  
   exit() {
     this.msgSvc.clear();
     this.router.navigate(['/booking-list']);

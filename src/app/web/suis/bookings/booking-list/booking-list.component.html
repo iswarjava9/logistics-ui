@@ -29,10 +29,10 @@
 
   <p-column styleClass="col-button" header="Action">
      <ng-template let-booking="rowData" pTemplate="body">
-          <button type="button" class="ui-button-secondary" pButton  icon="fa-file-pdf-o" (click)="print(booking.id)"></button>
-          <button type="button" pButton class="ui-button-warning" icon="fa-check" iconPos="right" (click)="updateBooking(booking.id)"></button>
-          <button type="button" pButton class="ui-button-danger" icon="fa-close" (click)="cancelBooking()"></button>
-          <button type="button" pButton class="ui-button-info" icon="fa-eye" (click)="viewBooking(booking.id)">
+          <button type="button" class="ui-button-primary" pButton style="color:red " icon="fa-file-pdf-o" (click)="print(booking.id)" pTooltip="Print Booking Confirmation" tooltipPosition="top" appendTo="body"></button>
+          <button type="button" pButton class="ui-button-warning" icon="fa-check" iconPos="right" (click)="updateBooking(booking.id)" pTooltip="Update Booking" tooltipPosition="top" appendTo="body"></button>
+          <button type="button" pButton class="ui-button-danger" icon="fa-close" (click)="cancelBooking()" pTooltip="Cancel Booking" tooltipPosition="top" appendTo="body"></button>
+          <button type="button" pButton class="ui-button-info" icon="fa-eye" (click)="viewBooking(booking.id)" pTooltip="View Booking" tooltipPosition="top" appendTo="body">
             
           </button>
           

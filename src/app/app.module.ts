@@ -21,8 +21,7 @@ import {GrowlModule} from 'primeng/components/growl/growl';
 import {DialogModule} from 'primeng/components/dialog/dialog';
 import {InputTextareaModule} from 'primeng/components/inputtextarea/inputtextarea';
 import {BlockUIModule} from 'primeng/components/blockui/blockui';
-import {InputMaskModule} from 'primeng/components/inputMask/inputMask';
-import {PasswordModule} from 'primeng/components/password/password';
+import {TooltipModule} from 'primeng/components/tooltip/tooltip';
 
 
 import {AuthService} from './web/suis/shared/auth/auth.service';
@@ -91,8 +90,7 @@ import { LoginComponent } from './web/suis/shared/login/login.component';
     FormsModule,
     CalendarModule,
     BlockUIModule,
-    InputMaskModule,
-    PasswordModule
+    TooltipModule
   ],
   providers: [RootService, ConfigService,{
     provide: APP_INITIALIZER,
