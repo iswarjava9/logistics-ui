@@ -105,8 +105,14 @@ export class BookingListComponent implements OnInit {
             const blob = new Blob([fileBlob], {
                 type: 'application/pdf' // must match the Accept type
             });
+            
+          if (navigator.appVersion.toString().indexOf('Edge') > 0 || navigator.appVersion.toString().indexOf('.NET') > 0
+                        || navigator.appVersion.toString().indexOf('MSIE') > 0 || navigator.appVersion.toString().indexOf('Trident') > 0) { // for IE browser
+              window.navigator.msSaveOrOpenBlob(fileBlob, 'BookingConfirmation-' + id );
+          }else{
             const fileURL = URL.createObjectURL(blob);
             window.open(fileURL);
+          }
             this.disableScreen = false;
         },
         error => {console.log(error);
