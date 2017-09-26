@@ -128,8 +128,7 @@ getBookingDetails(){
       });
       
       const options = new RequestOptions({ headers: headers });
-// Ensure you set the responseType to Blob.
-      options.responseType = ResponseContentType.Blob;
+      options.responseType = ResponseContentType.Blob;// Set responseType to Blob
 
       return this.http.get(this.HOST + '/logistics/booking/download/' + id, options);
   }
@@ -140,5 +139,20 @@ getBookingDetails(){
     jsonString = JSON.parse(jsonString);
     DateHelper.removeTimeAndTimeZone(jsonString);
     return jsonString;
+  }
+
+  printBookingConfirmation( response: Response, bookingId: number){
+    const fileBlob = response.blob();
+    const blob = new Blob([fileBlob], {
+        type: 'application/pdf' // must match the Accept type
+    });
+    if (navigator.appVersion.toString().indexOf('Edge') > 0 || navigator.appVersion.toString().indexOf('.NET') > 0
+      || navigator.appVersion.toString().indexOf('MSIE') > 0 || navigator.appVersion.toString().indexOf('Trident') > 0) { // for IE browser
+      window.navigator.msSaveOrOpenBlob(fileBlob);
+    }else{
+      const fileURL = URL.createObjectURL(blob);
+      window.open(fileURL);
+      
+    }
   }
 }

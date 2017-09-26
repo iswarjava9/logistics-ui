@@ -23,7 +23,7 @@
   <!-- filterPlaceholder="Search" -->
   <p-column field="bookingDate" header="Booking Date" [sortable]="true">
       <ng-template let-col let-bookingDate="rowData" pTemplate="body">
-          <span >{{bookingDate[col.field] | date:fullDate}}</span>
+          <span >{{bookingDate[col.field]}}</span>
       </ng-template>
   </p-column>
 

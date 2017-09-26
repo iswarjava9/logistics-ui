@@ -309,24 +309,19 @@ createCommodity(dialog: Dialog){
     ); 
   }
 
-  print() {
+  print(bookingId: number) {
     // this.msgsGrowl = [];
     this.disableScreen = true;
-    this.bookingSvc.getPDF(this.bookingDetails.id).subscribe(
+    this.bookingSvc.getPDF(bookingId).subscribe(
         (response: any) => {
-            const fileBlob = response.blob();
-            const blob = new Blob([fileBlob], {
-                type: 'application/pdf' // must match the Accept type
-            });
-            const fileURL = URL.createObjectURL(blob);
-            window.open(fileURL);
+            this.bookingSvc.printBookingConfirmation(response, bookingId);
+            this.msgSvc.add({severity: 'success', summary: 'PDF Generation ', detail: 'Booking Confirmation PDF is generated.'});
             this.disableScreen = false;
-        },
+          },
         error => {console.log(error);
             this.disableScreen = false;
             this.msgSvc.add({severity: 'error', summary: 'PDF Generation ', detail: 'PDF generation failed.'});
-            // this.msgsGrowl.push({severity: 'error', summary: 'PDF Generation ', detail: 'PDF generation failed.'});
-        },
+          },
         success => {
             console.log(success);
             this.disableScreen = false;

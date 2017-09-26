@@ -26,7 +26,7 @@
     
     <button pButton label="Cancel Booking" type="submit" (click)="cancelBooking()" *ngIf="bookingDetails.id"></button>
     
-    <button pButton label="Print" type="submit" (click)="print()" *ngIf="bookingDetails.id"></button>
+    <button pButton label="Print" type="submit" (click)="print(bookingDetails.id)" *ngIf="bookingDetails.id"></button>
     <button pButton label="Exit" type="submit" (click)="exit()"></button>
 
     <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>

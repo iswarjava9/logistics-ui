@@ -1,3 +1,4 @@
+import { forEach } from '@angular/router/src/utils/collection';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { BookingService } from './../booking-detail/booking/service/booking.service';
 import { BookingDetailService } from './../booking-detail/service/booking-detail.service';
@@ -5,14 +6,15 @@ import {Component, enableProdMode, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HttpResponse} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
-import { DatePipe } from '@angular/common';
+
+import {DateHelper} from '../../util/dateHelper';
 
 import {SelectItem} from 'primeng/primeng';
 import { Message } from 'primeng/components/common/message';
 
 import {BookingInfo} from '../../models/bookinglist/bookingInfo.model';
 import {BookingListService} from './service/booking-list.service';
-import {DateHelper} from '../../util/dateHelper';
+
 
 
 @Component({
@@ -48,15 +50,13 @@ export class BookingListComponent implements OnInit {
     this.bookingListSvc.getBookingList().
     subscribe(
       (res: any) => {
+        let bookingList: BookingInfo[] = [];
         let body = res.json();
-        DateHelper.convertDateStringsToDates(body);
+        DateHelper.convertDateStrings(body);
+        
         // DateHelper.removeTimeAndTimeZone(body);        
         this.bookings = body;
-          
-        
-       // this.bookings.forEach(item => item.bookingDate = item.bookingDate | date: 'dd/MM/yyyy');
-        console.log(body);
-          this.disableScreen = false;
+        this.disableScreen = false;
         },
         (error) => {
             this.disableScreen = false;
@@ -97,22 +97,12 @@ export class BookingListComponent implements OnInit {
     this.router.navigate(['/booking-detail', {id: bookingId, editable: false}]);
   }
   
-  print(id: number) {
+  print(bookingId: number) {
     this.disableScreen = true;
-    this.bookingSvc.getPDF(id).subscribe(
+    this.bookingSvc.getPDF(bookingId).subscribe(
         (response: any) => {
-            const fileBlob = response.blob();
-            const blob = new Blob([fileBlob], {
-                type: 'application/pdf' // must match the Accept type
-            });
-            
-          if (navigator.appVersion.toString().indexOf('Edge') > 0 || navigator.appVersion.toString().indexOf('.NET') > 0
-                        || navigator.appVersion.toString().indexOf('MSIE') > 0 || navigator.appVersion.toString().indexOf('Trident') > 0) { // for IE browser
-              window.navigator.msSaveOrOpenBlob(fileBlob, 'BookingConfirmation-' + id );
-          }else{
-            const fileURL = URL.createObjectURL(blob);
-            window.open(fileURL);
-          }
+            this.bookingSvc.printBookingConfirmation(response, bookingId);
+            this.msgSvc.add({severity: 'success', summary: 'PDF Generation ', detail: 'Booking Confirmation PDF is generated.'});
             this.disableScreen = false;
         },
         error => {console.log(error);
@@ -121,7 +111,6 @@ export class BookingListComponent implements OnInit {
             // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
         },
         success => {
-            console.log(success);
             this.disableScreen = false;
         }
     );

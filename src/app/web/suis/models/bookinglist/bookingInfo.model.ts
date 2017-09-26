@@ -12,21 +12,53 @@ import {PortOfLoadShortInfo} from '../metamodel/portOfLoadShortInfo.model';
 import {TranshipmentPortShortInfo} from '../metamodel/transhipmentPortShortInfo.model';
 
 export class BookingInfo {
-  constructor(private id: number, private aesAuthNo: string, private bookingPersonId: number,
-              private bookingStatus: string, private carrierBookingNo: string, private carrierContact: string,
-              private carrierId: string, private carrierVoyage: string, private controller: string, private divisionId: number,
-              private forwarderId: number, private forwarderRefNo: string, private freight: string, private lineOfBusinessId: number,
-              private nraNumber: number, private nvoccBookingNo: string, private salesRepresentativeId: string,
-              private serviceContractId: number, private shipperRefNo: string, private typeOfMoveId: number,
-              private typeOfServiceId: number, private vesselId: string, private clientId: number, private userId: string,
-              private docsCutOffDateTime: string, private railCutOffDateTime: string, private docsReceivedDate: string,
-              private eta: string, private sailDate: string, private cutOffDate: string, private delieveryEta: string,
-              private cargoMovingDate: string, private bookingDate: Date, private foreignAgentShortInfo: ForeignAgentShortInfo,
-              private accountShortInfo: AccountShortInfo, private consigneeShortInfo: ConsigneeShortInfo,
-              private localSSLineOfficeShortInfo: LocalSSLineOfficeShortInfo, private notifyShortInfo: NotifyShortInfo,
-              private shipperShortInfo: ShipperShortInfo, private loadTerminalShortInfo: LoadTerminalShortInfo,
-              private placeOfDeliveryShortInfo: ShortInfo, private placeOfReceiptShortInfo: PlaceOfReceiptShortInfo,
-              private portOfDischargeShortInfo: PortOfDischargeShortInfo, private portOfLoadShortInfo: PortOfLoadShortInfo,
-              private transhipmentPortShortInfo: TranshipmentPortShortInfo) {}
+  public id: number;
+  public aesAuthNo: string;
+  public bookingPersonId: number;
+  public bookingStatus: string;
+  public carrierBookingNo: string;
+  public carrierContact: string;
+  public carrierId: string;
+  public carrierVoyage: string;
+  public controller: string;
+  public divisionId: number;
+  public forwarderId: number;
+  public forwarderRefNo: string;
+  public freight: string;
+  public lineOfBusinessId: number;
+  public nraNumber: number;
+  public nvoccBookingNo: string;
+  public salesRepresentativeId: string;
+  public serviceContractId: number;
+  public shipperRefNo: string;
+  public typeOfMoveId: number;
+  public typeOfServiceId: number;
+  public vesselId: string;
+  public clientId: number;
+  public userId: string;
+  public docsCutOffDateTime: string;
+  public railCutOffDateTime: string;
+  public docsReceivedDate: string;
+  public eta: string;
+  public sailDate: string;
+  public cutOffDate: string;
+  public delieveryEta: string;
+  public cargoMovingDate: string;
+  public bookingDate: string;
+  public foreignAgentShortInfo: ForeignAgentShortInfo;
+  public accountShortInfo: AccountShortInfo;
+  public consigneeShortInfo: ConsigneeShortInfo;
+  public localSSLineOfficeShortInfo: LocalSSLineOfficeShortInfo;
+  public notifyShortInfo: NotifyShortInfo;
+  public shipperShortInfo: ShipperShortInfo;
+  public loadTerminalShortInfo: LoadTerminalShortInfo;
+  public placeOfDeliveryShortInfo: ShortInfo;
+  public placeOfReceiptShortInfo: PlaceOfReceiptShortInfo;
+  public portOfDischargeShortInfo: PortOfDischargeShortInfo;
+  public portOfLoadShortInfo: PortOfLoadShortInfo;
+  public transhipmentPortShortInfo: TranshipmentPortShortInfo
+
+  constructor() { }
+
 }
 
