@@ -570,18 +570,26 @@ export class BookingComponent implements OnInit {
   populateFormGroup(form: FormGroup, booking: Booking) {
      for ( const field of this.fieldsSet ) {
       if (!isNullOrUndefined(booking[field])) {
-        if (!isNullOrUndefined(form.get(field))) {
-            form.get(field).setValue(booking[field]);
+        if(field == 'bookingDate' || field == 'amendmentDate') { // Show these 2 fields in local TZ
+            const date = booking[field];
+            if( !isNullOrUndefined(date)){
+              date.setMinutes(date.getMinutes() - date.getTimezoneOffset()); // Convert to local 
+              form.get(field).setValue(date);
+            }
+            }else{
+              form.get(field).setValue(booking[field]);
+            }
+        
         } else {
           console.log('Field is undefined or null :' + field + ' : value: ' + form.get(field));
         }
       }
     }
-  }
+  
 
   populateBooking(form: FormGroup, booking: Booking) {
     for ( const field of this.fieldsSet ) {
-      if (!isNullOrUndefined(form.get(field))) {
+      if (!isNullOrUndefined(form.get(field))) {// ALl date fileds except booking and amendment date
         let hasItem = false;
         this.dateFieldsSet.forEach(item => {
           if(item === field && item != 'bookingDate' && item != 'amendmentDate'){
@@ -590,15 +598,18 @@ export class BookingComponent implements OnInit {
           }
         });
         const date = form.get(field).value;
-        if(hasItem && !isNullOrUndefined(date)){
-          date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-          booking[field] = date; 
+        if(hasItem){
+          if( !isNullOrUndefined(date)){
+            date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+            booking[field] = date; 
+          }
+          
         }else{
-          booking[field] = form.get(field).value;
-        }
-        } else {
-          console.log('Field is undefined or null :' + field + ' : value: ' );
-        }
+           booking[field] = form.get(field).value;
+          }
+      } else {
+         console.log('Field is undefined or null :' + field + ' : value: ' );
+      }
     }
   }
   
