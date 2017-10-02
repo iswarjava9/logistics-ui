@@ -538,8 +538,11 @@
                   (onSelect)="onCitySelection(this.placeFormGroup)" >
 
                   <ng-template let-city pTemplate="item">
-                       <div style="font-size:18px;float:right;margin:10px 10px 0 0">{{city.name}} - {{city.stateName}} - {{city.countryName}}</div>
-                  </ng-template>
+                      <span>{{city.name}}
+                        <br> 
+                        {{city.stateName}}, {{city.countryName}}
+                      </span>
+                 </ng-template>
                 </p-autoComplete>
               </div>
             </div>
@@ -604,10 +607,17 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">City:</div>
           <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" delay="1000" minlength="3" [suggestions]="filteredCities"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" delay="400" minlength="3" [suggestions]="filteredCities"
               (completeMethod)="search($event, 'city')" field="name"
               [formControlName]="'city'" [readonly]="this.displayOnly"
               (onSelect)="onCitySelection(this.customerFormGroup)">
+
+              <ng-template let-city pTemplate="item">
+                  <span>{{city.name}}
+                    <br> 
+                    {{city.stateName}}, {{city.countryName}}
+                  </span>
+             </ng-template>
             </p-autoComplete>
             
           </div>
