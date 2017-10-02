@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { RootService } from './../../../../../root.service';
 import { DateHelper } from './../../../util/dateHelper';
@@ -18,7 +19,7 @@ import {Division} from '../../../models/division.model';
 import {MovementType} from '../../../models/movementType.model';
 import {Vessel} from '../../../models/vessel.model';
 import {Person} from '../../../models/person.model';
-import {State} from '../../../models/state.model';
+
 
 import {BookingService} from './service/booking.service';
 import {and, forEach} from '@angular/router/src/utils/collection';
@@ -160,6 +161,8 @@ export class BookingComponent implements OnInit {
 
   initializeBooking(): Booking {
     let booking: Booking;
+    let city: City = new City();
+
     booking = new Booking();
     booking.docsCutOffDateTime = null;
     booking.docsReceivedDate = null;
@@ -177,16 +180,26 @@ export class BookingComponent implements OnInit {
   // Parties
 
   booking.deliveryAgent = new Customer();
+  booking.deliveryAgent.city = city;
   booking.billTo = new Customer();
+  booking.billTo.city = city;
   booking.consignee = new Customer();
+  booking.consignee.city = city;
   booking.localSSLineOffice = new Customer();
+  booking.localSSLineOffice.city = city;
   booking.notify1 = new Customer();
+  booking.notify1.city = city;
   booking.notify2 = new Customer();
+  booking.notify2.city = city;
   booking.cargoSupplier = new Customer();
+  booking.cargoSupplier.city = city; 
   booking.shipper = new Customer();
+  booking.shipper.city = city;
   booking.carrier = new Customer();
-
+  booking.carrier.city;
   booking.bookingAgent = new Customer();
+  booking.bookingAgent.city = city;
+
   booking.lineOfBusiness = new BusinessLine();
   booking.salesRepresentative = new Person();
   booking.typeOfMove =  new MovementType();
@@ -194,19 +207,27 @@ export class BookingComponent implements OnInit {
   booking.bookingPerson = new Person();
   booking.division = new Division();
 
+  
+  
   // Places
   booking.emptyContainerPickup = new Place();
+  booking.emptyContainerPickup.city = city;
   booking.ingateAtTerminal = new Place();
+  booking.ingateAtTerminal.city = city;
   booking.placeOfDelivery = new Place();
+  booking.placeOfDelivery.city = city;
   booking.placeOfReceipt = new Place();
+  booking.placeOfReceipt.city = city;
   booking.portOfDischarge = new Place();
+  booking.portOfDischarge.city = city;
   booking.portOfLoad = new Place();
+  booking.portOfLoad.city = city;
   booking.transhipmentPort = new Place();
+  booking.transhipmentPort.city = city;
   return booking;
 }
 
   ngOnInit() {
-
     this.route.params.subscribe(
       (params: Params) => {
         if(params['id']){
@@ -222,10 +243,10 @@ export class BookingComponent implements OnInit {
       subscribe(
         (res: any) => {
           const body = res.json();
-          console.log('in getBooking: ' + body);
+          console.log('Before: ' + JSON.stringify(body));
           DateHelper.convertDateStringsToDates(body);
           this.bookingDetails = body;
-
+          console.log('After: ' + JSON.stringify(body));
           this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
           this.bookingDetailSvc.updateBooking(this.bookingDetails);
           this.disableScreen = false;
@@ -277,6 +298,7 @@ export class BookingComponent implements OnInit {
         'delieveryEta': new FormControl(this.bookingDetails.delieveryEta),
         'railCutOffDateTime': new FormControl(this.bookingDetails.railCutOffDateTime),
         'sailDate': new FormControl(this.bookingDetails.sailDate),
+
         'emptyPickupDate': new FormControl(this.bookingDetails.emptyPickupDate),
         'earlyReceivingDate': new FormControl(this.bookingDetails.earlyReceivingDate),
 
@@ -420,7 +442,7 @@ export class BookingComponent implements OnInit {
             this.filteredCities = res.json();
             console.log('got response from DB :' + res.json().toString());
             const cities:City[] = res.json();
-            console.log(JSON.stringify(cities));
+            
             console.log('cities:'+ JSON.stringify(cities));
         });
   
@@ -465,7 +487,7 @@ export class BookingComponent implements OnInit {
     this.msgsGrowl = [];
    
     this.disableScreen = true;
-
+    console.log('Updated booking: ' + JSON.stringify(this.bookingDetails));
 
     if(isNullOrUndefined(this.bookingDetails.id)){
       this.bookingDetails.bookingStatus = 'ADVANCED';
@@ -515,14 +537,13 @@ export class BookingComponent implements OnInit {
       this.bookingDetailSvc.modifyBooking(this.bookingDetailSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
       (response: any) => {
         const modifyMsg = {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'};
-        // this.msgsGrowl.push(modifyMsg);
-           this.msgSvc.add(modifyMsg);
+        this.msgSvc.add(modifyMsg);
            
-           const body = response.json();
-      
+        const body = response.json();
+        console.log('Received before conversion : ' + JSON.stringify(body));
         DateHelper.convertDateStringsToDates(body);
-   
         this.bookingDetails = body;
+        console.log('Received conversion : ' + JSON.stringify(body));
         this.bookingDetailSvc.updateBooking(this.bookingDetails);
         this.bookingDetailSvc.updateMessages(modifyMsg);
         if(routing != null){
@@ -546,12 +567,11 @@ export class BookingComponent implements OnInit {
     );
   }
  }
-
   populateFormGroup(form: FormGroup, booking: Booking) {
      for ( const field of this.fieldsSet ) {
       if (!isNullOrUndefined(booking[field])) {
         if (!isNullOrUndefined(form.get(field))) {
-          form.get(field).setValue(booking[field]);
+            form.get(field).setValue(booking[field]);
         } else {
           console.log('Field is undefined or null :' + field + ' : value: ' + form.get(field));
         }
@@ -562,7 +582,20 @@ export class BookingComponent implements OnInit {
   populateBooking(form: FormGroup, booking: Booking) {
     for ( const field of this.fieldsSet ) {
       if (!isNullOrUndefined(form.get(field))) {
+        let hasItem = false;
+        this.dateFieldsSet.forEach(item => {
+          if(item === field && item != 'bookingDate' && item != 'amendmentDate'){
+            hasItem = true;
+            return;
+          }
+        });
+        const date = form.get(field).value;
+        if(hasItem && !isNullOrUndefined(date)){
+          date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+          booking[field] = date; 
+        }else{
           booking[field] = form.get(field).value;
+        }
         } else {
           console.log('Field is undefined or null :' + field + ' : value: ' );
         }
@@ -600,19 +633,14 @@ export class BookingComponent implements OnInit {
     
     if(!isNullOrUndefined(place.city)){
       this.placeFormGroup.get('city').setValue(place.city);
-      if(!isNullOrUndefined(place.city.state)){
-        this.placeFormGroup.get('state').setValue(place.city.state.name);
-        if(!isNullOrUndefined(place.city.state)){
-          this.placeFormGroup.get('country').setValue(place.city.state.country.name);
-        }
-      }
-    }else{
-      this.placeFormGroup.get('city').setValue(null);
-      this.placeFormGroup.get('state').setValue(null);
-      this.placeFormGroup.get('country').setValue(null);
+      this.placeFormGroup.get('state').setValue(place.city.stateName);
+      this.placeFormGroup.get('country').setValue(place.city.countryName);
     }
+    else{
+      this.placeFormGroup.get('city').setValue(new City());
+     }
     
-    this.placeFormGroup.get('timeZoneId').setValue(place.timeZoneId);
+    //this.placeFormGroup.get('timeZoneId').setValue(place.timeZoneId);
   }
   populateCustomerFormGroup(customer: Customer){
     this.customerFormGroup.get('name').setValue(customer.name);
@@ -625,17 +653,13 @@ export class BookingComponent implements OnInit {
 
     if(!isNullOrUndefined(customer.city)){
       this.customerFormGroup.get('city').setValue(customer.city);
-      if(!isNullOrUndefined(customer.city.state)){
-        this.customerFormGroup.get('state').setValue(customer.city.state.name);
-        if(!isNullOrUndefined(customer.city.state)){
-          this.customerFormGroup.get('country').setValue(customer.city.state.country.name);
-        }
-      }
-  }else{
-    this.customerFormGroup.get('city').setValue(null);
-    this.customerFormGroup.get('state').setValue(null);
-    this.customerFormGroup.get('country').setValue(null);
-  }
+      this.customerFormGroup.get('state').setValue(customer.city.stateName);
+      this.customerFormGroup.get('country').setValue(customer.city.countryName);
+    }else{
+      this.customerFormGroup.get('city').setValue(null);
+      this.customerFormGroup.get('state').setValue(null);
+      this.customerFormGroup.get('country').setValue(null);
+    }
   }
 
   createPlace(dialog: Dialog, event: Event) {
@@ -680,8 +704,6 @@ export class BookingComponent implements OnInit {
       this.displayOnly = false;
       this.createdCustomer = new Customer();
       this.createdCustomer.city = new City();
-      this.createdCustomer.city.state = new State();
-      this.createdCustomer.city.state.country = new Country();
       this.populateCustomerFormGroup(this.createdCustomer);
       
     }
@@ -982,8 +1004,8 @@ export class BookingComponent implements OnInit {
   }
   onCitySelection(formGroup: FormGroup){
     const city = formGroup.get('city').value;
-    formGroup.get('state').setValue(city.state.name);
-    formGroup.get('country').setValue(city.state.country.name);
+    formGroup.get('state').setValue(city.stateName);
+    formGroup.get('country').setValue(city.countryName);
   }
   
   

@@ -1,5 +1,4 @@
 import {format} from 'date-fns';
-
 export class DateHelper {
   public static convertDateStringsToDates(input) {
     const regExpr = /^(\d{4})-(\d{2})-(\d{2}) (\d{1,2}):(\d{1,2})$/;
@@ -16,7 +15,7 @@ export class DateHelper {
       let match: string[];
       // Check for string values looking like dates.
       if (typeof value === 'string' && (match = value.match(regExpr))) {
-          input[key] = new Date(match[0].replace(' ', 'T') + 'Z' );
+          input[key] = new Date(match[0].replace(' ', 'T'));
        } else if (typeof value === 'object') {
         // Recurse into object
         DateHelper.convertDateStringsToDates(value);
@@ -66,7 +65,7 @@ export class DateHelper {
       let match: string[];
       // Check for string values looking like dates.
       if (typeof value === 'string' && (match = value.match(regExpr))) {
-          input[key] = format(new Date(match[0].replace(' ', 'T') + 'Z' ),'MMM/DD/YYYY');
+          input[key] = format(new Date(match[0].replace(' ', 'T') ),'MMM/DD/YYYY');
       } else if (typeof value === 'object') {
         // Recurse into object
         DateHelper.convertDateStrings(value);
