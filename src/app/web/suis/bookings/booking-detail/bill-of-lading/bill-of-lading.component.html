@@ -1,0 +1,62 @@
+ 
+<div class="container-fluid fa-border">
+    
+    <br>
+    <form [formGroup]="blDetailsFormGroup">
+  
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Shipper:</div>
+          <div class="ui-g-8">
+              <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="shipper"></textarea>
+            </div>
+          </div>
+  
+        <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Consignee:</div>
+          <div class="ui-g-8">
+              <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="consignee"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Port of loading:</div>
+            <div class="ui-g-8">
+                <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="portOfLoading"></textarea>
+              </div>
+            </div>
+    
+          <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Port of discharge:</div>
+            <div class="ui-g-8">
+                <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="portOfDischarge"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+            <div class="ui-g-12 ui-md-6">
+              <div class="ui-g-4">Notify:</div>
+              <div class="ui-g-8">
+                  <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="notify"></textarea>
+                </div>
+              </div>
+      
+            <div class="ui-g-12 ui-md-6">
+                <div class="ui-g-4">Container Description:</div>
+              <div class="ui-g-8">
+                  <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="containerDesc"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="ui-g-10">
+              <button pButton label="Print B/L " type="button" (click)="printBL()"></button>
+              <button pButton label="Back" type="button" (click)="back()"></button>
+              <button pButton label="Exit" type="button" (click)="exit()"></button>
+            </div>
+    </form>
+    </div>
+  

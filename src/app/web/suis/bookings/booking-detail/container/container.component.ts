@@ -53,7 +53,7 @@ export class ContainerComponent implements OnInit {
   displayConatinerDialog = false;
   
 
-  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router, private msgSvc: MessageService, private route: ActivatedRoute) { }
+  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router, private msgSvc: MessageService, private route: ActivatedRoute, private bookingDetailSvc: BookingDetailService) { }
 
   ngOnInit() {
 
@@ -344,7 +344,7 @@ cancelBooking(){
        this.bookingSvc.updateBooking(this.bookingDetails);   
        this.disableScreen = false;
        this.msgSvc.add({severity: 'info', summary: 'Cancel Booking', detail: 'Booking is cancelled'});
-       // this.msgsGrowl.push({severity: 'info', summary: 'Cancel Booking', detail: 'Booking is cancelled'});     
+       this.bookingDetailSvc.removeLastStepItem();
     },
     error => {console.log(error);
       this.disableScreen = false;
@@ -376,6 +376,7 @@ confirmBooking(){
       this.msgSvc.add({severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
       // this.msgsGrowl.push({severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
       this.disableScreen = false;
+      this.bookingDetailSvc.addStepItem({label: 'B/L'});
     },
     error => {console.log(error);
       this.disableScreen = false;

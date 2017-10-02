@@ -51,6 +51,7 @@ import {BookingService} from './web/suis/bookings/booking-detail/booking/service
 import {SpinnerComponent} from './web/suis/shared/spinner/spinner.component';
 import {HomeComponent} from './web/suis/shared/home/home.component';
 import { LoginComponent } from './web/suis/shared/login/login.component';
+import { BillOfLadingComponent } from './web/suis/bookings/booking-detail/bill-of-lading/bill-of-lading.component';
 
 
 @NgModule({
@@ -66,7 +67,8 @@ import { LoginComponent } from './web/suis/shared/login/login.component';
     ContainerComponent,
     ChargesComponent,
     SpinnerComponent,
-    LoginComponent
+    LoginComponent,
+    BillOfLadingComponent
   ],
   imports: [
     BrowserModule,

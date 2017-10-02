@@ -3,7 +3,7 @@
      <span style="font-weight:bold; font-size:12pt">Forwarder Ref#: {{getBookingDetails().forwarderRefNo}}</span>
   </div>
   <div class="center">
-     <p-steps styleClass="steps-custom" [model]="stepItems" [(activeIndex)]="activeIndex" [readonly]="false" (onclick)="changeBookingDetailsView($event)" ></p-steps>
+     <p-steps styleClass="steps-custom" [model]="bookingDetailSvc.getStepItems()" [(activeIndex)]="activeIndex" [readonly]="false" (onclick)="changeBookingDetailsView($event)" ></p-steps>
   </div>
 </div>
 <br>
@@ -11,5 +11,6 @@
 <div>
   <app-booking *ngIf="activeIndex==0" (stepIndex)="onChange($event)"></app-booking>
   <app-container *ngIf="activeIndex==1" (stepIndex)="onChange($event)"></app-container>
-  <app-charges *ngIf="activeIndex==2" (stepIndex)="onChange($event)"></app-charges>
+  <app-bill-of-lading *ngIf="activeIndex==2" (stepIndex)="onChange($event)"></app-bill-of-lading>
+
 </div>

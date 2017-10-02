@@ -1,3 +1,4 @@
+import { isNullOrUndefined } from 'util';
 import { BookingService } from './booking/service/booking.service';
 import { Event } from '@angular/router';
 import { BookingDetailService } from './service/booking-detail.service';
@@ -17,11 +18,13 @@ export class BookingDetailComponent implements OnInit {
   activeIndex = 0;
   constructor(private bookingDetailSvc: BookingDetailService, private bookingSvc: BookingService){}
   ngOnInit() {
-    this.stepItems = [
+    /* this.stepItems = [
       {label: 'Booking Details'},
       {label: 'Container Details'},
-      {label: 'Charge Details'}
-    ];
+      ]; */
+      if(!isNullOrUndefined(this.getBookingDetails()) && this.getBookingDetails().bookingStatus == 'CONFIRMED'){
+        this.stepItems.push({label: 'B/L'});
+      }
    }
 
   changeBookingDetailsView(event: Event) {
