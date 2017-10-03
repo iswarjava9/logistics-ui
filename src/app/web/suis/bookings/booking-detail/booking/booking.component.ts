@@ -40,7 +40,7 @@ import {Dialog} from 'primeng/components/dialog/dialog';
 })
 export class BookingComponent implements OnInit {
 
-  @Output() stepIndex: EventEmitter<number> = new EventEmitter<number>();;
+  @Output() stepIndex: EventEmitter<number> = new EventEmitter<number>();
 
   @Input() bookingId: number;
   update = false;
@@ -474,6 +474,7 @@ export class BookingComponent implements OnInit {
   next() {
     this.stepIndex.emit(1);
   }
+
   saveAndNext() {
     this.saveBooking(null, 1);
   }

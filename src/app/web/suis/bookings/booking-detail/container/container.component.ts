@@ -9,7 +9,7 @@ import { Commodity } from './../../../models/commodity.model';
 import { isNullOrUndefined } from 'util';
 import { ContainerService } from './service/container.service';
 import { ContainerType } from './../../../models/containerType.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {ShortInfo} from '../../../models/metamodel/shortInfo.model';
 import {ContainerTypeShortInfo} from '../../../models/metamodel/containerTypeShortInfo.model';
@@ -26,6 +26,7 @@ import { Message } from 'primeng/components/common/message';
   styleUrls: ['./container.component.css']
 })
 export class ContainerComponent implements OnInit {
+  @Output() stepIndex: EventEmitter<number> = new EventEmitter<number>();
 
   containers: Container[] = [];
   containerFormGroup: FormGroup;
@@ -38,11 +39,9 @@ export class ContainerComponent implements OnInit {
   filteredCommodities: any[];
   allContainerTypes: any[];
   update: boolean;
-  // containerTypeMap: Map<string, number> = new Map();
-
+  
   disableScreen = false;
-  // msgsGrowl: Message[] = [];
-
+  
   numberOfContainers = 1;
   displayOnly = false;
 
@@ -434,10 +433,15 @@ deleteContainer(event: Event){
     }
   );
 }
+  updateContainer(event: Event){
+    console.log(event);
+  }
+  
+  next() {
+    this.stepIndex.emit(2);
+  }
 
-
-updateContainer(event: Event){
-  console.log(event);
-}
-
+  back() {
+    this.stepIndex.emit(0);
+  }
 }
