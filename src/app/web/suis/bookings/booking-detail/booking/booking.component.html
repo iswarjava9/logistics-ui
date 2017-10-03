@@ -30,13 +30,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Booking Date:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" [formControlName]="'bookingDate'" dateFormat="M/dd/yy" ></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'bookingDate'" dateFormat="M/dd/yy" showIcon="true" showIcon="true" [readonlyInput]="false"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Amendment Date:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" [formControlName]="'amendmentDate'" dateFormat="M/dd/yy"></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'amendmentDate'" dateFormat="M/dd/yy" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
         </div>
       </div>
@@ -245,13 +245,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Docs Cutoff Date</div>
           <div class="ui-g-8">
-            <p-calendar hourFormat="24"  showTime="showTime" dateFormat="M/dd/yy" [formControlName]="'docsCutOffDateTime'"></p-calendar>
+            <p-calendar hourFormat="24"  showTime="showTime" dateFormat="M/dd/yy" [formControlName]="'docsCutOffDateTime'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Rail CutOff Date:</div>
           <div class="ui-g-8">
-            <p-calendar [formControlName]="'railCutOffDateTime'" showTime="showTime" dateFormat="M/dd/yy"></p-calendar>
+            <p-calendar [formControlName]="'railCutOffDateTime'" showTime="showTime" dateFormat="M/dd/yy" showIcon="true" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
         </div>
       </div>
@@ -260,13 +260,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Port Cutoff Date:</div>
           <div class="ui-g-8">
-            <p-calendar showTime="showTime" [formControlName]="'portCutOffDate'" dateFormat="M/dd/yy"></p-calendar>
+            <p-calendar showTime="showTime" [formControlName]="'portCutOffDate'" dateFormat="M/dd/yy" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Cargo Moving Date</div>
           <div class="ui-g-8">
-            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'cargoMovingDate'"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'cargoMovingDate'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
           </div>
         </div>
       </div>
@@ -275,13 +275,13 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ETD:</div>
           <div class="ui-g-8">
-            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'sailDate'"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'sailDate'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">ETA:</div>
           <div class="ui-g-8">
-            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'eta'"></p-calendar>
+            <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'eta'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
           </div>
         </div>
       </div>
@@ -382,7 +382,7 @@
               <div class="ui-g-12 ui-md-6">
                 <div class="ui-g-4">ATA:</div>
                 <div class="ui-g-8">
-                  <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'delieveryEta'" [readonlyInput]="false"></p-calendar>
+                  <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'delieveryEta'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-6">
@@ -397,13 +397,13 @@
               <div class="ui-g-12 ui-md-6">
                 <div class="ui-g-4">Empty Pickup Date</div>
                 <div class="ui-g-8">
-                   <p-calendar dateFormat="M/dd/yy" [formControlName]="'emptyPickupDate'" [readonlyInput]="false"></p-calendar>
+                   <p-calendar dateFormat="M/dd/yy" [formControlName]="'emptyPickupDate'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
                 </div>
               </div>
               <div class="ui-g-12 ui-md-6">
                 <div class="ui-g-4">Early Receiving Date:</div>
                 <div class="ui-g-8">
-                  <p-calendar [formControlName]="'earlyReceivingDate'"dateFormat="M/dd/yy" [readonlyInput]="false"></p-calendar>
+                  <p-calendar [formControlName]="'earlyReceivingDate'"dateFormat="M/dd/yy" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
                 </div>
               </div>
             </div>
@@ -423,7 +423,7 @@
                 <div class="ui-g-12 ui-md-6">
                     <div class="ui-g-4">Docs Received Date</div>
                     <div class="ui-g-8">
-                      <p-calendar showTime="showTime" [formControlName]="'docsReceivedDate'" dateFormat="M/dd/yy"></p-calendar>
+                      <p-calendar showTime="showTime" [formControlName]="'docsReceivedDate'" dateFormat="M/dd/yy"  showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
                     </div>
                   </div>
           </div>
