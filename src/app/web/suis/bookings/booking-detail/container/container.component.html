@@ -21,11 +21,10 @@
 <br>
 <div class="row">
   <div class="ui-g-12">
-    
-    <button pButton label="Confirm Booking" type="submit" (click)="confirmBooking()" *ngIf="bookingDetails.id"></button>
-    
-    <button pButton label="Cancel Booking" type="submit" (click)="cancelBooking()" *ngIf="bookingDetails.id"></button>
-    
+  
+    <button pButton label="Confirm Booking" type="submit" (click)="confirmBooking()" *ngIf="bookingDetails.id && bookingDetails.bookingStatus==='ADVANCED'"></button>
+    <button pButton label="Cancel Booking" type="submit" (click)="cancelBooking()" *ngIf="bookingDetails.id && bookingDetails.bookingStatus != 'CANCELLED'"></button>
+      
     <button pButton label="Print" type="submit" (click)="print(bookingDetails.id)" *ngIf="bookingDetails.id"></button>
     <button pButton label="Exit" type="submit" (click)="exit()"></button>
 

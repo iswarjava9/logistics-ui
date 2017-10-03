@@ -1,3 +1,4 @@
+import { BookingDetailService } from './../service/booking-detail.service';
 import { format } from 'date-fns';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { RootService } from './../../../../../root.service';
@@ -105,7 +106,8 @@ export class BookingComponent implements OnInit {
   customerFormGroup: FormGroup;
   placeFormGroup: FormGroup;
   bookingDetails: Booking;
-  constructor(private bookingDetailSvc: BookingService, private route: ActivatedRoute, private router: Router, private rootSvc: RootService, private msgSvc: MessageService) {
+  constructor(private bookingSvc: BookingService, private route: ActivatedRoute, private router: Router, private rootSvc: RootService, private msgSvc: MessageService,
+                private bookingDetailSvc: BookingDetailService) {
   }
   public shipperRefNo: string;
   public forwarderRefNo: string;
@@ -239,16 +241,15 @@ export class BookingComponent implements OnInit {
     this.bookingDetails = this.initializeBooking();
     if ( this.bookingId != null ) {
       this.disableScreen = true;
-      this.bookingDetailSvc.getBooking(this.bookingId).
+      this.bookingSvc.getBooking(this.bookingId).
       subscribe(
         (res: any) => {
           const body = res.json();
-          console.log('Before: ' + JSON.stringify(body));
           DateHelper.convertDateStringsToDates(body);
           this.bookingDetails = body;
-          console.log('After: ' + JSON.stringify(body));
+          this.bookingDetailSvc.refreshStepItems(this.bookingDetails);
           this.populateFormGroup(this.bookingDetailFormGroup, this.bookingDetails);
-          this.bookingDetailSvc.updateBooking(this.bookingDetails);
+          this.bookingSvc.updateBooking(this.bookingDetails);
           this.disableScreen = false;
         });
       }
@@ -347,9 +348,8 @@ export class BookingComponent implements OnInit {
       this.createdVessel.country = new Country();
       
       this.freightList = [{label: 'Prepaid', value: 'Prepaid'}, {label: 'Collect', value: 'Collect'}];
-      //  this.timezoneIdList = this.rootSvc.getTimeZones();
       
-      this.bookingDetailSvc.updateBooking(this.bookingDetails);
+      this.bookingSvc.updateBooking(this.bookingDetails);
   }
 
   onAccountSelection(event: Customer) {
@@ -383,7 +383,7 @@ export class BookingComponent implements OnInit {
   }
 
   filterCustomers(query) {
-      this.bookingDetailSvc.getCustomers(query).
+      this.bookingSvc.getCustomers(query).
       subscribe(
           (res: any) => {
               this.filteredCustomers = res.json();
@@ -394,7 +394,7 @@ export class BookingComponent implements OnInit {
   }
 
   filterPlaces(query)/*: Place[]*/ {
-      this.bookingDetailSvc.getPlaces(query).
+      this.bookingSvc.getPlaces(query).
       subscribe(
           (res: any) => {
               this.filteredPlaces = res.json();
@@ -406,7 +406,7 @@ export class BookingComponent implements OnInit {
   }
 
   filterPersons(query) {
-    this.bookingDetailSvc.getPersons(query).
+    this.bookingSvc.getPersons(query).
     subscribe(
         (res: any) => {
             this.filteredPersons = res.json();
@@ -417,7 +417,7 @@ export class BookingComponent implements OnInit {
   
   }
   filterDivisions(query) {
-    this.bookingDetailSvc.getDivisions(query).
+    this.bookingSvc.getDivisions(query).
     subscribe(
         (res: any) => {
             this.filteredDivisions = res.json();
@@ -436,7 +436,7 @@ export class BookingComponent implements OnInit {
   }
 
   filterCities(query) {
-    this.bookingDetailSvc.getCities(query).
+    this.bookingSvc.getCities(query).
     subscribe(
         (res: any) => {
             this.filteredCities = res.json();
@@ -450,7 +450,7 @@ export class BookingComponent implements OnInit {
  }
 
  filterVessels(query) {
-  this.bookingDetailSvc.getVessels(query).
+  this.bookingSvc.getVessels(query).
   subscribe(
       (res: any) => {
           this.filteredVessels = res.json();
@@ -475,37 +475,29 @@ export class BookingComponent implements OnInit {
     this.stepIndex.emit(1);
   }
   saveAndNext() {
-    
     this.saveBooking(null, 1);
-    // this.bookingDetailSvc.updateBooking(this.bookingDetails);   
-    // this.stepIndex.emit(1);
   }
 
 
   saveBooking(routing: string, step: number) {
     this.populateBooking(this.bookingDetailFormGroup, this.bookingDetails);
-    this.msgsGrowl = [];
-   
+       
     this.disableScreen = true;
-    console.log('Updated booking: ' + JSON.stringify(this.bookingDetails));
-
     if(isNullOrUndefined(this.bookingDetails.id)){
       this.bookingDetails.bookingStatus = 'ADVANCED';
       this.msgSvc.add({severity: 'info', summary: 'Create', detail: 'Creating Booking..'});
-      // this.msgsGrowl.push({severity: 'info', summary: 'Create', detail: 'Creating Booking..'});
-      this.bookingDetailSvc.saveBooking(this.bookingDetailSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
+      this.bookingSvc.saveBooking(this.bookingSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
         (response: any) => {
          // const generatedBookingId = response.headers.get('bookingid');
           const body = response.json();
           DateHelper.convertDateStringsToDates(body);
           this.bookingDetails = body;
-          this.bookingDetailSvc.updateBooking(this.bookingDetails);
+          this.bookingDetailSvc.refreshStepItems(this.bookingDetails);
+          this.bookingSvc.updateBooking(this.bookingDetails);
           this.bookingId = this.bookingDetails.id;
           
           const createBookingMsg = {severity: 'info', summary: 'Booking Created', detail: 'Booking is created'};
           this.msgSvc.add(createBookingMsg);
-          // this.msgsGrowl.push(createBookingMsg);
-          // this.bookingDetailSvc.updateMessages(createBookingMsg);
           let params: Params = {};
           if(routing == null) {
             params = Object.assign({}, this.route.snapshot.params);
@@ -534,7 +526,7 @@ export class BookingComponent implements OnInit {
     /* this.msgsGrowl.push(
       {severity: 'info', summary: 'Modify Booking', detail: 'Modifying Booking...'}); */
       this.msgSvc.add({severity: 'info', summary: 'Modify Booking', detail: 'Modifying Booking...'})
-      this.bookingDetailSvc.modifyBooking(this.bookingDetailSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
+      this.bookingSvc.modifyBooking(this.bookingSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
       (response: any) => {
         const modifyMsg = {severity: 'info', summary: 'Booking is modified', detail: 'Booking is modified'};
         this.msgSvc.add(modifyMsg);
@@ -543,9 +535,10 @@ export class BookingComponent implements OnInit {
         console.log('Received before conversion : ' + JSON.stringify(body));
         DateHelper.convertDateStringsToDates(body);
         this.bookingDetails = body;
+        this.bookingDetailSvc.refreshStepItems(this.bookingDetails);
         console.log('Received conversion : ' + JSON.stringify(body));
-        this.bookingDetailSvc.updateBooking(this.bookingDetails);
-        this.bookingDetailSvc.updateMessages(modifyMsg);
+        this.bookingSvc.updateBooking(this.bookingDetails);
+        this.bookingSvc.updateMessages(modifyMsg);
         if(routing != null){
           
           this.router.navigate([routing]);
@@ -557,7 +550,7 @@ export class BookingComponent implements OnInit {
          
            
         this.disableScreen = false;
-        // this.bookingDetailSvc.activeIndex = 1;
+        // this.bookingSvc.activeIndex = 1;
       },
       error => {console.log(error);
         this.disableScreen = false;
@@ -683,7 +676,7 @@ export class BookingComponent implements OnInit {
     this.createdPlace.timeZoneId = this.placeFormGroup.get('timeZoneId').value;
     
 
-    this.bookingDetailSvc.savePlace(this.createdPlace).subscribe(
+    this.bookingSvc.savePlace(this.createdPlace).subscribe(
       (response) => {
         const headers = response.headers;
         this.createdPlace.id = Number(headers.get('placeid'));
@@ -730,7 +723,7 @@ export class BookingComponent implements OnInit {
     this.createdCustomer.phone = this.customerFormGroup.get('phone').value;
     this.createdCustomer.personInCharge = this.customerFormGroup.get('personInCharge').value;
     
-    this.bookingDetailSvc.saveCustomer(this.createdCustomer).subscribe(
+    this.bookingSvc.saveCustomer(this.createdCustomer).subscribe(
       (response: Response) => {
 
         const customerId = response.headers.get('customerId');
@@ -803,7 +796,7 @@ export class BookingComponent implements OnInit {
     }
   createLineOfBusiness(dialog: Dialog, event: Event) {
 
-    this.bookingDetailSvc.saveBusinessLine(this.createdBusinessLine).subscribe(
+    this.bookingSvc.saveBusinessLine(this.createdBusinessLine).subscribe(
       (response: any) => {
 
         const body = response.json();
@@ -841,7 +834,7 @@ export class BookingComponent implements OnInit {
 
   createDivision(dialog: Dialog, event: Event) {
 
-    this.bookingDetailSvc.saveDivision(this.createdDivision).subscribe(
+    this.bookingSvc.saveDivision(this.createdDivision).subscribe(
       (response: any) => {
 
         const body = response.json();
@@ -877,7 +870,7 @@ export class BookingComponent implements OnInit {
 
   createMovementType(dialog: Dialog, event: Event) {
 
-    this.bookingDetailSvc.saveMovementType(this.createdMovementType).subscribe(
+    this.bookingSvc.saveMovementType(this.createdMovementType).subscribe(
       (response: any) => {
 
         const body = response.json();
@@ -915,7 +908,7 @@ export class BookingComponent implements OnInit {
 
   createPerson(dialog: Dialog, event: Event) {
     this.displayOnly = true;
-    this.bookingDetailSvc.savePerson(this.createdPerson).subscribe(
+    this.bookingSvc.savePerson(this.createdPerson).subscribe(
       (response: any) => {
 
         const personid = Number(response.headers.get('personid'));
@@ -960,7 +953,7 @@ export class BookingComponent implements OnInit {
 
   createVessel(dialog: Dialog, event: Event) {
     this.displayOnly = true;
-    this.bookingDetailSvc.saveVessel(this.createdVessel).subscribe(
+    this.bookingSvc.saveVessel(this.createdVessel).subscribe(
       (response: any) => {
 
         const vesselid = Number(response.headers.get('vesselid'));
@@ -992,7 +985,7 @@ export class BookingComponent implements OnInit {
 
   print() {
       this.disableScreen = true;
-      this.bookingDetailSvc.getPDF(this.bookingDetails.id).subscribe(
+      this.bookingSvc.getPDF(this.bookingDetails.id).subscribe(
           (response: any) => {
               const fileBlob = response.blob();
               const blob = new Blob([fileBlob], {

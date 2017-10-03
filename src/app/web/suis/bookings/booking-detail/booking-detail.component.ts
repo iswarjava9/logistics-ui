@@ -14,17 +14,10 @@ import {MenuItem} from 'primeng/components/common/MenuItem';
 })
 export class BookingDetailComponent implements OnInit {
 
-  stepItems: MenuItem[];
   activeIndex = 0;
   constructor(private bookingDetailSvc: BookingDetailService, private bookingSvc: BookingService){}
   ngOnInit() {
-    /* this.stepItems = [
-      {label: 'Booking Details'},
-      {label: 'Container Details'},
-      ]; */
-      if(!isNullOrUndefined(this.getBookingDetails()) && this.getBookingDetails().bookingStatus == 'CONFIRMED'){
-        this.stepItems.push({label: 'B/L'});
-      }
+  
    }
 
   changeBookingDetailsView(event: Event) {
@@ -32,9 +25,7 @@ export class BookingDetailComponent implements OnInit {
     console.log(event);
   }
 
-  nextActiveIndex(){
-    // this.activeIndex++;
-  }
+
   onChange(step: number){
     this.activeIndex = step;
  

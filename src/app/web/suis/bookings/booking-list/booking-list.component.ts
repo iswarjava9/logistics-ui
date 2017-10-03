@@ -1,3 +1,4 @@
+import { Booking } from './../../models/booking.model';
 import { forEach } from '@angular/router/src/utils/collection';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { BookingService } from './../booking-detail/booking/service/booking.service';
@@ -42,7 +43,8 @@ export class BookingListComponent implements OnInit {
 
   dateFilter: number;
 
-  constructor(private router: Router, private bookingListSvc: BookingListService, private bookingSvc: BookingService, private msgSvc: MessageService) {}
+  constructor(private router: Router, private bookingListSvc: BookingListService, private bookingSvc: BookingService, private msgSvc: MessageService, 
+                private bookingDetailSvc: BookingDetailService) {}
 
   ngOnInit() {
     this.bookingSvc.getMessages().forEach(message => this.msgsGrowl.push(message));
@@ -71,6 +73,8 @@ export class BookingListComponent implements OnInit {
     
   }
   createNewBooking() {
+   // this.bookingSvc.updateBooking(new Booking());
+    this.bookingDetailSvc.refreshStepItems(null);
     this.router.navigate(['/booking-detail', {editable: true}]);
   }
 
