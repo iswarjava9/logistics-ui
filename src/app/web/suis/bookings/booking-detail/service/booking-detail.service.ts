@@ -50,6 +50,6 @@ export class BookingDetailService{
   }
 
   generateInvoice(booking): any {
-       return this.http.post(this.HOST + '/logistics/booking/invoive', booking, this.options );
+       return this.http.post(this.HOST + '/logistics/booking/invoice', booking, this.options );
   }
 }
