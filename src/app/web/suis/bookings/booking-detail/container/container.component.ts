@@ -385,7 +385,7 @@ deleteContainer(id: number){
   generateInvoice(){
     this.disableScreen = true;
     this.msgSvc.add({severity: 'info', summary: 'Invoice', detail: 'Draft Invoice generation in progress.'});
-    this.bookingDetailSvc.generateInvoice(this.bookingDetails).subscribe(
+    this.bookingDetailSvc.generateInvoice(this.bookingSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
       (response) => {
         this.disableScreen = false;
         this.msgSvc.add({severity: 'success', summary: 'Invoice', detail: 'Draft Invoice generated.'});
