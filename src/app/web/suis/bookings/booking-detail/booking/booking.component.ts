@@ -45,7 +45,7 @@ export class BookingComponent implements OnInit {
   @Input() bookingId: number;
   update = false;
 
-  msgsGrowl: Message[] = [];
+  errorMessage: Message = {severity: 'error', summary: 'Error', detail: 'Error in getting data. Please contact support.'};
   disableScreen = false;
 
    statusList: SelectItem[];
@@ -74,11 +74,6 @@ export class BookingComponent implements OnInit {
                             'portCutOffDate', 'delieveryEta', 'railCutOffDateTime', 'sailDate',  'emptyPickupDate', 'earlyReceivingDate'];
   //Cities
   filteredCities: any[] = [];
-
-  // client
-  client: Client;
-  filteredClients: any[] = [];
-  allClients: any[] = [];
 
   // places
   allPlaces: any[] = [];
@@ -370,11 +365,11 @@ export class BookingComponent implements OnInit {
       this.filterCustomers(query);
     } else if (key === 'person') {
       this.filterPersons(query);
-    } else if (key === 'division') {
+    } /* else if (key === 'division') {
         this.filterDivisions(query);
     }else if (key === 'lineOfBusiness') {
         this.filterLOBs(query);
-    }else if (key === 'city') {
+    } */else if (key === 'city') {
       this.filterCities(query);
   }else if(key === 'vessel'){
     this.filterVessels(query);
@@ -387,19 +382,23 @@ export class BookingComponent implements OnInit {
       subscribe(
           (res: any) => {
               this.filteredCustomers = res.json();
-              console.log('got response from DB :' + res.json());
+          },
+          (error) => {
+            this.msgSvc.add(this.errorMessage);
           });
 
     return this.filteredCustomers;
   }
 
-  filterPlaces(query)/*: Place[]*/ {
+  filterPlaces(query) {
       this.bookingSvc.getPlaces(query).
       subscribe(
           (res: any) => {
               this.filteredPlaces = res.json();
-              console.log('got response from DB :' + res.json());
-          });
+            },
+            (error) => {
+              this.msgSvc.add(this.errorMessage);
+            });
     
       return this.filteredPlaces;
     
@@ -410,17 +409,22 @@ export class BookingComponent implements OnInit {
     subscribe(
         (res: any) => {
             this.filteredPersons = res.json();
-            console.log('got response from DB :' + res.json());
-        });
+          },
+          (error) => {
+            this.msgSvc.add(this.errorMessage);
+          });
   
     return this.filteredPersons;
   
   }
-  filterDivisions(query) {
+  /* filterDivisions(query) {
     this.bookingSvc.getDivisions(query).
     subscribe(
         (res: any) => {
             this.filteredDivisions = res.json();
+        },
+        (error) => {
+          this.msgSvc.add(this.errorMessage);
         });
     return this.filteredDivisions;
   }
@@ -434,17 +438,17 @@ export class BookingComponent implements OnInit {
       }
     }
   }
-
+ */
   filterCities(query) {
     this.bookingSvc.getCities(query).
     subscribe(
         (res: any) => {
             this.filteredCities = res.json();
-            console.log('got response from DB :' + res.json().toString());
-            const cities:City[] = res.json();
-            
-            console.log('cities:'+ JSON.stringify(cities));
-        });
+         },
+        (error) => {
+          this.msgSvc.add(this.errorMessage);
+        }
+      );
   
     return this.filteredCities;
  }
@@ -454,6 +458,9 @@ export class BookingComponent implements OnInit {
   subscribe(
       (res: any) => {
           this.filteredVessels = res.json();
+        },
+        (error) => {
+          this.msgSvc.add(this.errorMessage);
         });
 
   return this.filteredCities;
@@ -687,10 +694,9 @@ export class BookingComponent implements OnInit {
         
         this.displayOnly = false;
       },
-      error => {console.log(error);
+      error => {
         this.displayOnly = false;
         this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
-        // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
       }
     );
   }
