@@ -26,6 +26,7 @@
     <button pButton label="Cancel Booking" type="submit" (click)="cancelBooking()" *ngIf="bookingDetails.id && bookingDetails.bookingStatus != 'CANCELLED'"></button>
       
     <button pButton label="Print" type="submit" (click)="print(bookingDetails.id)" *ngIf="bookingDetails.id"></button>
+    <button pButton label="Draft Invoice" type="submit" (click)="generateInvoice()" *ngIf="bookingDetails.bookingStatus === 'CONFIRMED'"></button>
     <button pButton label="Next" type="submit" (click)="next()" *ngIf="bookingDetails.bookingStatus === 'CONFIRMED'"></button>
     <button pButton label="Exit" type="submit" (click)="exit()"></button>
 

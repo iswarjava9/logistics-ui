@@ -354,16 +354,11 @@ cancelBooking(){
 }
 
 confirmBooking(){
-  // this.msgsGrowl = [];
   this.disableScreen = true;
   this.bookingDetails.bookingStatus = 'CONFIRMED';
   this.msgSvc.add({severity: 'info', summary: 'Confirm Booking', detail: 'Confirming Booking...'});
-  // this.msgsGrowl.push({severity: 'info', summary: 'Confirm Booking', detail: 'Confirming Booking...'});
-  
-    let jsonString = JSON.stringify(this.bookingDetails);
-    console.log('json String:' + jsonString);
-   jsonString = JSON.parse(jsonString);
-
+  let jsonString = JSON.stringify(this.bookingDetails);
+  jsonString = JSON.parse(jsonString);
 
    DateHelper.removeTimeAndTimeZone(jsonString);
     this.bookingSvc.modifyBooking(this.bookingSvc.removeTimeZoneFromBooking(this.bookingDetails)).subscribe(
@@ -373,14 +368,12 @@ confirmBooking(){
        this.bookingDetails = body;
       this.bookingSvc.updateBooking(this.bookingDetails);   
       this.msgSvc.add({severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
-      // this.msgsGrowl.push({severity: 'info', summary: 'Modify Booking', detail: 'Booking is Confirmed'});
       this.disableScreen = false;
       this.bookingDetailSvc.addStepItem({label: 'B/L'});
     },
     error => {console.log(error);
       this.disableScreen = false;
       this.msgSvc.add({severity: 'error', summary: 'Confirmation failed', detail: 'Booking confirmation is failed'});
-      // this.msgsGrowl.push({severity: 'error', summary: 'Confirmation failed', detail: 'Booking confirmation is failed'});
       }
   );
 }
@@ -403,11 +396,6 @@ calculateGroupSize(type: string) {
 }
 onRowSelect(event: Event) {
   this.selectedContainer = event['data'];
-  // this.car = this.cloneCar(event.data);
-  // this.displayDialog = true;
-  console.log('selectedContainer:' + JSON.stringify(this.selectedContainer));
-  // console.log('event:' + JSON.stringify(event['data']));
-  
   this.displayConatinerDialog = true;
 }
 
@@ -425,7 +413,6 @@ deleteContainer(event: Event){
       this.disableScreen = false;
       this.displayConatinerDialog = false;
       this.msgSvc.add({severity: 'success', summary: 'Container removed', detail: 'Container is removed.'});
-      // this.msgsGrowl.push({severity: 'success', summary: 'Container removed', detail: 'Container is removed.'});
     },
     (error) => {
       this.disableScreen = false;
@@ -443,5 +430,20 @@ deleteContainer(event: Event){
 
   back() {
     this.stepIndex.emit(0);
+  }
+
+  generateInvoice(){
+    this.disableScreen = true;
+    this.msgSvc.add({severity: 'info', summary: 'Invoice', detail: 'Draft Invoice generation in progress.'});
+    this.bookingDetailSvc.generateInvoice(this.bookingDetails).subscribe(
+      (response) => {
+        this.disableScreen = false;
+        this.msgSvc.add({severity: 'success', summary: 'Invoice', detail: 'Draft Invoice generated.'});
+      },
+      (error) => {
+        this.disableScreen = false;
+        this.msgSvc.add({severity: 'error', summary: 'Invoice', detail: 'Draft Invoice is not generated.'});
+      }
+    );
   }
 }

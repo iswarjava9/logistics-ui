@@ -1,3 +1,4 @@
+import { ConfigService } from './../../../services/config.service';
 import { isNullOrUndefined } from 'util';
 import { BookingService } from './../booking/service/booking.service';
 import { Injectable } from '@angular/core';
@@ -7,6 +8,7 @@ import {MenuItem} from 'primeng/components/common/MenuItem';
 
 @Injectable()
 export class BookingDetailService{
+  HOST = '';
   headers: Headers;
   options: RequestOptions;
   activeIndex = 0;
@@ -15,9 +17,10 @@ export class BookingDetailService{
     {label: 'Container Details'},
     ];
 
-  constructor(private http: Http, private bookingSvc: BookingService) {
+  constructor(private http: Http, private bookingSvc: BookingService, private configSvc: ConfigService) {
     this.headers = new Headers({'Content-Type': 'application/json; charset=UTF-8'});
     this.options = new RequestOptions({method: RequestMethod.Post, headers: this.headers});
+    this.HOST = configSvc.getConfiguration().baseUrl;
    }
 
   getStepItems(){
@@ -44,5 +47,9 @@ export class BookingDetailService{
                           && this.getStepItems().length <3){
       this.addStepItem({label:'B/L'});
     }
+  }
+
+  generateInvoice(booking): any {
+       return this.http.post(this.HOST + '/logistics/booking/invoive', booking, this.options );
   }
 }
