@@ -3,7 +3,7 @@ import {Cargo} from './cargo.model';
 import {ContainerType} from './containerType.model';
 
 export class Container {
-public id: number;
+  public id: number;
   public containerNo: string;
   public equipment: string;
   public grossKgs: number;

@@ -101,40 +101,7 @@ export class ContainerComponent implements OnInit {
     }else if(isNullOrUndefined(this.bookingDetails.containerDetails)){
       this.bookingDetails.containerDetails = [];
     }
-     
-   /*  this.containers = [{id: null, containerNo: '0001',
-      equipment: 'equp1',
-      grossKgs: 20,
-      grossLbs: 10,
-      seal1: 'seal1',
-      seal2: 'seal2',
-      seal3: 'seal3',
-      tareKgs: 30,
-      tareLbs: 15,
-      vehicleNo: 2561,
-      stuffingNo: 7654,
-      railwayBillNo: 76543,
-      pickupLocalDateTime: null,
-      plannedShipLocalDateTime: null,
-      cusPickupLastFreeLocalDateTime: null,
-      cusReturnLastFreeLocalDateTime: null,
-      carrierPickupLastFreeLocalDateTime: null,
-      carrierReturnLastFreeLocalDateTime: null,
-      dischargeLocalDateTime: null,
-      cargos: [],
-      bookingId: 0,
-      containerType: {id: 0, cbm: 100, teu: 75, containerType: '20X20', descirption: '20X20',
-        isoCode: 'iso code', size: '20-20', type: '20X20'},
-      quotationId: 0}];
-      */
-
-      // this.msgsGrowl = this.bookingSvc
   } 
-
-  onContainerTypeSelection(event: ContainerType) {
-    // this.bookingDetails.containerDetails = event;
-    console.log(event);
-  }
   search(event, key) {
     const query = event.query;
     if (key === 'containerType') {
@@ -150,7 +117,6 @@ export class ContainerComponent implements OnInit {
     subscribe(
         (res: any) => {
             this.filteredContainerTypes = res.json();
-            console.log('got response from DB :' + res.json());
         });
   }
   filterCommodities(query): any {
@@ -160,11 +126,9 @@ export class ContainerComponent implements OnInit {
             this.filteredCommodities = res.json();
           });
    }
-  saveAndNext() {}
 
-  onSelectedItem(event) {
-    console.log(event);
-  }
+   saveAndNext() {}
+
    addContainers(event: Event, dialog: Dialog) {
     
     dialog.visible = true;
@@ -193,7 +157,6 @@ export class ContainerComponent implements OnInit {
               (response) => {
                 const containerid = Number(response.headers.get('containerid'));
                 container.id = containerid;
-                console.log('Container created with id: ' + containerid);
                 this.bookingDetails.containerDetails.push(container);
               },
               (error) => {
@@ -210,22 +173,9 @@ export class ContainerComponent implements OnInit {
       this.containerType = new ContainerType();
       this.commodity = new Commodity();
       this.numberOfContainers = 1;
-      // this.updateContainerTypeMap(); 
       dialog.visible = false;
     }
-  /* updateContainerTypeMap() {
-      this.containerTypeMap.clear();
-      for (let i = 0; i < this.containers.length; i++) {
-          if (this.containerTypeMap.has(this.containers[i].containerType.type)) {
-              this.containerTypeMap.set(this.containers[i].containerType.type, 1);
-          }else {
-              this.containerTypeMap.set(this.containers[i].containerType.type,
-                  this.containerTypeMap.get((this.containers[i].containerType.type) + 1));
-          }
-      }
-      console.log(this.containerTypeMap.entries());
-  } */
-
+  
     displayDialog(event: Event, dialog: Dialog) {
       dialog.visible = true;
       
@@ -399,13 +349,13 @@ onRowSelect(event: Event) {
   this.displayConatinerDialog = true;
 }
 
-deleteContainer(event: Event){
+deleteContainer(id: number){
   this.disableScreen = true;
-  this.containerSvc.removeContainer(this.selectedContainer.id).subscribe(
+  this.containerSvc.removeContainer(id).subscribe(
     (response) => {
       let containerList = [];
       this.bookingDetails.containerDetails.forEach(
-        container => {if(container.id != this.selectedContainer.id){
+        container => {if(container.id != id){
           containerList.push(container);
         }
       });
@@ -445,5 +395,18 @@ deleteContainer(event: Event){
         this.msgSvc.add({severity: 'error', summary: 'Invoice', detail: 'Draft Invoice is not generated.'});
       }
     );
+  }
+
+  updateContainers() {
+    this.containerSvc.updateContainers(this.bookingDetails.containerDetails).subscribe();
+    this.bookingDetails.containerDetails.forEach(container => {
+      console.log('Container no: ' + container.containerNo);
+      console.log('Seal: ' + container.seal1);
+      console.log('Gross wt in kg: ' + container.grossKgs);
+      console.log('Gross wt in lb: ' + container.grossLbs);
+      console.log('Net wt in kg: ' + container.tareKgs);
+      console.log('Net wt in lb: ' + container.tareLbs);
+      console.log('Measurement: ' + container.containerType.cbm);
+    });
   }
 }
