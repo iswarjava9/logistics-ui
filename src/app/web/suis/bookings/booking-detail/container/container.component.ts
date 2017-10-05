@@ -33,7 +33,7 @@ export class ContainerComponent implements OnInit {
   containerTypeFormGroup: FormGroup;
   commodityFormGroup: FormGroup;
   bookingDetails: Booking;
-  containerType: ContainerType ;
+  containerTypeDetail: ContainerType = null ;
   commodity: Commodity = null;
   filteredContainerTypes: any[];
   filteredCommodities: any[];
@@ -48,6 +48,8 @@ export class ContainerComponent implements OnInit {
   equipment: SelectItem;
   equipments: SelectItem[];
   
+  containerTypeList: SelectItem[] = [{label: 'Select', value: 'SELECT'},{label: 'FCL', value: 'FCL'}, {label: 'LCL', value: 'LCL'}];;
+
   selectedContainer: Container = null;
   displayConatinerDialog = false;
   
@@ -101,6 +103,7 @@ export class ContainerComponent implements OnInit {
     }else if(isNullOrUndefined(this.bookingDetails.containerDetails)){
       this.bookingDetails.containerDetails = [];
     }
+
   } 
   search(event, key) {
     const query = event.query;
@@ -112,14 +115,15 @@ export class ContainerComponent implements OnInit {
   }
 
 
-  filterContainerTypes(query): any {
+  filterContainerTypes(query) {
     this.containerSvc.getContainerTypeByName(query).
     subscribe(
         (res: any) => {
             this.filteredContainerTypes = res.json();
+            console.log(JSON.stringify(res.json()));
         });
   }
-  filterCommodities(query): any {
+  filterCommodities(query) {
     this.containerSvc.getCommoditiesByName(query).
     subscribe(
         (res: any) => {
@@ -136,7 +140,7 @@ export class ContainerComponent implements OnInit {
 
   addContainersToBooking(event: Event, dialog: Dialog){
        
-    if(isNullOrUndefined(this.containerType)){
+    if(isNullOrUndefined(this.containerTypeDetail)){
       this.msgSvc.add({severity: 'warn', summary: 'Container type is required field', detail: ''});
       return;
     }
@@ -150,7 +154,7 @@ export class ContainerComponent implements OnInit {
       for (let i = 0; i < this.numberOfContainers; i++) {
         const container = new Container();
         container.bookingId = this.bookingSvc.getBookingId();
-        container.containerType = this.containerType;
+        container.containerType = this.containerTypeDetail;
         container.commodity = this.commodity;
         if(container.bookingId != null){
             this.containerSvc.addContainer(container).subscribe(
@@ -170,7 +174,7 @@ export class ContainerComponent implements OnInit {
       }
 
       // reset 
-      this.containerType = new ContainerType();
+      this.containerTypeDetail = new ContainerType();
       this.commodity = new Commodity();
       this.numberOfContainers = 1;
       dialog.visible = false;
@@ -190,29 +194,31 @@ export class ContainerComponent implements OnInit {
 }
 
 createContainerType(dialog: Dialog) {
-  this.containerType = new ContainerType();
+  this.containerTypeDetail = new ContainerType();
   if(!isNullOrUndefined(this.containerTypeFormGroup.get('cbm'))){
-    this.containerType.cbm = this.containerTypeFormGroup.get('cbm').value;
+    this.containerTypeDetail.cbm = this.containerTypeFormGroup.get('cbm').value;
   }
   if(!isNullOrUndefined(this.containerTypeFormGroup.get('size'))){
-    this.containerType.size = this.containerTypeFormGroup.get('size').value;
+    this.containerTypeDetail.size = this.containerTypeFormGroup.get('size').value;
   }
   if(!isNullOrUndefined(this.containerTypeFormGroup.get('teu'))){
-    this.containerType.teu = this.containerTypeFormGroup.get('teu').value;
+    this.containerTypeDetail.teu = this.containerTypeFormGroup.get('teu').value;
   }
   if(!isNullOrUndefined(this.containerTypeFormGroup.get('type'))){
-    this.containerType.type = this.containerTypeFormGroup.get('type').value;
+    this.containerTypeDetail.type = this.containerTypeFormGroup.get('type').value;
   }
   if(!isNullOrUndefined(this.containerTypeFormGroup.get('containerType'))){
-    this.containerType.containerType = this.containerTypeFormGroup.get('containerType').value;
+    this.containerTypeDetail.containerType = this.containerTypeFormGroup.get('containerType').value;
+    console.log('Added container type with container type '+ this.containerTypeFormGroup.get('containerType').value);
   }
   if(!isNullOrUndefined(this.containerTypeFormGroup.get('description'))){
-    this.containerType.descirption = this.containerTypeFormGroup.get('description').value;
+    this.containerTypeDetail.descirption = this.containerTypeFormGroup.get('description').value;
   }
   this.disableScreen = true;
-   this.containerSvc.addContainerType(this.containerType).subscribe(
+   this.containerSvc.addContainerType(this.containerTypeDetail).subscribe(
       (response) => {
-        this.containerType.id = Number(response.headers.get('containertypeid'));
+        this.containerTypeDetail.id = Number(response.headers.get('containertypeid'));
+        console.log('FCL/LCL: ' + this.containerTypeDetail.containerType);
         this.disableScreen = false;
         dialog.visible = false;
         this.msgSvc.add({severity: 'success', summary: 'Add Container Type', detail: 'Container Type is added.'});
@@ -399,6 +405,7 @@ deleteContainer(id: number){
 
   updateContainers() {
     this.bookingDetails.containerDetails.forEach(container => {
+      console.log('Container id: ' +container.id + '   , with booking id: ' + container.bookingId);
       this.containerSvc.updateContainers(container).subscribe(
         (response) => {
           this.msgSvc.add({severity: 'success', summary: 'Update Container', detail: 'Container is updated'});
