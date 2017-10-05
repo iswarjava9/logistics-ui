@@ -2,7 +2,8 @@
   
   <br>
   <form [formGroup]="bookingDetailFormGroup">
-
+    <span style="font-weight: bold">Fields marked as * are required fileds.</span>
+    <br>
     <div class="row">
       <div class="ui-g-12 ui-md-6">
         <div class="ui-g-4">Forwarder Reference:</div>
@@ -12,7 +13,7 @@
         </div>
 
       <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Booking Agent:</div>
+          <div class="ui-g-4">*Booking Agent:</div>
         <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
@@ -44,7 +45,7 @@
     
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Shipper</div>
+          <div class="ui-g-4">*Shipper:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
@@ -74,7 +75,7 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Consignee</div>
+          <div class="ui-g-4">Consignee:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
@@ -132,7 +133,7 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Carrier Booking No:</div>
+          <div class="ui-g-4">*Carrier Booking No:</div>
           <div class="ui-g-8">
             <input pInputText type="text" formControlName="carrierBookingNo" id="carrierBookingNo"/>
           </div>
@@ -149,7 +150,7 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Carrier Name:</div>
+          <div class="ui-g-4">*Carrier Name:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
@@ -162,7 +163,7 @@
         </div>
 
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Freight Term</div>
+          <div class="ui-g-4">Freight Term:</div>
           <div class="ui-g-8">
             <p-dropdown [(options)]="freightList" formControlName="freight" id="freight"></p-dropdown>
           </div>
@@ -171,7 +172,7 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4" >Place Of Receipt</div>
+          <div class="ui-g-4" >Place Of Receipt:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
@@ -182,7 +183,7 @@
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Port Of Loading</div>
+          <div class="ui-g-4">*Port Of Loading:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3"  [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
@@ -197,7 +198,7 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Port Of Discharge</div>
+          <div class="ui-g-4">*Port Of Discharge:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
@@ -208,7 +209,7 @@
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Place of Delivery</div>
+          <div class="ui-g-4">Place of Delivery:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item"  forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
@@ -222,7 +223,7 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Vessel:</div>
+          <div class="ui-g-4">*Vessel:</div>
           <div class="ui-g-8">
             <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredVessels"
                             (completeMethod)="search($event, 'vessel')" field="name"
@@ -234,7 +235,7 @@
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Voyage:</div>
+          <div class="ui-g-4">*Voyage:</div>
           <div class="ui-g-8">
             <input pInputText type="text" [formControlName]="'carrierVoyage'" id="carrierVoyage"/>
           </div>
@@ -243,7 +244,7 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Docs Cutoff Date</div>
+          <div class="ui-g-4">*Docs Cutoff Date:</div>
           <div class="ui-g-8">
             <p-calendar hourFormat="24"  showTime="showTime" dateFormat="M/dd/yy" [formControlName]="'docsCutOffDateTime'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
@@ -258,13 +259,13 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Port Cutoff Date:</div>
+          <div class="ui-g-4">*Port Cutoff Date:</div>
           <div class="ui-g-8">
             <p-calendar showTime="showTime" [formControlName]="'portCutOffDate'" dateFormat="M/dd/yy" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Cargo Moving Date</div>
+          <div class="ui-g-4">Cargo Moving Date:</div>
           <div class="ui-g-8">
             <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'cargoMovingDate'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
           </div>
@@ -299,7 +300,7 @@
           </div>
 
           <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Ingate At Terminal</div>
+            <div class="ui-g-4">Ingate At Terminal:</div>
             <div class="ui-g-8">
               <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
@@ -313,13 +314,13 @@
     
          <div class="row">
           <div class="ui-g-12 ui-md-6">
-            <div class="ui-g-4">Booking Status</div>
+            <div class="ui-g-4">Booking Status:</div>
             <div class="ui-g-8">
               <p-dropdown [(options)]="statusList" formControlName="bookingStatus"  readonly="true"></p-dropdown>
             </div>
           </div>
           <div class="ui-g-12 ui-md-6">
-              <div class="ui-g-4">Shipper Reference</div>
+              <div class="ui-g-4">Shipper Reference:</div>
               <div class="ui-g-8">
                 <input pInputText type="text" formControlName="shipperRefNo" id="shipperRefNo"/>
               </div>
@@ -354,7 +355,7 @@
 
           <div class="row">
             <div class="ui-g-12 ui-md-6">
-              <div class="ui-g-4">Sales Representative</div>
+              <div class="ui-g-4">Sales Representative:</div>
               <div class="ui-g-8">
                 <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPersons"
                                 (completeMethod)="search($event, 'person')" field="name"
@@ -366,7 +367,7 @@
             </div>
 
             <div class="ui-g-12 ui-md-6">
-              <div class="ui-g-4">Booking Person</div>
+              <div class="ui-g-4">Booking Person:</div>
               <div class="ui-g-8">
                 <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPersons"
                                 (completeMethod)="search($event, 'person')" field="name"
@@ -386,7 +387,7 @@
                 </div>
               </div>
               <div class="ui-g-12 ui-md-6">
-                <div class="ui-g-4">AES Auth No</div>
+                <div class="ui-g-4">AES Auth No:</div>
                 <div class="ui-g-8">
                   <input pInputText type="text" formControlName="aesAuthNo" id="aesAuthNo"/>
                 </div>
@@ -395,7 +396,7 @@
       
           <div class="row">
               <div class="ui-g-12 ui-md-6">
-                <div class="ui-g-4">Empty Pickup Date</div>
+                <div class="ui-g-4">Empty Pickup Date:</div>
                 <div class="ui-g-8">
                    <p-calendar dateFormat="M/dd/yy" [formControlName]="'emptyPickupDate'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
                 </div>
@@ -421,7 +422,7 @@
                   </div>
                 </div>
                 <div class="ui-g-12 ui-md-6">
-                    <div class="ui-g-4">Docs Received Date</div>
+                    <div class="ui-g-4">Docs Received Date:</div>
                     <div class="ui-g-8">
                       <p-calendar showTime="showTime" [formControlName]="'docsReceivedDate'" dateFormat="M/dd/yy"  showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
                     </div>
@@ -494,8 +495,8 @@
 
         <div class="row">
         <div class="ui-g-10">
-          <button pButton label="Save And Next" type="submit" (click)="saveAndNext()" [disabled]="disableScreen" *ngIf="bookingDetailFormGroup.dirty && bookingDetailFormGroup.valid"></button>
-          <button pButton label="Save And Exit" type="submit" (click)="saveAndExit()" [disabled]="disableScreen" *ngIf="bookingDetailFormGroup.dirty && bookingDetailFormGroup.valid"></button>
+          <button pButton label="Save And Next" type="submit" (click)="saveAndNext()" [disabled]="disableScreen" *ngIf="bookingDetailFormGroup.valid"></button>
+          <button pButton label="Save And Exit" type="submit" (click)="saveAndExit()" [disabled]="disableScreen" *ngIf="bookingDetailFormGroup.valid"></button>
           <button pButton label="Next" type="submit" (click)="next()" [disabled]="disableScreen" *ngIf="!bookingDetailFormGroup.dirty"></button>
           <button pButton label="Exit" type="submit" (click)="exit()"></button>
           <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>
