@@ -48,8 +48,8 @@ export class ContainerService {
     return this.http.delete( this.hosturl + '/logistics/container/' + id, this.options);
   }
 
-  updateContainers(containers: Container[]) {
+  updateContainers(container: Container) {
     this.options = new RequestOptions({headers: this.headers});
-    return this.http.put( this.hosturl + '/logistics/container/', containers, this.options);
+    return this.http.put( this.hosturl + '/logistics/container/', container, this.options);
   }
 }

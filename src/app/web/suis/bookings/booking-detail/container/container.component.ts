@@ -398,15 +398,15 @@ deleteContainer(id: number){
   }
 
   updateContainers() {
-    this.containerSvc.updateContainers(this.bookingDetails.containerDetails).subscribe();
     this.bookingDetails.containerDetails.forEach(container => {
-      console.log('Container no: ' + container.containerNo);
-      console.log('Seal: ' + container.seal1);
-      console.log('Gross wt in kg: ' + container.grossKgs);
-      console.log('Gross wt in lb: ' + container.grossLbs);
-      console.log('Net wt in kg: ' + container.tareKgs);
-      console.log('Net wt in lb: ' + container.tareLbs);
-      console.log('Measurement: ' + container.containerType.cbm);
+      this.containerSvc.updateContainers(container).subscribe(
+        (response) => {
+          this.msgSvc.add({severity: 'success', summary: 'Update Container', detail: 'Container is updated'});
+        },
+        (error) => {
+          this.msgSvc.add({severity: 'error', summary: 'Update Container', detail: 'Container is not updated updated.'});
+        }
+      );
     });
   }
 }
