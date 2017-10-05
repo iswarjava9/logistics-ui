@@ -8,9 +8,9 @@
 
 <br>
 
-<p-dataTable #dt [(value)]="this.bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
-[sortableRowGroup]="false" [editable]="true">
-  <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['containerType'].type}} X {{calculateGroupSize(rowData['containerType'].type)}}</ng-template>
+<p-dataTable #dt [value]="this.bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
+[sortableRowGroup]="false" editable="true" dataKey="id"  [immutable]="true">
+<ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['containerType'].type}} X {{calculateGroupSize(rowData['containerType'].type)}}</ng-template>  
   <p-column field="containerNo" header="Container Number" [editable]="true"></p-column>
   <p-column field="seal1" header="Seal 1" [editable]="true"></p-column>
   <p-column field="grossKgs" header="Gross weight(KG)" [editable]="true"></p-column>
@@ -18,21 +18,21 @@
   <p-column field="tareKgs" header="Net weight(KG)" [editable]="true"></p-column>
   <p-column field="tareLbs" header="Net weight(LB)" [editable]="true"></p-column>
   <p-column header="Measurement(CBM)">
-    <ng-template let-container="rowData" pTemplate="body">
-      <span >{{container['containerType'].cbm}}</span>
+    <ng-template let-containerCbm="rowData" pTemplate="body">
+      <span >{{containerCbm['containerType'].cbm}}</span>
   </ng-template>
   </p-column>
   <p-column header="Container Type">
-      <ng-template let-container="rowData" pTemplate="body">
-        <span>{{container['containerType'].containerType}} </span>
-          <span>{{container['containerType'].type}}</span>
+      <ng-template let-containerTy="rowData" pTemplate="body">
+        <span>{{containerTy['containerType'].containerType}} </span>
+          <span>{{containerTy['containerType'].type}}</span>
       </ng-template>
   </p-column>
   <p-column field="commodity.name" header="Commodity"></p-column>
   
   <p-column styleClass="col-button" header="Action">
     <ng-template let-containerData="rowData" pTemplate="body">
-         <button type="button" pButton class="ui-button-danger" icon="fa-close" (click)="deleteContainer(containerData['id'])" pTooltip="Delete Container" tooltipPosition="top" appendTo="body"></button>
+         <button pButton class="ui-button-danger" icon="fa-close" (click)="deleteContainer(containerData['id'], $event)" pTooltip="Delete Container" tooltipPosition="top" appendTo="body"></button>
     </ng-template>
  </p-column>
 </p-dataTable>

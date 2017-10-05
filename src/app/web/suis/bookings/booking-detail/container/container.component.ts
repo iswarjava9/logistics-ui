@@ -148,30 +148,43 @@ export class ContainerComponent implements OnInit {
       this.msgSvc.add({severity: 'warn', summary: 'Commodity is required field.', detail: ''});
       return;
     }
+    
     if(isNullOrUndefined(this.bookingDetails.containerDetails)){
       this.bookingDetails.containerDetails = [];
     }
-      for (let i = 0; i < this.numberOfContainers; i++) {
+    let counter = this.numberOfContainers;
+    if(this.bookingSvc.getBookingId() != null && counter > 0){
+      this.disableScreen = true;
+    }else{
+      return;
+    }
+    for (let i = 0; i < this.numberOfContainers; i++) {
         const container = new Container();
         container.bookingId = this.bookingSvc.getBookingId();
         container.containerType = this.containerTypeDetail;
         container.commodity = this.commodity;
-        if(container.bookingId != null){
-            this.containerSvc.addContainer(container).subscribe(
+        this.containerSvc.addContainer(container).subscribe(
               (response) => {
                 const containerid = Number(response.headers.get('containerid'));
                 container.id = containerid;
                 this.bookingDetails.containerDetails.push(container);
+                this.msgSvc.add({severity: 'success', summary: 'Add', detail: 'Container is added.'});
+                if(--counter == 0) {
+                  this.disableScreen = false;
+                }
               },
               (error) => {
-
+                if(--counter == 0) {
+                  this.disableScreen = false;
+                }
+                this.msgSvc.add({severity: 'error', summary: 'Add', detail: 'Container is not added.'});
               }
-            );
+        );
       }
       
         console.log('booking id:' + this.bookingSvc.getBookingId());
   
-      }
+      
 
       // reset 
       this.containerTypeDetail = new ContainerType();
@@ -355,7 +368,8 @@ onRowSelect(event: Event) {
   this.displayConatinerDialog = true;
 }
 
-deleteContainer(id: number){
+deleteContainer(id: number, event: Event){
+  console.log('Deleting container with id: ' + id + ' and event ' + event);
   this.disableScreen = true;
   this.containerSvc.removeContainer(id).subscribe(
     (response) => {
@@ -404,14 +418,24 @@ deleteContainer(id: number){
   }
 
   updateContainers() {
+    let counter = this.bookingDetails.containerDetails.length;
+    if(counter > 0 ) {
+      this.disableScreen = true;
+    }
     this.bookingDetails.containerDetails.forEach(container => {
       console.log('Container id: ' +container.id + '   , with booking id: ' + container.bookingId);
       this.containerSvc.updateContainers(container).subscribe(
         (response) => {
           this.msgSvc.add({severity: 'success', summary: 'Update Container', detail: 'Container is updated'});
+          if(--counter == 0 ) {
+            this.disableScreen = false;
+          }
         },
         (error) => {
           this.msgSvc.add({severity: 'error', summary: 'Update Container', detail: 'Container is not updated updated.'});
+          if(--counter == 0 ) {
+            this.disableScreen = false;
+          }
         }
       );
     });
