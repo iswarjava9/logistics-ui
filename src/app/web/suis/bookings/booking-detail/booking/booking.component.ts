@@ -730,31 +730,21 @@ export class BookingComponent implements OnInit {
     
     this.bookingSvc.saveCustomer(this.createdCustomer).subscribe(
       (response: Response) => {
-
-        const customerId = response.headers.get('customerId');
-        console.log('customer id : ' + customerId);
-        this.createdCustomer.id = Number(customerId);
-        // this.bookingDetails[this.hoveredCustomerId] = this.createdCustomer;
+        this.createdCustomer = response.json();
         this.bookingDetailFormGroup.get(this.hoveredCustomerId).setValue(this.createdCustomer);
-       this.closeCustomerDialog(dialog, event);
+        this.closeCustomerDialog(dialog, event);
         this.displayOnly = false;
         this.msgSvc.add({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Success'});
-        // this.msgsGrowl.push({severity: 'success', summary: 'Creation Success ', detail: this.hoveredLabel + 'Creation Success'});
       },
       error => {
         this.msgSvc.add({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
-        // this.msgsGrowl.push({severity: 'error', summary: 'Creation failed ', detail: this.hoveredLabel + 'Creation Failed'});
-        this.displayOnly = true;
-      },
-      success => {
-        console.log(success);
-
+        this.displayOnly = false;
       }
     );
   }
 
   displayLineOfBusiness(event: Event, businessLineId: string, dialog: Dialog, label: string) {
-      const businessLine = this.bookingDetailFormGroup.get(businessLineId).value;
+    const businessLine = this.bookingDetailFormGroup.get(businessLineId).value;
     this.hoveredLabel = label;
     this.hoveredBusinessLineId = businessLineId;
     if (businessLine != null && businessLine.id != null) {
