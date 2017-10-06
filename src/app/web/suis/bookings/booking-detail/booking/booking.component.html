@@ -2,7 +2,7 @@
   
   <br>
   <form [formGroup]="bookingDetailFormGroup">
-    <span style="font-weight: bold">Fields marked as * are required fields.</span>
+    <span style="font-weight: bold; color: red">Fields marked as * are required fields.</span>
     <br>
     <br>
     <div class="row">
@@ -14,16 +14,16 @@
         </div>
 
       <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Booking Agent:</div>
-        <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+        <div class="ui-g-4">Booking Agent:<span class="ui-span-star">*</span></div>
+          <div class="ui-g-8">
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
                             [formControlName]="'bookingAgent'">
             </p-autoComplete>
               <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'bookingAgent', opCustomer , 'Booking Agent')">
               </button>
             </div>
-            <span class="help-block" *ngIf="!bookingDetailFormGroup.get('bookingAgent').valid 
+            <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('bookingAgent').valid 
             && bookingDetailFormGroup.get('bookingAgent').touched">Please select a valid booking agent!</span>
         </div>
       </div>
@@ -46,9 +46,9 @@
     
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Shipper:</div>
+          <div class="ui-g-4">Shipper:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
                             [formControlName]="'shipper'">
             </p-autoComplete>
@@ -61,9 +61,9 @@
         </div>
         
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Bill To:</div>
+          <div class="ui-g-4">Bill To:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
                             [formControlName]="'billTo'">
             </p-autoComplete>
@@ -71,6 +71,8 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'billTo', opCustomer , 'Bill To')">
             </button>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('billTo').valid 
+          && bookingDetailFormGroup.get('billTo').touched">Please select a valid Bill To!</span>
         </div>
       </div>
 
@@ -78,7 +80,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Consignee:</div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
                             [formControlName]="'consignee'">
  
@@ -91,7 +93,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Delivery Agent:</div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
                             [formControlName]="'deliveryAgent'">
 
@@ -107,7 +109,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Notify 1:</div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
                             [formControlName]="'notify1'">
             </p-autoComplete>
@@ -120,7 +122,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Cargo Supplier:</div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
                             [formControlName]="'cargoSupplier'">
             </p-autoComplete>
@@ -134,10 +136,12 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Carrier Booking No:</div>
+          <div class="ui-g-4">Carrier Booking No:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
             <input pInputText type="text" formControlName="carrierBookingNo" id="carrierBookingNo"/>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('carrierBookingNo').valid 
+          && bookingDetailFormGroup.get('carrierBookingNo').touched">Please select a valid Carrier Booking No!</span>
         </div>
         
         <div class="ui-g-12 ui-md-6">
@@ -151,9 +155,9 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Carrier Name:</div>
+          <div class="ui-g-4">Carrier Name:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                             (completeMethod)="search($event, 'customer')" field="name"
                             [formControlName]="'carrier'" >
             </p-autoComplete>
@@ -161,6 +165,8 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'carrier', opCustomer , 'Carrier')">
             </button>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('carrier').valid 
+          && bookingDetailFormGroup.get('carrier').touched">Please select a valid Carrier Name!</span>
         </div>
 
         <div class="ui-g-12 ui-md-6">
@@ -175,7 +181,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4" >Place Of Receipt:</div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
                               [formControlName]="'placeOfReceipt'" (onClear)="clearPlace(this.bookingDetailFormGroup,'placeOfReceipt')">
             </p-autoComplete>
@@ -184,9 +190,9 @@
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Port Of Loading:</div>
+          <div class="ui-g-4">Port Of Loading:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3"  [suggestions]="filteredPlaces"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3"  [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
                             (onSelect)="onPlaceSelection($event, 'portOfLoad')" [formControlName]="'portOfLoad'" (onClear)="clearPlace(this.bookingDetailFormGroup,'portOfLoad')">
             </p-autoComplete>
@@ -194,25 +200,29 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'portOfLoad',opPlaces,'Port Of Loading')">
             </button>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('portOfLoad').valid 
+          && bookingDetailFormGroup.get('portOfLoad').touched">Please select a valid Port Of Loading!</span>
         </div>
       </div>
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Port Of Discharge:</div>
+          <div class="ui-g-4">Port Of Discharge:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
                             (onSelect)="onPlaceSelection($event, 'portOfDischarge')" [formControlName]="'portOfDischarge'" (onClear)="clearPlace(this.bookingDetailFormGroup,'portOfDischarge')">
               </p-autoComplete>
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event,'portOfDischarge', opPlaces , 'Port Of Discharge')">
             </button>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('portOfDischarge').valid 
+          && bookingDetailFormGroup.get('portOfDischarge').touched">Please select a valid Port Of Discharge!</span>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Place of Delivery:</div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item"  forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item"  forceSelection="true" delay="650" minlength="3" [suggestions]="filteredPlaces"
                             (completeMethod)="search($event, 'place')" field="name"
                             (onSelect)="onPlaceSelection($event, 'placeOfDelivery')" [formControlName]="'placeOfDelivery'">
             </p-autoComplete>
@@ -224,9 +234,9 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Vessel:</div>
+          <div class="ui-g-4">Vessel:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
-            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredVessels"
+            <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredVessels"
                             (completeMethod)="search($event, 'vessel')" field="name"
                             [formControlName]="'vessel'">
             </p-autoComplete>
@@ -234,21 +244,27 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayVessel($event,'vessel', opVessel , 'Vessel')">
             </button>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('vessel').valid 
+          && bookingDetailFormGroup.get('vessel').touched">Please select a valid Vessel!</span>
         </div>
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Voyage:</div>
+          <div class="ui-g-4">Voyage:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
             <input pInputText type="text" [formControlName]="'carrierVoyage'" id="carrierVoyage"/>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('carrierVoyage').valid 
+          && bookingDetailFormGroup.get('carrierVoyage').touched">Please select a valid Voyage!</span>
         </div>
       </div>
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Docs Cutoff Date:</div>
+          <div class="ui-g-4">Docs Cutoff Date:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
             <p-calendar hourFormat="24"  showTime="showTime" dateFormat="M/dd/yy" [formControlName]="'docsCutOffDateTime'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('docsCutOffDateTime').valid 
+          && bookingDetailFormGroup.get('docsCutOffDateTime').touched">Please select a valid Docs Cutoff Date!</span>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Rail CutOff Date:</div>
@@ -260,10 +276,12 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">*Port Cutoff Date:</div>
+          <div class="ui-g-4">Port Cutoff Date:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
             <p-calendar showTime="showTime" [formControlName]="'portCutOffDate'" dateFormat="M/dd/yy" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('portCutOffDate').valid 
+          && bookingDetailFormGroup.get('portCutOffDate').touched">Please select a valid Port Cutoff Date!</span>
         </div>
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Cargo Moving Date:</div>
@@ -281,17 +299,19 @@
           </div>
         </div>
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">ETA:</div>
+          <div class="ui-g-4">ETA:<span class="ui-span-star">*</span></div>
           <div class="ui-g-8">
             <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'eta'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
           </div>
+          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('eta').valid 
+          && bookingDetailFormGroup.get('eta').touched">Please select a valid ETA!</span>
         </div>
       </div>
        <div class="row">
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Empty Container Pickup Depot:</div>
             <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
                               (onSelect)="onPlaceSelection($event, 'emptyContainerPickup')" [formControlName]="'emptyContainerPickup'">
                 </p-autoComplete>
@@ -303,7 +323,7 @@
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Ingate At Terminal:</div>
             <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPlaces"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredPlaces"
                               (completeMethod)="search($event, 'place')" field="name"
                               (onSelect)="onPlaceSelection($event, 'ingateAtTerminal')" [formControlName]="'ingateAtTerminal'">
               </p-autoComplete>
@@ -358,7 +378,7 @@
             <div class="ui-g-12 ui-md-6">
               <div class="ui-g-4">Sales Representative:</div>
               <div class="ui-g-8">
-                <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPersons"
+                <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredPersons"
                                 (completeMethod)="search($event, 'person')" field="name"
                                 [formControlName]="'salesRepresentative'">
                 </p-autoComplete>
@@ -370,7 +390,7 @@
             <div class="ui-g-12 ui-md-6">
               <div class="ui-g-4">Booking Person:</div>
               <div class="ui-g-8">
-                <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredPersons"
+                <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredPersons"
                                 (completeMethod)="search($event, 'person')" field="name"
                                 [formControlName]="'bookingPerson'">
                 </p-autoComplete>
@@ -413,7 +433,7 @@
               <div class="ui-g-12 ui-md-6">
                   <div class="ui-g-4">Notify 2:</div>
                   <div class="ui-g-8">
-                    <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+                    <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                                     (completeMethod)="search($event, 'customer')" field="name"
                                     [formControlName]="'notify2'">
                     </p-autoComplete>
@@ -440,7 +460,7 @@
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Local SSLine Office</div>
             <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCustomers"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCustomers"
                               (completeMethod)="search($event, 'customer')" field="name"
                               (onSelect)="onCustomerSelection($event, 'localSSLineOffice')" [formControlName]="'localSSLineOffice'">
               </p-autoComplete>
@@ -455,7 +475,7 @@
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Line Of Business</div>
             <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredLOBs"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredLOBs"
                               (completeMethod)="search($event, 'lineOfBusiness')" field="name"
                               [formControlName]="'lineOfBusiness'"></p-autoComplete>
 
@@ -467,7 +487,7 @@
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Division</div>
             <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredDivisions"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredDivisions"
                               (completeMethod)="search($event, 'division')" field="name"
                               [formControlName]="'division'" >
               </p-autoComplete>
@@ -483,7 +503,7 @@
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Movement Type</div>
             <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredMoveTypes"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredMoveTypes"
                               (completeMethod)="search($event, 'typeOfMove')" field="name"
                               [formControlName]="'typeOfMove'">
               </p-autoComplete>
@@ -534,7 +554,7 @@
             <div class="ui-g-12 ui-md-6">
               <div class="ui-g-4">City:</div>
               <div class="ui-g-8">
-                  <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="1000" minlength="3" [suggestions]="filteredCities"
+                  <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="650" minlength="3" [suggestions]="filteredCities"
                   (completeMethod)="search($event, 'city')" field="name"
                   [formControlName]="'city'" [readonly]="this.displayOnly"
                   (onSelect)="onCitySelection(this.placeFormGroup)" >
@@ -609,7 +629,7 @@
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">City:</div>
           <div class="ui-g-8">
-              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" delay="400" minlength="3" [suggestions]="filteredCities"
+              <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" delay="650" minlength="3" [suggestions]="filteredCities"
               (completeMethod)="search($event, 'city')" field="name"
               [formControlName]="'city'" [readonly]="this.displayOnly"
               (onSelect)="onCitySelection(this.customerFormGroup)">

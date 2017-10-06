@@ -265,7 +265,7 @@ export class BookingComponent implements OnInit {
         'serviceContractId': new FormControl(this.bookingDetails.serviceContractId),
         'typeOfService': new FormControl(this.bookingDetails.typeOfService),
 
-        'billTo': new FormControl(this.bookingDetails.billTo),
+        'billTo': new FormControl(this.bookingDetails.billTo, Validators.required),
         'consignee': new FormControl(this.bookingDetails.consignee),
         'deliveryAgent': new FormControl(this.bookingDetails.deliveryAgent),
         'localSSLineOffice': new FormControl(this.bookingDetails.localSSLineOffice),
@@ -284,7 +284,7 @@ export class BookingComponent implements OnInit {
 
         'docsCutOffDateTime': new FormControl(this.bookingDetails.docsCutOffDateTime, Validators.required),
         'docsReceivedDate': new FormControl(this.bookingDetails.docsReceivedDate),
-        'eta': new FormControl(this.bookingDetails.eta),
+        'eta': new FormControl(this.bookingDetails.eta, Validators.required),
         'bookingDate': new FormControl({value: this.bookingDetails.bookingDate, disabled: true}),
         'amendmentDate': new FormControl({value: this.bookingDetails.amendmentDate, disabled: true}),
         'cargoMovingDate': new FormControl(this.bookingDetails.cargoMovingDate),
