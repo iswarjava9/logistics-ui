@@ -812,44 +812,22 @@
       </div>
     </p-dialog>
 
-    <p-dialog #opVessel appendTo="body" modal="true" header="{{this.hoveredLabel}}" [closable]="false">
-      <div class="row">
+    <p-dialog #opVessel appendTo="body" class="ui-panel" modal="true" header="{{this.hoveredLabel}}" [closable]="false" width="450"	>
+      
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Name:</div>
           <div class="ui-g-8">
             <input pInputText type="text"  [(ngModel)]="this.createdVessel.name" required="true" [readonly]="this.displayOnly"/>
           </div>
         </div>
-        <div class="ui-g-12 ui-md-6">
+        <!-- <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Vessel Number:</div>
           <div class="ui-g-8">
             <input pInputText type="text" [(ngModel)]="this.createdVessel.vesselNo"  required="true" [readonly]="this.displayOnly"/>
           </div>
-        </div>
-      </div>
-<!--
-      <div class="row">
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Lloyds Code:</div>
-          <div class="ui-g-8">
-            <input pInputText type="text" [(ngModel)]="this.createdVessel.lloydsCode" [readonly]="this.displayOnly"/>
-          </div>
-        </div>
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Country Name:</div>
-          <div class="ui-g-8">
-            <input pInputText type="text" [(ngModel)]="this.createdVessel.country.name" [readonly]="this.displayOnly"/>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Country Code:</div>
-          <div class="ui-g-8">
-            <input pInputText type="text" [(ngModel)]="this.createdVessel.country.code" [readonly]="this.displayOnly"/>
-          </div>
-        </div>
-      </div>-->
+        </div> -->
+      
+
       <div class="ui-g-10">
         <button pButton label="Create" type="submit" (click)="createVessel(opVessel, $event)" [disabled]="this.displayOnly"></button>
         <button pButton label="Cancel" type="submit" (click)="closeDialog(opVessel, $event)"></button>
