@@ -172,6 +172,9 @@ export class ContainerComponent implements OnInit {
                 if(--counter == 0) {
                   this.disableScreen = false;
                 }
+                let containerList = [];
+                this.bookingDetails.containerDetails.forEach(item => containerList.push(item));
+                this.bookingDetails.containerDetails = containerList;
               },
               (error) => {
                 if(--counter == 0) {
@@ -181,10 +184,6 @@ export class ContainerComponent implements OnInit {
               }
         );
       }
-      
-        console.log('booking id:' + this.bookingSvc.getBookingId());
-  
-      
 
       // reset 
       this.containerTypeDetail = new ContainerType();
@@ -426,8 +425,9 @@ deleteContainer(id: number, event: Event){
       console.log('Container id: ' +container.id + '   , with booking id: ' + container.bookingId);
       this.containerSvc.updateContainers(container).subscribe(
         (response) => {
-          this.msgSvc.add({severity: 'success', summary: 'Update Container', detail: 'Container is updated'});
+          
           if(--counter == 0 ) {
+            this.msgSvc.add({severity: 'success', summary: 'Update Container', detail: 'Container is updated'});
             this.disableScreen = false;
           }
         },

@@ -8,8 +8,8 @@
 
 <br>
 
-<p-dataTable #dt [value]="this.bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
-[sortableRowGroup]="false" editable="true" dataKey="id"  [immutable]="true">
+<p-dataTable #dt [value]="bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
+[sortableRowGroup]="false" [resizableColumns]="true" editable="true" dataKey="id"  [immutable]="true">
 <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['containerType'].type}} X {{calculateGroupSize(rowData['containerType'].type)}}</ng-template>  
   <p-column field="containerNo" header="Container Number" [editable]="true"></p-column>
   <p-column field="seal1" header="Seal 1" [editable]="true"></p-column>
@@ -22,13 +22,20 @@
       <span >{{containerCbm['containerType'].cbm}}</span>
   </ng-template>
   </p-column>
-  <p-column header="Container Type">
+  <p-column header="Container Type"  [style]="{'overflow':'visible'}">
       <ng-template let-containerTy="rowData" pTemplate="body">
-        <span>{{containerTy['containerType'].containerType}} </span>
-          <span>{{containerTy['containerType'].type}}</span>
+        <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="500" minlength="1" [suggestions]="filteredContainerTypes"
+        (completeMethod)="search($event, 'containerType')" field="type"
+        [(ngModel)]="containerTy['containerType']"></p-autoComplete>
       </ng-template>
   </p-column>
-  <p-column field="commodity.name" header="Commodity"></p-column>
+  <p-column header="Commodity" [style]="{'overflow':'visible'}">
+      <ng-template let-containerCo="rowData" pTemplate="body">
+          <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="500" minlength="1" [suggestions]="filteredCommodities"
+          (completeMethod)="search($event, 'commodity')" field="name"
+          [(ngModel)]="containerCo['commodity']"></p-autoComplete>
+        </ng-template>
+  </p-column>
   
   <p-column styleClass="col-button" header="Action">
     <ng-template let-containerData="rowData" pTemplate="body">
@@ -37,7 +44,7 @@
  </p-column>
 </p-dataTable>
 <br>
-
+<!-- <p-column field="commodity.name" header="Commodity"></p-column> -->
 <div class="row">
   <div class="ui-g-12">
     <button pButton label="Update Containers" (click)="updateContainers()"  *ngIf="bookingDetails.id && update"></button>
