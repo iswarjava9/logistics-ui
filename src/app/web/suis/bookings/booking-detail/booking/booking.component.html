@@ -56,7 +56,7 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'shipper', opCustomer , 'Shipper')">
             </button>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('shipper').valid 
+          <span class="help-block" style="color: red"  *ngIf="!bookingDetailFormGroup.get('shipper').valid 
           && bookingDetailFormGroup.get('shipper').touched">Please select a valid Shipper!</span>
         </div>
         
@@ -71,7 +71,7 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event,'billTo', opCustomer , 'Bill To')">
             </button>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('billTo').valid 
+          <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('billTo').valid 
           && bookingDetailFormGroup.get('billTo').touched">Please select a valid Bill To!</span>
         </div>
       </div>
@@ -136,20 +136,21 @@
 
       <div class="row">
         <div class="ui-g-12 ui-md-6">
-          <div class="ui-g-4">Carrier Booking No:<span class="ui-span-star">*</span></div>
+          <div class="ui-g-4">Carrier Booking No:<span class="ui-span-star">*</span>
+            </div>
           <div class="ui-g-8">
             <input pInputText type="text" formControlName="carrierBookingNo" id="carrierBookingNo"/>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('carrierBookingNo').valid 
-          && bookingDetailFormGroup.get('carrierBookingNo').touched">Please select a valid Carrier Booking No!</span>
-        </div>
-        
+         </div>
+              
         <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Service Type:</div>
             <div class="ui-g-8">
               <p-dropdown [(options)]="serviceTypeList" formControlName="typeOfService" ></p-dropdown>
             </div>
           </div>
+          <span class="help-block" style="color: red; padding-left: 2pt" *ngIf="!bookingDetailFormGroup.get('carrierBookingNo').valid 
+          && bookingDetailFormGroup.get('carrierBookingNo').touched">Please select a valid Carrier Booking No!</span>
       </div>
 
 
@@ -165,7 +166,7 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayCustomer($event, 'carrier', opCustomer , 'Carrier')">
             </button>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('carrier').valid 
+          <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('carrier').valid 
           && bookingDetailFormGroup.get('carrier').touched">Please select a valid Carrier Name!</span>
         </div>
 
@@ -200,7 +201,7 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event, 'portOfLoad',opPlaces,'Port Of Loading')">
             </button>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('portOfLoad').valid 
+          <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('portOfLoad').valid 
           && bookingDetailFormGroup.get('portOfLoad').touched">Please select a valid Port Of Loading!</span>
         </div>
       </div>
@@ -216,7 +217,7 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayPlace($event,'portOfDischarge', opPlaces , 'Port Of Discharge')">
             </button>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('portOfDischarge').valid 
+          <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('portOfDischarge').valid 
           && bookingDetailFormGroup.get('portOfDischarge').touched">Please select a valid Port Of Discharge!</span>
         </div>
         <div class="ui-g-12 ui-md-6">
@@ -244,7 +245,7 @@
             <button pButton type="button" icon="fa-plus" iconPos="left" class="ui-button-info" (click)="displayVessel($event,'vessel', opVessel , 'Vessel')">
             </button>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('vessel').valid 
+          <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('vessel').valid 
           && bookingDetailFormGroup.get('vessel').touched">Please select a valid Vessel!</span>
         </div>
         <div class="ui-g-12 ui-md-6">
@@ -252,7 +253,7 @@
           <div class="ui-g-8">
             <input pInputText type="text" [formControlName]="'carrierVoyage'" id="carrierVoyage"/>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('carrierVoyage').valid 
+          <span class="help-block" style="color: red; padding-left: 3pt" *ngIf="!bookingDetailFormGroup.get('carrierVoyage').valid 
           && bookingDetailFormGroup.get('carrierVoyage').touched">Please select a valid Voyage!</span>
         </div>
       </div>
@@ -263,7 +264,7 @@
           <div class="ui-g-8">
             <p-calendar hourFormat="24"  showTime="showTime" dateFormat="M/dd/yy" [formControlName]="'docsCutOffDateTime'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('docsCutOffDateTime').valid 
+          <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('docsCutOffDateTime').valid 
           && bookingDetailFormGroup.get('docsCutOffDateTime').touched">Please select a valid Docs Cutoff Date!</span>
         </div>
         <div class="ui-g-12 ui-md-6">
@@ -280,7 +281,7 @@
           <div class="ui-g-8">
             <p-calendar showTime="showTime" [formControlName]="'portCutOffDate'" dateFormat="M/dd/yy" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY HH:MM"></p-calendar>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('portCutOffDate').valid 
+          <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('portCutOffDate').valid 
           && bookingDetailFormGroup.get('portCutOffDate').touched">Please select a valid Port Cutoff Date!</span>
         </div>
         <div class="ui-g-12 ui-md-6">
@@ -303,7 +304,7 @@
           <div class="ui-g-8">
             <p-calendar hourFormat="24" dateFormat="M/dd/yy" [formControlName]="'eta'" showIcon="true" [readonlyInput]="false" placeholder="MON/DD/YYYY"></p-calendar>
           </div>
-          <span class="help-block" *ngIf="!bookingDetailFormGroup.get('eta').valid 
+          <span class="help-block" style="color: red" *ngIf="!bookingDetailFormGroup.get('eta').valid 
           && bookingDetailFormGroup.get('eta').touched">Please select a valid ETA!</span>
         </div>
       </div>

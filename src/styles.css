@@ -21,3 +21,25 @@
   flex-wrap: nowrap;
   background: transparent;
 }
+
+.ui-span-star {
+  color:red; font-weight: bolder; font-size: 20px;
+}
+
+.ui-inputtext {
+  background: #ffffff;
+  color: #222222;
+  transition: .2s;
+  border-color:lightgray;
+  border-radius: 3%;
+}
+
+
+.ui-inputtext:invalid {
+  background: #ffffff;
+  color: #222222;
+  transition: .2s;
+  border-color:lightgray;
+  border-radius: 3%;
+  border-bottom-color: red;
+}

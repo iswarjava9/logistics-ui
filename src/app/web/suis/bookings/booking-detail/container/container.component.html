@@ -10,9 +10,9 @@
 
 <p-dataTable #dt [value]="bookingDetails.containerDetails" sortField="containerType.type" rowGroupMode="subheader" groupField="containerType.type" expandableRowGroups="true"
 [sortableRowGroup]="false" [resizableColumns]="true" editable="true" dataKey="id"  [immutable]="true">
-<ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['containerType'].type}} X {{calculateGroupSize(rowData['containerType'].type)}}</ng-template>  
-  <p-column field="containerNo" header="Container Number" [editable]="true"></p-column>
-  <p-column field="seal1" header="Seal 1" [editable]="true"></p-column>
+<ng-template pTemplate="rowgroupheader" let-rowData>{{calculateGroupSize(rowData['containerType'].type)}}X{{rowData['containerType'].type}}</ng-template>  
+  <p-column field="containerNo" header="Container#" [editable]="true"></p-column>
+  <p-column field="seal1" header="Seal#  " [editable]="true"></p-column>
   <p-column field="grossKgs" header="Gross weight(KG)" [editable]="true"></p-column>
   <p-column field="grossLbs" header="Gross weight(LB)" [editable]="true"></p-column>
   <p-column field="tareKgs" header="Net weight(KG)" [editable]="true"></p-column>
@@ -22,13 +22,7 @@
       <span >{{containerCbm['containerType'].cbm}}</span>
   </ng-template>
   </p-column>
-  <p-column header="Container Type"  [style]="{'overflow':'visible'}">
-      <ng-template let-containerTy="rowData" pTemplate="body">
-        <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="500" minlength="1" [suggestions]="filteredContainerTypes"
-        (completeMethod)="search($event, 'containerType')" field="type"
-        [(ngModel)]="containerTy['containerType']"></p-autoComplete>
-      </ng-template>
-  </p-column>
+ 
   <p-column header="Commodity" [style]="{'overflow':'visible'}">
       <ng-template let-containerCo="rowData" pTemplate="body">
           <p-autoComplete placeholder="Type to search" emptyMessage="Did not find item" forceSelection="true" delay="500" minlength="1" [suggestions]="filteredCommodities"
@@ -37,6 +31,12 @@
         </ng-template>
   </p-column>
   
+  <p-column header="Container Type">
+      <ng-template let-containerTy="rowData" pTemplate="body">
+        <span >{{containerTy['containerType'].type}} ({{containerTy['containerType'].containerType}})</span>
+      </ng-template>
+  </p-column>
+
   <p-column styleClass="col-button" header="Action">
     <ng-template let-containerData="rowData" pTemplate="body">
          <button pButton class="ui-button-danger" icon="fa-close" (click)="deleteContainer(containerData['id'], $event)" pTooltip="Delete Container" tooltipPosition="top" appendTo="body"></button>
