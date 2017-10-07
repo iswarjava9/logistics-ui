@@ -15,16 +15,16 @@
     public forwarderRefNo: string;
     public shipperRefNo: string;
     public nvoccBookingNo: string;
-    public aesAuthNo: number;
+    public aesAuthNo: string;
     public bookingStatus: string;
-    public carrierBookingNo: number;
+    public carrierBookingNo: string;
     public carrierContact: string;
     public carrierVoyage: string;
     public controller: string;
     public freight: string;
     public nraNumber: string;
     public serviceContractId: number;
-    public typeOfService: string;
+    public serviceType: string;
 
     // Dates
     public docsCutOffDateTime: Date;

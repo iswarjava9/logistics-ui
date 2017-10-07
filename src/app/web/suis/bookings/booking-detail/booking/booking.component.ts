@@ -57,7 +57,7 @@ export class BookingComponent implements OnInit {
                   'aesAuthNo', 'bookingStatus', 'carrierBookingNo',
                   'carrierContact', 'carrierVoyage', 'controller',
                   'freight', 'nraNumber', 'serviceContractId',
-                  'typeOfService', 'billTo', 'consignee',
+                  'serviceType', 'billTo', 'consignee',
                   'deliveryAgent', 'localSSLineOffice',
                   'notify1', 'notify2', 'cargoSupplier', 'shipper', 'carrier',
                   'bookingAgent', 'lineOfBusiness', 'salesRepresentative',
@@ -115,7 +115,7 @@ export class BookingComponent implements OnInit {
   public freight: string;
   public nraNumber: string;
   public serviceContractId: number;
-  public typeOfService: string;
+  public serviceType: string;
 
   hoveredLabel: string;
   displayOnly = false;
@@ -263,7 +263,7 @@ export class BookingComponent implements OnInit {
         'freight': new FormControl(this.bookingDetails.freight),
         'nraNumber': new FormControl(this.bookingDetails.nraNumber),
         'serviceContractId': new FormControl(this.bookingDetails.serviceContractId),
-        'typeOfService': new FormControl(this.bookingDetails.typeOfService),
+        'serviceType': new FormControl(this.bookingDetails.serviceType),
 
         'billTo': new FormControl(this.bookingDetails.billTo, Validators.required),
         'consignee': new FormControl(this.bookingDetails.consignee),
