@@ -1,3 +1,4 @@
+import { BillOfLading } from './../../../../models/billOfLading.model';
 import { ConfigService } from './../../../../services/config.service';
 import { DateHelper } from './../../../../util/dateHelper';
 import { Booking } from './../../../../models/booking.model';
@@ -134,13 +135,20 @@ getBookingDetails(){
   }
 
   removeTimeZoneFromBooking(booking: Booking){ 
-    let jsonString = JSON.stringify(booking);
+    return this.removeTimeZoneFromObject(booking);
+  }
+
+  removeTimeZoneFromBillOfLading(billOfLading: BillOfLading){ 
+    return this.removeTimeZoneFromObject(billOfLading);
+  }
+
+  removeTimeZoneFromObject(targetObject: any){ 
+    let jsonString = JSON.stringify(targetObject);
     console.log('json String:' + jsonString);
     jsonString = JSON.parse(jsonString);
     DateHelper.removeTimeAndTimeZone(jsonString);
     return jsonString;
   }
-
   printBookingConfirmation( response: Response, bookingId: number){
     const fileBlob = response.blob();
     const blob = new Blob([fileBlob], {
@@ -155,4 +163,5 @@ getBookingDetails(){
       
     }
   }
+  
 }

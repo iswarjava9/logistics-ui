@@ -3,19 +3,57 @@
     
     <br>
     <form [formGroup]="blDetailsFormGroup">
-  
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+          <div class="ui-g-4">Bill Of Ladding #:</div>
+          <div class="ui-g-8">
+              <input type="text" pInputText formControlName="blNo">
+          </div>
+        </div>
+      
+      <div class="ui-g-12 ui-md-6">
+        <div class="ui-g-4">MBL #:</div>
+          <div class="ui-g-8">
+             <input type="text" pInputText formControlName="mblNo">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Co-Loaded With:</div>
+            <div class="ui-g-8">
+              <input type="text" pInputText formControlName="coloadedWith">
+            </div>
+        </div>
+      
+        <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">Precarriage By #:</div>
+            <div class="ui-g-8">
+                <p-dropdown [(options)]="preCarrieageList" formControlName="precarriageBy" [autoWidth]="false" [style]="{'width':'40%'}"></p-dropdown>
+            </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="ui-g-12 ui-md-6">
+            <div class="ui-g-4">ORIGIN OR FTZ NUMBER:</div>
+            <div class="ui-g-8">
+                <input type="text" pInputText formControlName="ftzNo">
+            </div>
+        </div>
+      </div>  
       <div class="row">
         <div class="ui-g-12 ui-md-6">
           <div class="ui-g-4">Shipper:</div>
           <div class="ui-g-8">
-              <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="shipper"></textarea>
+              <textarea rows="2" cols="50" pInputTextarea autoResize="false" formControlName="shipper"></textarea>
             </div>
           </div>
   
         <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Consignee:</div>
           <div class="ui-g-8">
-              <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="consignee"></textarea>
+              <textarea rows="2" cols="50" pInputTextarea autoResize="false" formControlName="consignee"></textarea>
           </div>
         </div>
       </div>
@@ -24,7 +62,7 @@
           <div class="ui-g-12 ui-md-6">
             <div class="ui-g-4">Port of loading:</div>
             <div class="ui-g-8">
-                <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="portOfLoading"></textarea>
+                <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="portOfLoad"></textarea>
               </div>
             </div>
     
@@ -35,7 +73,7 @@
             </div>
           </div>
         </div>
-
+        
         <div class="row">
             <div class="ui-g-12 ui-md-6">
               <div class="ui-g-4">Notify:</div>
@@ -47,7 +85,7 @@
             <div class="ui-g-12 ui-md-6">
                 <div class="ui-g-4">Container Description:</div>
               <div class="ui-g-8">
-                  <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="containerDesc"></textarea>
+                  <textarea rows="2" cols="50" pInputTextarea autoResize="true" formControlName="cargoDescription"></textarea>
               </div>
             </div>
           </div>
@@ -57,6 +95,7 @@
               <button pButton label="Back" type="button" (click)="back()"></button>
               <button pButton label="Exit" type="button" (click)="exit()"></button>
             </div>
+            <app-spinner [show]="disableScreen" [size]="50"> </app-spinner>
     </form>
     </div>
   

@@ -1,3 +1,4 @@
+import { BillOfLading } from './billOfLading.model';
   import {Customer} from './customer.model';
   import {Place} from './place.model';
   import {Client} from './client.model';
@@ -76,6 +77,7 @@
 
     // Container details
     public containerDetails: Container[] ;
+    public billOfLadingId: number;
 
     constructor() {}
   }

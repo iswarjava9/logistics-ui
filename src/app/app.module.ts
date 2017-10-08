@@ -1,3 +1,4 @@
+import { BillOfLadingService } from './web/suis/bookings/booking-detail/bill-of-lading/service/bill-of-lading.service';
 
 import { ContainerService } from './web/suis/bookings/booking-detail/container/service/container.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -99,7 +100,7 @@ import { BillOfLadingComponent } from './web/suis/bookings/booking-detail/bill-o
     useFactory: ConfigLoader,
     deps: [ConfigService],
     multi:true
-}, BookingListService, BookingService, ContainerService, BookingDetailService, AuthService, AuthgaurdService ],
+}, BookingListService, BookingService, ContainerService, BookingDetailService, AuthService, AuthgaurdService, BillOfLadingService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
