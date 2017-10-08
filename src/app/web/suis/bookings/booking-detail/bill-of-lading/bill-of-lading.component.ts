@@ -111,7 +111,7 @@ export class BillOfLadingComponent implements OnInit {
         (response) => {
           this.billOfLading = response.json();
           console.log(response.json());
-          this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
+          // this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
         }
       );
     }else{
@@ -120,7 +120,7 @@ export class BillOfLadingComponent implements OnInit {
         (response) => {
           this.billOfLading = response.json();
           console.log(response.json());
-          this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
+        //  this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
         }
       );
     }
