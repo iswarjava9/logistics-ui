@@ -19,18 +19,29 @@ export class BillOfLadingService {
   }
 
   saveBillOfLading(billoflading): any {
+    this.headers = new Headers();
+    this.headers.append('Accept', 'application/json');
+    this.headers.append('Content-Type', 'application/json');
+    this.options = new RequestOptions({headers: this.headers});
     return this.http.post(this.HOST + '/logistics/billoflading', billoflading, this.options);
   }
 
   updateBillOfLading(billoflading): any {
+    this.headers = new Headers();
+    this.headers.append('Accept', 'application/json');
+    this.headers.append('Content-Type', 'application/json');
+    this.options = new RequestOptions({headers: this.headers});
     return this.http.put(this.HOST + '/logistics/billoflading', billoflading, this.options);
   }
 
-  getBillOfLadingPdf(billOfLading) {
-    const headersLocal = new Headers({
+  getBillOfLadingPdf(bookingId) {
+    const headers = new Headers({
       'Content-Type': 'application/pdf',
-      'Accept': 'application/pdf'});
- 
-    return this.http.post(this.HOST + '/logistics/billoflading/download/', billOfLading, new RequestOptions({headers: headersLocal}));
+      'Accept': 'application/pdf',
+      
+  });
+     this.options = new RequestOptions({headers: headers});;
+     this.options.responseType = ResponseContentType.Blob;// Set responseType to Blob
+    return this.http.get(this.HOST + '/logistics/billoflading/download/' + bookingId,  this.options);
     }
 }

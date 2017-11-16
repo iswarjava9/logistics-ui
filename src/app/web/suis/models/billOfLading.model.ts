@@ -23,5 +23,5 @@ export class BillOfLading {
 	public shipperRef: string;
     public vesselVoyage: string;
     public bookingId: number;
-    public booking: Booking;
+    public bookingDetail: Booking;
 }

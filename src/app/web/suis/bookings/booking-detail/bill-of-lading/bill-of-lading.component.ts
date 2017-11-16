@@ -90,7 +90,7 @@ export class BillOfLadingComponent implements OnInit {
     this.stepIndex.emit(1);
   }
 
-  printBL() {
+  updateBL() {
     this.billOfLading.shipper = this.blDetailsFormGroup.get('shipper').value;
     this.billOfLading.consignee = this.blDetailsFormGroup.get('consignee').value;
     this.billOfLading.portOfLoad = this.blDetailsFormGroup.get('portOfLoad').value;
@@ -102,7 +102,7 @@ export class BillOfLadingComponent implements OnInit {
     this.billOfLading.ftzNo = this.blDetailsFormGroup.get('ftzNo').value;
     this.billOfLading.mblNo = this.blDetailsFormGroup.get('mblNo').value;
     this.billOfLading.precarriageBy = this.blDetailsFormGroup.get('precarriageBy').value;
-    this.billOfLading.booking =   this.bookingSvc.getBookingDetails() ;
+    this.billOfLading.bookingDetail =   this.bookingSvc.getBookingDetails() ;
     
     const billOfLadingString = this.bookingSvc.removeTimeZoneFromBillOfLading(this.billOfLading);
     if(isNullOrUndefined(this.billOfLading.id)){
@@ -110,8 +110,11 @@ export class BillOfLadingComponent implements OnInit {
       saveBillOfLading(billOfLadingString).subscribe(
         (response) => {
           this.billOfLading = response.json();
+          this.populateFormGroup(this.blDetailsFormGroup, this.billOfLading);
+          
           console.log(response.json());
-          // this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
+          // this.billOfLading.bookingDetail =this.bookingSvc.getBookingDetails();
+           // this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
         }
       );
     }else{
@@ -119,17 +122,19 @@ export class BillOfLadingComponent implements OnInit {
       updateBillOfLading(billOfLadingString).subscribe(
         (response) => {
           this.billOfLading = response.json();
+          // this.billOfLading.bookingDetail =this.bookingSvc.getBookingDetails();
           console.log(response.json());
-        //  this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
+           // this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
+           this.populateFormGroup(this.blDetailsFormGroup, this.billOfLading);
         }
       );
     }
     
   }
-
-  print(billOfLading: string){
+  
+  printBL(billOfLading: string){
     this.disableScreen = true;
-    this.billOfLadingSvc.getBillOfLadingPdf(billOfLading).subscribe(
+    this.billOfLadingSvc.getBillOfLadingPdf(this.bookingSvc.getBookingId()).subscribe(
         (response: any) => {
             const fileBlob = response.blob();
             const blob = new Blob([fileBlob], {
