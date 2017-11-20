@@ -133,8 +133,11 @@ export class BillOfLadingComponent implements OnInit {
   }
   
   printBL(billOfLading: string){
+    if(isNullOrUndefined(this.billOfLading.id)){
+      return
+    }
     this.disableScreen = true;
-    this.billOfLadingSvc.getBillOfLadingPdf(this.bookingSvc.getBookingId()).subscribe(
+    this.billOfLadingSvc.getBillOfLadingPdf(this.billOfLading.id).subscribe(
         (response: any) => {
             const fileBlob = response.blob();
             const blob = new Blob([fileBlob], {
@@ -203,6 +206,7 @@ export class BillOfLadingComponent implements OnInit {
   copyBookingToHBL() {
     const booking = this.bookingSvc.getBookingDetails();
     // this.billOfLading = new BillOfLading();
+    this.billOfLading.blNo = booking.forwarderRefNo;
     this.billOfLading.carrierRefNo = booking.carrierBookingNo;
     this.billOfLading.cosolidationNo = booking.forwarderRefNo;
     this.billOfLading.shipper = this.getCustomerString(booking.shipper);

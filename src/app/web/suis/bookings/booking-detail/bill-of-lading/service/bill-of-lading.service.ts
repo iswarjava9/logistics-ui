@@ -34,7 +34,7 @@ export class BillOfLadingService {
     return this.http.put(this.HOST + '/logistics/billoflading', billoflading, this.options);
   }
 
-  getBillOfLadingPdf(bookingId) {
+  getBillOfLadingPdf(bLId) {
     const headers = new Headers({
       'Content-Type': 'application/pdf',
       'Accept': 'application/pdf',
@@ -42,6 +42,6 @@ export class BillOfLadingService {
   });
      this.options = new RequestOptions({headers: headers});;
      this.options.responseType = ResponseContentType.Blob;// Set responseType to Blob
-    return this.http.get(this.HOST + '/logistics/billoflading/download/' + bookingId,  this.options);
+    return this.http.get(this.HOST + '/logistics/billoflading/download/' + bLId,  this.options);
     }
 }
