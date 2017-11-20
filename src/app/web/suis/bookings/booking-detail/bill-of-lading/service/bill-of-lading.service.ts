@@ -14,8 +14,12 @@ export class BillOfLadingService {
     this.options = new RequestOptions({headers: this.headers});
     this.HOST = configSvc.getConfiguration().baseUrl;
   }
-  getBillOfLading(bookingId: number): any {
-    return this.http.get( this.HOST + '/logistics/billoflading/' + bookingId,this.options);
+  getBillOfLading(blId: number): any {
+    this.headers = new Headers();
+    this.headers.append('Accept', 'application/json');
+    this.headers.append('Content-Type', 'application/json');
+    this.options = new RequestOptions({headers: this.headers});
+    return this.http.get( this.HOST + '/logistics/billoflading/' + blId,this.options);
   }
 
   saveBillOfLading(billoflading): any {
