@@ -66,7 +66,7 @@ export class BillOfLadingComponent implements OnInit {
       'coloadedWith': new FormControl(null),
       'ftzNo': new FormControl(null),
       'mblNo': new FormControl(null),
-      'precarriageBy': new FormControl(null) // Truck/Rail/Burge
+      'precarriageBy': new FormControl(this.preCarrieageList[0].value) // Truck/Rail/Burge
     });
   };
 
