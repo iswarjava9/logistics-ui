@@ -53,6 +53,8 @@ import {SpinnerComponent} from './web/suis/shared/spinner/spinner.component';
 import {HomeComponent} from './web/suis/shared/home/home.component';
 import { LoginComponent } from './web/suis/shared/login/login.component';
 import { BillOfLadingComponent } from './web/suis/bookings/booking-detail/bill-of-lading/bill-of-lading.component';
+import { OceanImpComponent } from './web/suis/bookings/booking-detail/booking/ocean-imp/ocean-imp.component';
+import { OceanImportListComponent } from './web/suis/bookings/booking-list/ocean-import-list/ocean-import-list.component';
 
 
 @NgModule({
@@ -69,7 +71,9 @@ import { BillOfLadingComponent } from './web/suis/bookings/booking-detail/bill-o
     ChargesComponent,
     SpinnerComponent,
     LoginComponent,
-    BillOfLadingComponent
+    BillOfLadingComponent,
+    OceanImpComponent,
+    OceanImportListComponent
   ],
   imports: [
     BrowserModule,
