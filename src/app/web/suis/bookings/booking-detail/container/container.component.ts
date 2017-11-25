@@ -5,6 +5,7 @@ import { DataTable } from 'primeng/components/DataTable/DataTable';
 import {DateHelper} from '../../../util/dateHelper';
 import { BookingService } from './../booking/service/booking.service';
 import { BookingDetailService } from './../service/booking-detail.service';
+import { BillOfLadingService } from './../bill-of-lading/service/bill-of-lading.service';
 import { Commodity } from './../../../models/commodity.model';
 import { isNullOrUndefined } from 'util';
 import { ContainerService } from './service/container.service';
@@ -54,7 +55,8 @@ export class ContainerComponent implements OnInit {
   displayConatinerDialog = false;
   
 
-  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router, private msgSvc: MessageService, private route: ActivatedRoute, private bookingDetailSvc: BookingDetailService) { }
+  constructor(private containerSvc: ContainerService, private bookingSvc: BookingService, private router: Router, private msgSvc: MessageService, private route: ActivatedRoute,
+    private bookingDetailSvc: BookingDetailService, private billOfLadingSvc: BillOfLadingService) { }
 
   ngOnInit() {
 
@@ -439,5 +441,12 @@ deleteContainer(id: number, event: Event){
         }
       );
     });
+    this.billOfLadingSvc.getBillOfLading(this.bookingDetails.billOfLadingId).subscribe(
+      (response) => {
+        const billOfLading = response.json();
+        this.billOfLadingSvc.addOrUpdateBL(this.billOfLadingSvc.copyBookingToHBL(this.bookingDetails, billOfLading));
+      }
+    );
+    
   }
 }

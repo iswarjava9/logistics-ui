@@ -1,11 +1,7 @@
-import { City } from './../../../models/city.model';
 import { BillOfLadingService } from './service/bill-of-lading.service';
 import { format } from 'date-fns';
 import { SelectItem } from 'primeng/primeng';
-import { Person } from './../../../models/person.model';
-import { Place } from './../../../models/place.model';
 import { ForeignAgent } from './../../../models/foreignAgent.model';
-import { Customer } from './../../../models/customer.model';
 import { isNullOrUndefined } from 'util';
 import { BillOfLading } from './../../../models/billOfLading.model';
 import { BookingService } from './../booking/service/booking.service';
@@ -34,8 +30,8 @@ export class BillOfLadingComponent implements OnInit {
   ngOnInit() {
     this.populateBillOfLadingFormGroup();
     if(isNullOrUndefined(this.bookingSvc.getBookingDetails().billOfLadingId)){
-      this.billOfLading = new BillOfLading();
-      this.copyBookingToHBL();
+      // this.billOfLading = new BillOfLading();
+      this.billOfLading = this.billOfLadingSvc.copyBookingToHBL(this.bookingSvc.getBookingDetails(), new BillOfLading());
       this.populateFormGroup(this.blDetailsFormGroup, this.billOfLading);
     }else{
       this.disableScreen = true;
@@ -122,10 +118,7 @@ export class BillOfLadingComponent implements OnInit {
       updateBillOfLading(billOfLadingString).subscribe(
         (response) => {
           this.billOfLading = response.json();
-          // this.billOfLading.bookingDetail =this.bookingSvc.getBookingDetails();
-          console.log(response.json());
-           // this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
-           this.populateFormGroup(this.blDetailsFormGroup, this.billOfLading);
+          this.populateFormGroup(this.blDetailsFormGroup, this.billOfLading);
         }
       );
     }
@@ -154,77 +147,5 @@ export class BillOfLadingComponent implements OnInit {
         }
     );
   }
-  appendStrings(primaryStr: string, secondaryStr: string){
-    let resultString = '';
-    if(!isNullOrUndefined(primaryStr)){
-      resultString = primaryStr;
-      if(!isNullOrUndefined(secondaryStr)){
-        resultString = resultString + secondaryStr;
-      }
-    }
-    return resultString;
-  }
-
-  getCityAddress(city: City){
-    let cityAddress = '';
-    if(!isNullOrUndefined(city)){
-      cityAddress = this.appendStrings(city.name, '\n')
-                                          + this.appendStrings(city.stateName, city.countryName);
-      }
-      return cityAddress; 
-
-  }
-  getCustomerString(customer: Customer){
-    let customerString = null;
-    if(!isNullOrUndefined(customer)){
-      customerString = this.appendStrings(customer.name, '\n') 
-                                          + this.appendStrings(customer.address,'\n') 
-                                          + this.getCityAddress(customer.city);
-      }
-      return customerString;
-  }
-  getPlaceString(place: Place){
-    let placeString = null;
-    if(!isNullOrUndefined(place)){
-      placeString = this.appendStrings(place.name, '\n') 
-                                          + this.appendStrings(place.address,'\n') 
-                                          + this.getCityAddress(place.city);
-      }
-      return placeString;
-  }
-  getPersonString(person: Person){
-    let personString = null;
-    if(!isNullOrUndefined(person)){
-      personString = this.appendStrings(person.name, '\n') 
-                                          + this.appendStrings(person.name, '\n') 
-                                          + this.appendStrings(person.email, '\n')
-                                          + this.appendStrings('Phone:', person.phone)
-                                          + this.appendStrings('\nMobile:', person.mobile);
-      }
-      return personString;
-  }
-  copyBookingToHBL() {
-    const booking = this.bookingSvc.getBookingDetails();
-    // this.billOfLading = new BillOfLading();
-    this.billOfLading.blNo = booking.forwarderRefNo;
-    this.billOfLading.carrierRefNo = booking.carrierBookingNo;
-    this.billOfLading.cosolidationNo = booking.forwarderRefNo;
-    this.billOfLading.shipper = this.getCustomerString(booking.shipper);
-    this.billOfLading.consignee = this.getCustomerString(booking.consignee);
-    this.billOfLading.delieveryAgent = this.getCustomerString(booking.deliveryAgent);
-    this.billOfLading.forwardingAgent = this.getCustomerString(booking.bookingAgent);
-    this.billOfLading.notify = this.getCustomerString(booking.notify1);
-    this.billOfLading.ingateAtTerminal = this.getPlaceString(booking.ingateAtTerminal);
-    this.billOfLading.placeOfDelivery = this.getPlaceString(booking.placeOfDelivery);
-    this.billOfLading.placeOfReceipt = this.getPlaceString(booking.placeOfReceipt);
-    this.billOfLading.portOfDischarge = this.getPlaceString(booking.portOfDischarge);
-    this.billOfLading.portOfLoad = this.getPlaceString(booking.portOfLoad);
-
-    this.billOfLading.shipperRef = booking.shipperRefNo;
-    if(isNullOrUndefined(booking.vessel)){
-      this.billOfLading.vesselVoyage = null;
-    }else{
-      this.billOfLading.vesselVoyage = booking.vessel.name;
-    }
- }
+    
 }

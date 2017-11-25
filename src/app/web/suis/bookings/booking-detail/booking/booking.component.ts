@@ -1,3 +1,4 @@
+import { BillOfLading } from './../../../models/billOfLading.model';
 import { BookingDetailService } from './../service/booking-detail.service';
 import { format } from 'date-fns';
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -23,6 +24,8 @@ import {Person} from '../../../models/person.model';
 
 
 import {BookingService} from './service/booking.service';
+import { BillOfLadingService } from './../bill-of-lading/service/bill-of-lading.service';
+
 import {and, forEach} from '@angular/router/src/utils/collection';
 import {Observable} from 'rxjs/Observable';
 import {Message} from 'primeng/components/common/message';
@@ -102,7 +105,7 @@ export class BookingComponent implements OnInit {
   placeFormGroup: FormGroup;
   bookingDetails: Booking;
   constructor(private bookingSvc: BookingService, private route: ActivatedRoute, private router: Router, private rootSvc: RootService, private msgSvc: MessageService,
-                private bookingDetailSvc: BookingDetailService) {
+                private bookingDetailSvc: BookingDetailService, private billOfLadingSvc: BillOfLadingService) {
   }
   public shipperRefNo: string;
   public forwarderRefNo: string;
@@ -520,6 +523,7 @@ export class BookingComponent implements OnInit {
           }
           
           this.disableScreen = false;
+          this.billOfLadingSvc.addOrUpdateBL(this.billOfLadingSvc.copyBookingToHBL(this.bookingDetails, new BillOfLading()));
       },
       error => {console.log(error);
         this.disableScreen = false;
@@ -556,13 +560,18 @@ export class BookingComponent implements OnInit {
          
            
         this.disableScreen = false;
-        // this.bookingSvc.activeIndex = 1;
+        this.billOfLadingSvc.getBillOfLading(this.bookingDetails.billOfLadingId).subscribe(
+          (response) => {
+            const billOfLading = response.json();
+            this.billOfLadingSvc.addOrUpdateBL(this.billOfLadingSvc.copyBookingToHBL(this.bookingDetails, billOfLading));
+          }
+        );
+        
       },
       error => {console.log(error);
         this.disableScreen = false;
         this.msgSvc.add({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not modified'});
-        // this.msgsGrowl.push({severity: 'error', summary: 'Booking failed to saved', detail: 'Booking is not modified'});
-        },
+       },
     );
   }
  }
