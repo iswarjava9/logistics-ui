@@ -87,6 +87,9 @@ export class BillOfLadingComponent implements OnInit {
   }
 
   updateBL() {
+    
+    this.disableScreen = true;
+
     this.billOfLading.shipper = this.blDetailsFormGroup.get('shipper').value;
     this.billOfLading.consignee = this.blDetailsFormGroup.get('consignee').value;
     this.billOfLading.portOfLoad = this.blDetailsFormGroup.get('portOfLoad').value;
@@ -108,10 +111,9 @@ export class BillOfLadingComponent implements OnInit {
           this.billOfLading = response.json();
           this.populateFormGroup(this.blDetailsFormGroup, this.billOfLading);
           
-          console.log(response.json());
-          // this.billOfLading.bookingDetail =this.bookingSvc.getBookingDetails();
-           // this.print(this.bookingSvc.removeTimeZoneFromObject(this.billOfLading));
-        }
+          this.disableScreen = false;
+        },
+        (error) => {this.disableScreen = false;}
       );
     }else{
       this.billOfLading = this.billOfLadingSvc.
@@ -119,7 +121,9 @@ export class BillOfLadingComponent implements OnInit {
         (response) => {
           this.billOfLading = response.json();
           this.populateFormGroup(this.blDetailsFormGroup, this.billOfLading);
-        }
+          this.disableScreen = false;
+        },
+        (error) => {this.disableScreen = false;}
       );
     }
     
